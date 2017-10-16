@@ -574,6 +574,10 @@ a {
   z-index: 2;
 }
 
+.scroll:hover{
+  color: #585858;
+}
+
 /*  footer  */
 #footer a {
   display: block;
@@ -591,6 +595,7 @@ a {
   top: 40px;
   right: 45px;
   border-radius: 50%;
+  border: 3px solid white;
   z-index: 5;
   background: white;
   cursor: pointer;
@@ -598,12 +603,10 @@ a {
   transition: all 0.5s ease;
 }
 
-#menu-icon-shape:hover {
-  background: #7affd1;
-}
 
 #menu-icon-shape.active {
   background: transparent;
+  border: transparent;
 }
 
 #menu-icon-shape.active:hover {
