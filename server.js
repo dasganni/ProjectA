@@ -45,9 +45,8 @@ app.listen(port, function() {
 });
 
 //Index für Logik
-
-app.get('/', function(req, res){
-	res.render('index');
+app.get('/', function(req, res) {
+		res.render( 'index');
 });
 
 
