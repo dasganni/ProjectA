@@ -49,3 +49,8 @@ app.listen(port, function() {
 app.get('/', function(req, res){
 	res.render('index');
 });
+
+
+// verweis auf Styles
+
+app.use("/styles", express.static(__dirname + '/styles'));
