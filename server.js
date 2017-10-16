@@ -44,12 +44,13 @@ app.listen(port, function() {
 	console.log("listening to port" + port);
 });
 
-//Index für Logik
-app.get('/', function(req, res) {
-		res.render( 'index');
-});
-
 
 // verweis auf Styles
 
 app.use("/styles", express.static(__dirname + '/styles'));
+
+
+//Index für Logik
+app.get('/', function(req, res) {
+		res.render( 'index');
+});
