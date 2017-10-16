@@ -419,8 +419,9 @@ hr {
 }
 
 #head .button {
-  min-width: 160px;    z-index:2;
-    position: relative;
+  min-width: 160px;
+  z-index: 2;
+  position: relative;
 }
 
 .modal, .modal-box {
@@ -485,8 +486,6 @@ hr {
 
 .row.height_100 div {
   text-align: center;
-
-
 }
 
 .row.height_20 {
@@ -500,17 +499,17 @@ p {
 }
 
 .hero {
-    color: black;
-    width: 100%;
-    height: 36vh;
-    z-index: 2;
-    position: relative;
+  color: black;
+  width: 100%;
+  height: 36vh;
+  z-index: 2;
+  position: relative;
 }
 
-.hero  img{
-height: 108vh;
-    z-index: 0;
-    margin: -70px 0 0 0;
+.hero  img {
+  height: 108vh;
+  z-index: 0;
+  margin: -70px 0 0 0;
 }
 
 .p1 {
@@ -539,54 +538,52 @@ h1, h2, h3, .p2 {
   font-family: 'Permanent Marker', cursive;
 }
 
-
-
 h1, h2, h3, p {
   padding: 0 15px;
-    position: relative;
-    z-index: 2;
+  position: relative;
+  z-index: 2;
 }
-
 
 .columns {
-    min-height: 1px;
+  min-height: 1px;
 }
 
-
 .twellve.columns.secondbox h1, .twellve.columns.secondbox p {
-    max-width: 620px;
-    margin: 25px auto;
+  max-width: 620px;
+  margin: 25px auto;
 }
 
 .secondbox {
-    padding-top: calc( 100vh - 400px );}
+  padding-top: calc(100vh - 400px);
+}
 
 .thirdbox {
-    padding-top: calc( 100vh - 540px );}
+  padding-top: calc(100vh - 540px);
+}
 
-
-
-    a {color:black;}
-
-
-
-
+a {
+  color: black;
+}
 
 .fa {
-  width: 100%;text-align: center;margin-top:60px;margin-bottom:60px; position: relative;z-index: 2;
+  width: 100%;
+  text-align: center;
+  margin-top: 60px;
+  margin-bottom: 60px;
+  position: relative;
+  z-index: 2;
 }
-
-
 
 /*  footer  */
-
 #footer a {
-  display: block;width:100%;padding:10px 0;text-align:center;
-
+  display: block;
+  width: 100%;
+  padding: 10px 0;
+  text-align: center;
+  font-size: 16px;
 }
 
-    /* Menu icon */
-
+/* Menu icon */
 #menu-icon-shape {
   width: 60px;
   height: 60px;
@@ -606,15 +603,12 @@ h1, h2, h3, p {
 }
 
 #menu-icon-shape.active {
-  background:transparent;
+  background: transparent;
 }
 
 #menu-icon-shape.active:hover {
   background: rgba(0, 0, 0, 0.9);
 }
-
-
-
 
 #menu-icon {
   width: 30px;
@@ -639,7 +633,6 @@ h1, h2, h3, p {
 }
 
 /* Transform menu icon into close icon */
-
 #top.active {
   -webkit-transform: translateY(8px) translateX(0) rotate(45deg);
   transform: translateY(8px) translateX(0) rotate(45deg);
@@ -655,7 +648,6 @@ h1, h2, h3, p {
 }
 
 /* Navigation */
-
 #overlay-nav {
   width: 100%;
   height: 0;
@@ -672,7 +664,6 @@ h1, h2, h3, p {
 }
 
 /* Open navigiation */
-
 #overlay-nav.active {
   width: 100%;
   height: 100%;
@@ -709,9 +700,8 @@ h1, h2, h3, p {
 }
 
 #nav-content ul li a:hover {
- color:#7affd1;
+  color: #7affd1;
 }
-
 
 /* Media Queries
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
