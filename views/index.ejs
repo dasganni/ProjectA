@@ -1,9 +1,199 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html>
-	<head>
-		<title>Index</title>
-	</head>
-	<body>
-        <h1>Platzhalter</h1>
-	</body>
+  <head>
+
+    <title>Projekt Angewandte Programierung</title>
+ 
+    <!-- Mobile Specific Metas
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+    <!-- FONT
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+    <!-- CSS
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/skeleton.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ 
+    <!-- JS
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
+
+
+    <!-- SEO meta-tags
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <meta name="description" content="">
+    <meta name="keywords" content="">   
+    <meta name="title" content="">
+
+
+
+  </head>
+<body>
+
+
+  <!-- Menu icon 
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div id="menu-icon-shape">
+    <div id="menu-icon">
+      <div id="top"></div>
+      <div id="middle"></div>
+      <div id="bottom"></div>
+    </div>
+  </div>
+  
+  <!-- Dark overlay menu 
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <nav id="overlay-nav">
+    <div id="nav-content">
+      <ul>
+        <li><a href="#">Login</a></li>
+        <li><a href="#">Registration</a></li>
+        <li><a href="#">Impressum</a></li>
+        <li><a href="#">Kontakt</a></li>
+      </ul>
+    </div>
+  </nav>
+  
+
+
+  <!-- First content box 
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div id="head" style="overflow: hidden;">
+
+    <!-- Login Formular Box Login -->
+    <div class="modal" id="Login">
+      <div class="modal-sandbox">
+      </div>
+      <div class="modal-box">
+        <div class="modal-header">
+          <div class="close-modal">&#10006;</div>
+        </div>
+        <div class="modal-body">
+          <form>
+            <img src="styles/img/profile.png" width="150px">
+            <input type="text" name="Email" placeholder="E-Mail">
+            <input type="text" name="Passwort" placeholder="Passwort">
+            <button type="submit" class="button button-primary">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- Login Formular Box Registration -->
+    <div class="modal" id="Registration">
+      <div class="modal-sandbox">
+      </div>
+      <div class="modal-box">
+        <div class="modal-header">
+          <div class="close-modal">&#10006;</div>
+        </div>
+        <div class="modal-body">
+          <form>
+            <img src="styles/img/profile.png" width="150px">
+            <input type="text" name="Name" placeholder="Name">
+            <input type="text" name="Email" placeholder="E-Mail">
+            <input type="text" name="Passwort" placeholder="Passwort">
+            <button type="submit" class="button button-primary">Login</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+
+    <section class="hero">
+      <div class="inner-text">
+        <img src="styles/img/icons.svg " class="rellax" data-rellax-speed="-10" style="z-index:0;">
+      </div>
+    </section>
+    
+    <p class="p1">Try to survive and Choose:</p>
+    <p class="p2">Reload</p>
+
+    <!-- Trigger Login -->
+    <a href="#" class="modal-trigger button button-primary" data-modal="Login">Login</a><br>
+    <!-- Trigger Registration -->
+    <a href="#" class="modal-trigger button button-primary" data-modal="Registration">Registration</a> <br>
+    
+    <!-- Link Scroll to #box2-->    
+    <a class="scroll" data-speed="2000" href="javascript:;" data-scroll="#box2"><i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+
+  </div>
+
+
+
+
+  <!-- Second content box 
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div id="box2"  class="row height_100" style="background-color:#7AFFD1;overflow: hidden;">
+    <div class="twellve columns secondbox">
+      <h1>Wie Schere, Stein, Papier nur mit Rumballern</h1>
+      <p>Every hand image was taken using my hands and my partner's, Christine Oen. So there is lierally a physical representation of the makers on every page. I think that's really cool.</p>
+      <a class="scroll" data-speed="2000" href="javascript:;" data-scroll="#box3">
+      <i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+    </div>
+  </div>
+
+
+
+
+
+  <!-- Third content box 
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div id="box3"  class="row height_100" style="overflow: hidden;">
+
+    <div class="four columns thirdbox">
+      <img src="styles/img/reload.svg "  style="z-index:0;">
+      <h1>1. Reload</h1>
+      <p>Every hand image was taken using my hands and my partner's, Christine Oen. So there is lierally a physical representation of the makers on every page. I think that's really cool.</p>
+    </div>
+
+    <div class="four columns thirdbox">
+      <img src="styles/img/protect.svg "  style="z-index:0;">
+      <h1>2. Protect</h1>
+      <p>Every hand image was taken using my hands and my partner's, Christine Oen. So there is lierally a physical representation of the makers on every page. I think that's really cool.</p>
+    </div>
+
+    <div class="four columns thirdbox">
+      <img src="styles/img/shoot.svg "  style="z-index:0;">
+      <h1>3. Shoot</h1>
+      <p>Every hand image was taken using my hands and my partner's, Christine Oen. So there is lierally a physical representation of the makers on every page. I think that's really cool.</p>
+    </div>
+
+    <!-- Link Scroll to #box4--> 
+    <a class="scroll" data-speed="2000" href="javascript:;" data-scroll="#box4"><i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+
+  </div>
+
+
+
+
+  <!-- Fourth content box 
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div id="box4"  class="row height_100" style="background-color:#7AFFD1;">
+    <h2 style="padding-top:44vh;text-align:center;">Platz für mehr Kontent...</h2>
+  </div>
+
+
+
+
+
+
+
+
+
+
+
+  <!-- JS
+  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script type="text/javascript" src="styles/rellax.js"></script>
+  <script type="text/javascript" src="styles/menu_scroll_type_modal.js"></script>
+
+
+</body>
+
 </html>
