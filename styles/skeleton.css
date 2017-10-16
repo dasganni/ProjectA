@@ -280,7 +280,7 @@ input[type="url"]:focus,
 input[type="password"]:focus,
 textarea:focus,
 select:focus {
-  border: 1px solid #33C3F0;
+  border: 1px solid #7affd1;
   outline: 0; }
 label,
 legend {
@@ -298,7 +298,7 @@ label > .label-body {
   margin-left: .5rem;
   font-weight: normal; }
 input::placeholder{
-  color:black;
+  color:#696969;
   font-family:"open sans";
   font-weight: 100;
 }
