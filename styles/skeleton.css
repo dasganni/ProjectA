@@ -298,7 +298,7 @@ label > .label-body {
   margin-left: .5rem;
   font-weight: normal; }
 input::placeholder{
-  color:#696969;
+  color:#585858;
   font-family:"open sans";
   font-weight: 100;
 }
