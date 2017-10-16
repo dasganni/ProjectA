@@ -215,7 +215,7 @@ input[type="button"].button-primary {
   background-color: transparent;
   border-color: black;
   min-width:130px;
-  text-align: center: }
+  text-align: center; }
 .button.button-primary:hover,
 button.button-primary:hover,
 input[type="submit"].button-primary:hover,
