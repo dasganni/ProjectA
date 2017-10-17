@@ -71,5 +71,5 @@ app.post('/logInPost', (request, response) => {
 
 // verweis auf Impressum 
 app.get('/impressum', (request, response) => {
-    res.render( 'impressum');
+    response.render( 'impressum');
 });
