@@ -161,6 +161,10 @@ p {
   margin-top: 0; }
 
 
+.align-center {
+  text-align: center;
+}
+
 /* Links
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 a {
@@ -536,6 +540,7 @@ p {
 
 h1, h2, h3, .p2 {
   font-family: 'Permanent Marker', cursive;
+  letter-spacing: 0.9px;
 }
 
 h1, h2, h3, p {

@@ -54,3 +54,10 @@ app.use("/styles", express.static(__dirname + '/styles'));
 app.get('/', function(req, res) {
 		res.render( 'index');
 });
+
+
+
+// verweis auf Impressum 
+app.get('/impressum', function(req, res) {
+    res.render( 'impressum');
+});
