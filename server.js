@@ -64,12 +64,12 @@ app.post('/signUpPost', (request, response) => {
     let email = request.body.email;
 });
 
-app.post('/logInPost',(request, response) => {
+app.post('/logInPost', (request, response) => {
 
 });
 
 
 // verweis auf Impressum 
-app.get('/impressum', function(req, res) {
+app.get('/impressum', (request, response) => {
     res.render( 'impressum');
 });
