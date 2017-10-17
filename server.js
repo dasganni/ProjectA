@@ -46,7 +46,6 @@ app.listen(port, function() {
 
 
 // verweis auf Styles
-
 app.use("/styles", express.static(__dirname + '/styles'));
 
 
@@ -54,7 +53,6 @@ app.use("/styles", express.static(__dirname + '/styles'));
 app.get('/', function(req, res) {
 		res.render( 'index');
 });
-
 
 
 // verweis auf Impressum 
