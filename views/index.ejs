@@ -77,7 +77,8 @@
         </div>
         <div class="modal-body">
 		
-	<form>
+	<form action="/logInPost" method="POST">
+              
             <img src="styles/img/profile.png" width="150px">
             <input type="text" name="email" placeholder="E-Mail">
             <input type="password" name="password" placeholder="Passwort">
@@ -97,14 +98,18 @@
           <div class="close-modal">&#10006;</div>
         </div>
         <div class="modal-body">
-          <form>
+
+          <form action="/signUpPost" method="POST">
+
             <img src="styles/img/profile.png" width="150px">
             <input type="text" name="username" placeholder="Name">
             <input type="text" name="email" placeholder="E-Mail">
-	    <input type="password" name="password" placeholder="Passwort">
+	          <input type="password" name="password" placeholder="Passwort">
             <input type="password" name="confirmPassword" placeholder="Passwort Wiederholen">	    
             <button type="submit" class="button button-primary">Registration</button>
+
           </form>
+          
         </div>
       </div>
     </div>

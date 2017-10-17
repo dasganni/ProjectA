@@ -32,11 +32,10 @@ app.set("view engine", "ejs");
 
 
 //database setup
-const DB_COLLECTION = "users";
-require('fs').mkdir(__dirname + '/tingodb', (err) => {});
-const db = require('tingodb')().Db;
-const database = new db(__dirname + '/tingodb', {});
-const ObjectID = require('tingodb')().ObjectID;
+const DB_COLLECTION = 'users';
+const Db = require('tingodb')().Db;
+const db = new Db(__dirname + '/tingodb', {});
+const ObjectId = require('tingodb')().ObjectID;
 
 
 // Server starten
@@ -50,8 +49,23 @@ app.use("/styles", express.static(__dirname + '/styles'));
 
 
 //Index für Logik
-app.get('/', function(req, res) {
-		res.render( 'index');
+app.get('/', (request, response) => {
+    if (request.session.authenticated) {
+        response.render('dummy', {'username': request.session.username});
+    } else {
+        response.render('index');
+    }   
+});
+
+app.post('/signUpPost', (request, response) => {
+    let username = request.body.username;
+    let password = request.body.password;
+    let confirmPassword = request.body.confirmPassword;
+    let email = request.body.email;
+});
+
+app.post('/logInPost',(request, response) => {
+
 });
 
 
