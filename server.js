@@ -62,12 +62,79 @@ app.post('/signUpPost', (request, response) => {
     let password = request.body.password;
     let confirmPassword = request.body.confirmPassword;
     let email = request.body.email;
+
+    let errors = [];
+    if (username == "" || username == undefined) {
+        errors.push('Bitte einen Username eingeben.');
+    } 
+    if (password == "" || password == undefined) {
+        errors.push('Bitte ein Passwort eingeben.');
+    } 
+    if (confirmPassword == "" || confirmPassword == undefined) {
+        errors.push('Bitte ein Passwort zur Bestätigung eingeben.');
+    } 
+    if (password != confirmPassword) {
+        errors.push('Die Passwörter stimmen nicht überein.');
+    }
+    if(email == "" || email == undefined){
+        errors.push('Bitte eine Email eingeben');
+    }
+   
+    db.collection(DB_COLLECTION).findOne({'username': username}, (error, result) => {
+        if (result != null) {
+            errors.push('User existiert bereits.');
+        } else {
+            if (errors.length == 0) {
+                const encryptedPassword = passwordHash.generate(password);
+                const newUser = {
+                    'username': username,
+                    'password': encryptedPassword,
+                    'email': email
+                }
+                db.collection(DB_COLLECTION).save(newUser, (error, result) => {
+                    if (error) return console.log(error);
+                    console.log('user added to database');
+                    response.redirect('/');
+                });
+            } else {
+                response.render('index');
+            }
+        } 
+    });
 });
 
 app.post('/logInPost', (request, response) => {
+    let username = request.body.username;
+    let password = request.body.password;
 
+    let errors = [];
+    
+    db.collection(DB_COLLECTION).findOne({'username': username}, (error, result) => {
+        if (error) return console.log(error);
+    
+        if (result == null) {
+            console.log(error);
+            return;
+        } else {
+            if (passwordHash.verify(password, result.password)) {
+                request.session.authenticated = true;
+                request.session.username = username;
+                response.redirect('/');
+            } else {
+                errors.push('Das Passwort für diesen User stimmt nicht überein.');
+                console.log(error);                
+            }
+        }
+    });
 });
 
+/*
+app.get('/logout', (request, response) => {
+    delete request.session.authenticated;
+    delete request.session.username;
+    response.redirect('/');
+}); 
+*/
 
 // verweis auf Impressum 
 app.get('/impressum', (request, response) => {
