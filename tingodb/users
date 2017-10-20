@@ -1,3 +1,0 @@
-{"k":"0000000078","o":"0000000133","v":"001"}
-{"_id":2,"_uid":2,"_dt":1508323591973,"_s":"bea4e3bc453b4ef90428bda200affec4"}
-{"username":"test","password":"sha1$6a5a1890$1$f46a1f3372a797e8d9db066a9663d81f04d4e847","email":"test","_id":{"$wrap":"$oid","v":2}}

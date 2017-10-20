@@ -127,7 +127,7 @@ app.post('/logInPost', (request, response) => {
         }
     });
 });
-
+// Logout logik implementieren!
 /*
 app.get('/logout', (request, response) => {
     delete request.session.authenticated;
