@@ -18,6 +18,15 @@ const app = express();
      saveUninitialized: true
  }));
 
+//socket.io initialisieren
+
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+io.on('connection', function(socket){
+  console.log('a user connected');
+});
+
 // Password Hash
 const passwordHash = require('password-hash');
 
@@ -39,8 +48,8 @@ const ObjectId = require('tingodb')().ObjectID;
 
 
 // Server starten
-app.listen(port, function() {
-	console.log("listening to port" + port);
+http.listen(port, function() {
+	console.log("listening to port " + port);
 });
 
 
@@ -51,7 +60,7 @@ app.use("/styles", express.static(__dirname + '/styles'));
 //Index für Logik
 app.get('/', (request, response) => {
     if (request.session.authenticated) {
-        response.render('dummy', {'username': request.session.username});
+        response.render('loggedIn', {'username': request.session.username});
     } else {
         response.render('index');
     }   
