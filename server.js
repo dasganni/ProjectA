@@ -51,7 +51,7 @@ app.use("/styles", express.static(__dirname + '/styles'));
 //Index für Logik
 app.get('/', (request, response) => {
     if (request.session.authenticated) {
-        response.render('dummy', {'username': request.session.username});
+        response.render('dashboard', {'username': request.session.username});
     } else {
         response.render('index');
     }   

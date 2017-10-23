@@ -621,6 +621,8 @@ a {
 #menu-icon-shape.active {
   background: transparent;
   border: transparent;
+  border: 3px solid black;
+  background: rgba(0, 0, 0,1);
 }
 
 #menu-icon-shape.active:hover {
@@ -719,6 +721,10 @@ a {
 #nav-content ul li a:hover {
   color: #7affd1;
 }
+
+
+.row.padding_50 {
+text-align:center;padding:50px 15px;}
 
 /* Media Queries
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
