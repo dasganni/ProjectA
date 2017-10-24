@@ -24,9 +24,10 @@ const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
 io.on('connection', function(socket){
-    //socket.on('username', function(username));
-    //console.log(username + ' connected');
-    console.log('a user connected');
+    socket.on('username', function(){
+    console.log(username + ' connected');
+    });
+    //console.log('a user connected');
 
     socket.on('disconnect', function(){
       console.log('user disconnected');
