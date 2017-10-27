@@ -67,8 +67,13 @@
 
 
   <!-- Pack dein kram hier rein. -->
-  Du bist eingeloggt als <%= username %>
-<script> socket.emit('username');</script>
+  
+  Du bist eingeloggt als
+  
+<script> 
+let test = '<%= username %>';
+console.log(test);
+socket.emit('userlogin', test); </script>
 
   </div>
 

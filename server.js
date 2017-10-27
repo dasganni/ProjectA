@@ -18,21 +18,37 @@ const app = express();
      saveUninitialized: true
  }));
 
+
+
 //socket.io initialisieren
 
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+//socket.io hört auf Ereignisse
+
 io.on('connection', function(socket){
-    socket.on('username', function(){
-    console.log(username + ' connected');
+
+    //log logged in username
+
+    socket.on('userlogin', function(test){
+        socket.username = test;
+        console.log(socket.username + ' connected');
+        console.log(test);
+        
     });
-    //console.log('a user connected');
+
+
+    //Der User hat sich disconnected
 
     socket.on('disconnect', function(){
-      console.log('user disconnected');
+        console.log(socket.username + ' disconnected');
     });
+
+
   });
+
+
 
 // Password Hash
 const passwordHash = require('password-hash');
