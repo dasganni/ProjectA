@@ -16,6 +16,7 @@
     "express-session": "^1.15.5",
     "mongodb": "^2.2.31",
     "password-hash": "^1.2.2",
+    "password-validator": "^4.0.0",
     "socket.io": "^2.0.3",
     "tingodb": "^0.5.1"
   },

@@ -18,6 +18,19 @@ const app = express();
      saveUninitialized: true
  }));
 
+ //Password-Validator initialisieren
+
+ const passwordValidator = require('password-validator');
+ 
+ // Create a policy
+ let pwPolicy = new passwordValidator();
+ pwPolicy.is().min(8)                                    // Minimum length 8
+ pwPolicy.is().max(100)                                  // Maximum length 100
+ pwPolicy.has().uppercase()                              // Must have uppercase letters
+ pwPolicy.has().lowercase()                              // Must have lowercase letters
+ pwPolicy.has().symbols()                                // Must have symbols
+ pwPolicy.has().digits()                                 // Must have digits
+ pwPolicy.has().not().spaces()                           // Should not have spaces
 
 
 //socket.io initialisieren
@@ -109,6 +122,9 @@ app.post('/signUpPost', (request, response) => {
     if(email == "" || email == undefined){
         errors.push('Bitte eine Email eingeben');
     }
+   if(pwPolicy.validate(password)==false){
+        errors.push('Bitte folgende Password Policy beachten: <br> 1. Mindestens 8 Zeichen und Maximal 100 Zeichen <br> 2. Groß- und Kleinbuchstaben <br> 3. Mindestens eine Zahl <br> 4. Mindestens eine Sonderzeichen <br> 5. Keine Leerzeichen');
+    }
    
     db.collection(DB_COLLECTION).findOne({'username': username}, (error, result) => {
         if (result != null) {
@@ -123,11 +139,12 @@ app.post('/signUpPost', (request, response) => {
                 }
                 db.collection(DB_COLLECTION).save(newUser, (error, result) => {
                     if (error) return console.log(error);
-                    console.log('user added to database');
+                    console.log(username + ' added to database');
                     response.redirect('/');
                 });
             } else {
-                response.render('index');
+                
+               response.render('errors', {'error': errors});
             }
         } 
     });
