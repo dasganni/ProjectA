@@ -22,6 +22,8 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
+    <script src="/socket.io/socket.io.js"></script>
+    <script> const socket = io(); </script>
 
 
     <!-- SEO meta-tags
@@ -63,8 +65,11 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div id="box1"  class="row height_100 padding_50" style="background-color:#7AFFD1;overflow: hidden;">
 
-  <h1> Geuten Tag, <%= username %> </h1>
+  <h1> Guten Tag, <%= username %> </h1>
   <!-- Pack dein kram hier rein. -->
+  <script> 
+    let socketUserName = '<%= username %>';
+    socket.emit('dashboardUser', socketUserName); </script>
 
   </div>
 
