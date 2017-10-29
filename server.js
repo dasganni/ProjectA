@@ -31,11 +31,9 @@ io.on('connection', function(socket){
 
     //log logged in username
 
-    socket.on('userlogin', function(test){
-        socket.username = test;
-        console.log(socket.username + ' connected');
-        console.log(test);
-        
+    socket.on('dashboardUser', function(socketUserName){
+        socket.username = socketUserName;
+        console.log(socket.username + ' connected');        
     });
 
 
@@ -83,7 +81,7 @@ app.use("/styles", express.static(__dirname + '/styles'));
 //Index für Logik
 app.get('/', (request, response) => {
     if (request.session.authenticated) {
-        response.render('loggedIn', {'username': request.session.username});
+        response.render('dashboard', {'username': request.session.username});
     } else {
         response.render('index');
     }   

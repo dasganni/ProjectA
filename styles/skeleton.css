@@ -621,6 +621,8 @@ a {
 #menu-icon-shape.active {
   background: transparent;
   border: transparent;
+  border: 3px solid black;
+  background: rgba(0, 0, 0,1);
 }
 
 #menu-icon-shape.active:hover {
@@ -720,6 +722,10 @@ a {
   color: #7affd1;
 }
 
+
+.row.padding_50 {
+text-align:center;padding:50px 15px;}
+
 /* Media Queries
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 /*
@@ -730,14 +736,26 @@ there.
 */
 
 
-/* Larger than mobile */
-@media (min-width: 400px) {}
+/* Smaller than mobile */
+@media (max-width: 400px) {
+  #footer a {
+    float: right;
+    width: auto;
+    padding-right: 15px;
+    right: 0;
+    text-align: right;  }
+}
 
 /* Larger than phablet (also point when grid becomes active) */
 @media (min-width: 550px) {}
 
 /* Larger than tablet */
 @media (max-width: 750px) {
+
+  #menu-icon-shape {
+    top: 15px;
+    right: 15px;
+  }
 
 
 .hero img {
@@ -754,3 +772,4 @@ there.
 
 /* Larger than Desktop HD */
 @media (min-width: 1200px) {}
+
