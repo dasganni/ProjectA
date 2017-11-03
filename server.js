@@ -165,6 +165,7 @@ app.post('/logInPost', (request, response) => {
     let username = request.body.username;
     let password = request.body.password;
     let mail;
+    let loginFail;
 
     let errors = [];
     
@@ -184,9 +185,11 @@ app.post('/logInPost', (request, response) => {
                 request.session.username = username;
                 request.session.gravURL = gravURL;
                 response.redirect('/');
+                loginFail = false;
             } else {
                 errors.push('Das Passwort für diesen User stimmt nicht überein.');
-                console.log(error);                
+                console.log(error);     
+                loginFail = true;           
             }
         }
     });

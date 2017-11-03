@@ -65,11 +65,12 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div id="box1"  class="row height_100 padding_50" style="background-color:#7AFFD1;overflow: hidden;">
 
-  <img src="<%= gravURL %>" >
+  <img src="<%= gravURL %>" style="border-radius:50%;">
 
-  <h1> Guten Tag, <%= username %> , <%= gravURL %>,
-  <%= mail %></h1>
+  <h1> Guten Tag, <%= username %></h1>
   <!-- Pack dein kram hier rein. -->
+
+
   <script> 
     let socketUserName = '<%= username %>';
     socket.emit('dashboardUser', socketUserName); </script>
