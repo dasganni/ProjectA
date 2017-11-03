@@ -1,8 +1,0 @@
-{"_id":4,"_uid":4,"_dt":1509712866243,"_s":"616f820cff50a50e81a1d39c573d40de"}
-{"username":"mailmail","password":"sha1$6c664067$1$8eec553769fb98a3f35ffee1a3efce3ebb1b92d3","email":"mirkoleschhorn1@gmail.com","_id":{"$wrap":"$oid","v":4}}
-{"k":"0000000078","o":"0000000152","v":"001"}
-{"_id":5,"_uid":5,"_dt":1509714343111,"_s":"9bc9d7ac08f92a3a94ad82ef7b7163fd"}
-{"username":"krix","password":"sha1$4f15ada6$1$d0160310cb245f088970193a128f9198c3a2913f","email":"hello@krischanschupp.de","_id":{"$wrap":"$oid","v":5}}
-{"k":"0000000078","o":"0000000153","v":"001"}
-{"_id":6,"_uid":6,"_dt":1509715081236,"_s":"ceab32fc325f2e67e7271e83eb448e82"}
-{"username":"kackspast","password":"sha1$b756b93e$1$ddcd0e69c3de79861072eeb0c413102b4db0ff25","email":"emerleite@gmail.com","_id":{"$wrap":"$oid","v":6}}

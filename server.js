@@ -104,7 +104,10 @@ app.get('/', (request, response) => {
             'gravURL': request.session.gravURL
         });
     } else {
-        response.render('index');
+        if (errors.length==0){
+            errorDummy=[];
+        }
+        response.render('index',{'error':errorDummy});
     }   
 });
 
@@ -152,7 +155,7 @@ app.post('/signUpPost', (request, response) => {
                 });
             } else {
                 
-               response.render('errors', {'error': errors});
+               response.render('index', {'error': errors});
             }
         } 
     });

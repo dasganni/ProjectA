@@ -99,6 +99,13 @@
           <div class="close-modal">&#10006;</div>
         </div>
         <div class="modal-body">
+          <ul>
+              <% for(var i = 0; i < error.length; i++) { %>
+                  <li><%- error[i]%></li>
+              <% } %>
+          </ul>
+          <br>
+
 
           <form action="/signUpPost" method="post">
 
