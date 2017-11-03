@@ -32,6 +32,11 @@ const app = express();
  pwPolicy.has().digits()                                 // Must have digits
  pwPolicy.has().not().spaces()                           // Should not have spaces
 
+// Gravatar initalisieren 
+
+const gravatar = require('gravatar');
+
+
 
 //socket.io initialisieren
 
@@ -94,7 +99,10 @@ app.use("/styles", express.static(__dirname + '/styles'));
 //Index für Logik
 app.get('/', (request, response) => {
     if (request.session.authenticated) {
-        response.render('dashboard', {'username': request.session.username});
+        response.render('dashboard', {
+            'username': request.session.username,
+            'gravURL': request.session.gravURL
+        });
     } else {
         response.render('index');
     }   
@@ -153,10 +161,15 @@ app.post('/signUpPost', (request, response) => {
 app.post('/logInPost', (request, response) => {
     let username = request.body.username;
     let password = request.body.password;
+    let mail;
 
     let errors = [];
     
     db.collection(DB_COLLECTION).findOne({'username': username}, (error, result) => {
+        mail = result.email;
+        //Anpasung für Avatar
+        let gravURL = gravatar.url(mail, { s: '200', r: 'pg', d: '404' });
+
         if (error) return console.log(error);
     
         if (result == null) {
@@ -166,6 +179,7 @@ app.post('/logInPost', (request, response) => {
             if (passwordHash.verify(password, result.password)) {
                 request.session.authenticated = true;
                 request.session.username = username;
+                request.session.gravURL = gravURL;
                 response.redirect('/');
             } else {
                 errors.push('Das Passwort für diesen User stimmt nicht überein.');
@@ -174,6 +188,7 @@ app.post('/logInPost', (request, response) => {
         }
     });
 });
+
 // Logout logik implementieren!
 /*
 app.get('/logout', (request, response) => {
