@@ -3,6 +3,11 @@
 //  Update - (PUT)
 //  Delete - (DELETE)
 
+
+// Globale variablen 
+let errors = [];
+
+
 //port
 const port = 3000;
 
@@ -117,7 +122,6 @@ app.post('/signUpPost', (request, response) => {
     let confirmPassword = request.body.confirmPassword;
     let email = request.body.email;
 
-    let errors = [];
     if (username == "" || username == undefined) {
         errors.push('Bitte einen Username eingeben.');
     } 
@@ -166,8 +170,6 @@ app.post('/logInPost', (request, response) => {
     let password = request.body.password;
     let mail;
     let loginFail;
-
-    let errors = [];
     
     db.collection(DB_COLLECTION).findOne({'username': username}, (error, result) => {
         mail = result.email;
