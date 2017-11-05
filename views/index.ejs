@@ -35,7 +35,7 @@
 
 
   </head>
-<body>
+<body id="home">
 
 
   <!-- Menu icon 
@@ -79,8 +79,6 @@
         <div class="modal-body">
 		
 	<form action="/logInPost" method="post">
-              
-            <img src="styles/img/profile.png" width="150px">
             <input type="text" name="username" placeholder="Username">
             <input type="password" name="password" placeholder="Passwort">
             <button type="submit" class="button button-primary">Login</button>
@@ -91,7 +89,8 @@
     </div>
 
     <!-- Login Formular Box Registration -->
-    <div class="modal" id="Registration">
+    <div class="modal" id="Registration"  <% if(error.length > 1){  %> style='display:block;' <% }  %> 
+      >
       <div class="modal-sandbox">
       </div>
       <div class="modal-box">
@@ -108,8 +107,6 @@
 
 
           <form action="/signUpPost" method="post">
-
-            <img src="styles/img/profile.png" width="150px">
             <input type="text" name="username" placeholder="Name">
             <input type="email" name="email" placeholder="E-Mail">
 	          <input type="password" name="password" placeholder="Passwort">

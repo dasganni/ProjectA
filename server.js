@@ -175,13 +175,15 @@ app.post('/logInPost', (request, response) => {
 });
 
 // Logout logik implementieren!
-/*
+
 app.get('/logout', (request, response) => {
     delete request.session.authenticated;
     delete request.session.username;
+    // Wenn Error nicht = Null gab es eine Fehlermeldung beim Logout
+    error = null;
     response.redirect('/');
 }); 
-*/
+
 
 // verweis auf Impressum 
 app.get('/impressum', (request, response) => {

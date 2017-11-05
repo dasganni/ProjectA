@@ -53,7 +53,13 @@
       <ul>
         <li><a href="/">Start</a></li>          
         <li><a href="#">Kontakt</a></li>
-        <li><a href="#">Impressum</a></li>
+        <li><a href="/impressum">Impressum</a></li>
+        <% if (authenticated = true) { %> 
+          <li> 
+            <form action="/logout" method="/post">
+              <button type="submit" class="button button-primary">Logout</button>
+            </form>
+          </li> <% } %>
       </ul>
     </div>
   </nav>

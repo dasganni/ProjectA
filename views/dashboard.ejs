@@ -55,6 +55,12 @@
       <ul>
         <li><a href="#">Kontakt</a></li>
         <li><a href="#">Impressum</a></li>
+        <% if (authenticated = true) { %> 
+        <li> 
+          <form action="/logout" method="/post">
+            <button type="submit" class="button button-primary">Logout</button>
+          </form>
+        </li> <% } %>
       </ul>
     </div>
   </nav>
@@ -63,12 +69,16 @@
 
   <!-- First content box 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <div id=""  class="row" style="background-color:#fff;overflow: hidden;">
+  <h2>Dashboard</h2>
+  </div>
   <div id="box1"  class="row height_100 padding_50" style="background-color:#7AFFD1;overflow: hidden;">
 
   <img src="<%= gravURL %>" style="border-radius:50%;">
 
-  <h1> Guten Tag, <%= username %></h1>
+  <h3> Guten Tag, <%= username %></h3>
   <!-- Pack dein kram hier rein. -->
+
 
 
   <script> 
@@ -76,6 +86,7 @@
     socket.emit('dashboardUser', socketUserName); </script>
 
   </div>
+
 
 
 

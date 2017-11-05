@@ -1,3 +1,6 @@
 {"k":"0000000078","o":"0000000156","v":"001"}
 {"_id":2,"_uid":2,"_dt":1509717633996,"_s":"0c2053ec641c20e1d68b2e5959a537ed"}
 {"username":"mailmail","password":"sha1$a52cf51e$1$5a3ba083c7f95a98e424f04165788154b2976fb8","email":"hello@krischanschupp.de","_id":{"$wrap":"$oid","v":2}}
+{"k":"0000000078","o":"0000000153","v":"001"}
+{"_id":3,"_uid":3,"_dt":1509731903815,"_s":"693dc90af3204417587e7859f66187cd"}
+{"username":"admin","password":"sha1$8145320c$1$dcbdba9f0c6f24b2d206c641b4b184e0b00517ef","email":"hello@krischanschupp.de","_id":{"$wrap":"$oid","v":3}}
