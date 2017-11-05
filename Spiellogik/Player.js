@@ -49,5 +49,4 @@ var Player = (function () {
         return this.name;
     };
     return Player;
-}());
-Player["__class"] = "Player";
+}
