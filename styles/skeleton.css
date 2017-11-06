@@ -559,11 +559,11 @@ h1, h2, h3, p {
 }
 
 .secondbox {
-  padding-top: calc(100vh - 400px);
+  padding-top: calc(50vh - 130px);
 }
 
 .thirdbox {
-  padding-top: calc(100vh - 540px);
+  padding-top: calc(50vh - 190px);
 }
 
 a {
