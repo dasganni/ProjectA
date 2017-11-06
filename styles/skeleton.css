@@ -739,7 +739,7 @@ a {
 }
 
 
-#nav-content .button.button-primary, button.button-primary {
+#nav-content .button.button-primary,#nav-content button.button-primary {
   color: white;
   background-color: transparent;
   border:none;
