@@ -22,6 +22,9 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
+    <script src="/socket.io/socket.io.js"></script>    
+    <script> const socket = io(); </script>
+    
 
 
     <!-- SEO meta-tags
@@ -74,7 +77,7 @@
 
   <div class="Spielgegner" style="border-bottom:1px solid black;">
     <p>Gegnername</p>
-    <img src="http://www.gravatar.com/avatar/683f8ca42180f7265bad6a32aab8da8a?s=200&r=pg&d=monsterid" style="border-radius:50%;">    
+    <img src="<%= gravURL %>" style="border-radius:50%;">    
     <p class="bullets">Bullets: 00</p>    
   </div>
 
@@ -101,7 +104,19 @@
       <button style="opacity:0.2;">Weapon 2</button>  
       <button style="opacity:0.2;">Weapon 3</button>
   </div>
-  
+  <script> 
+    roomcode= '<%= roomcode%>';
+    username= '<%= username %>';
+    gravURL= '<%= gravURL %>';
+
+    socket.emit('gameConnect', {'roomcode': roomcode, 'username':username, 'gravURL':gravURL});
+
+    socket.on('msg', function(testmessage){
+      console.log(testmessage)
+
+  });    </script>
+
+
 
   </div>
 

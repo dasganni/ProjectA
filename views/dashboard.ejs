@@ -89,9 +89,19 @@
   </div>
   <div id="box1"  class="row height_100 padding_50" style="background-color:#7AFFD1;overflow: hidden;">
 
-    <button>Spiel suchen</button>
-      
+      <script> 
+          let username = '<%= username %>';
+          let socketUserName = '<%= username %>';
+          socket.emit('dashboardUser', socketUserName); </script>
+  
+    <form action="/joinGame" method="post">
+      <input type="text" name="roomcode" placeholder="Enter Room Code">  
+      <button type="submit" class="button button-primary">Spiel beitreten</button>
+    </form>
 
+    <form action="/createGame" method="post">
+      <button type="submit" class="button button-primary">Spiel erstellen</button>
+    </form>
 
     <img src="<%= gravURL %>" style="border-radius:50%;">
 
@@ -134,10 +144,6 @@
                 <div class="spalteScore">239</div>
             </div>
         </div>
-
-  <script> 
-    let socketUserName = '<%= username %>';
-    socket.emit('dashboardUser', socketUserName); </script>
 
   </div>
 

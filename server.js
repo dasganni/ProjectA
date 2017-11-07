@@ -47,6 +47,10 @@ const gravatar = require('gravatar');
 const http = require('http').Server(app);
 const io = require('socket.io')(http);
 
+//Randomstring init
+
+const randomstring = require("randomstring");
+
 
 // Password Hash
 const passwordHash = require('password-hash');
@@ -176,11 +180,31 @@ app.post('/logInPost', (request, response) => {
     });
 });
 
+app.post('/joinGame', (request, response) => {
+    roomcode = request.body.roomcode;   
+    request.session.roomcode = roomcode; 
+    console.log(request.session.username + " joins the Room " + request.session.roomcode)
+    
+    response.redirect('/game');
+});
+
+app.post('/createGame', (request, response) => {
+    roomcode = randomstring.generate({
+        length: 5,
+        charset: 'alphanumeric'
+      });
+    request.session.roomcode = roomcode;
+    console.log(request.session.username + " created the Room " + request.session.roomcode)
+      
+    response.redirect('/game');
+});
+
 // Logout logik implementieren!
 
 app.get('/logout', (request, response) => {
     delete request.session.authenticated;
     delete request.session.username;
+    delete request.session.roomcode;
     // Wenn Error nicht = Null gab es eine Fehlermeldung beim Logout
     error = null;
     response.redirect('/');
@@ -194,7 +218,10 @@ app.get('/impressum', (request, response) => {
 
 // verweis auf Game 
 app.get('/game', (request, response) => {
-    response.render( 'game');
+    username = request.session.username;
+    roomcode = request.session.roomcode;
+    gravURL = request.session.gravURL;
+    response.render( 'game', {'username': username, 'roomcode': roomcode, 'gravURL': gravURL});
 });
 
 /*
@@ -251,7 +278,7 @@ var Player = (function () {
         return this.name;
     };
 }
-
+*/
 
 
 //socket.io hört auf Ereignisse
@@ -264,7 +291,20 @@ io.on('connection', function(socket){
             socket.username = socketUserName;
             console.log(socket.username + ' connected');        
         });
+
+        socket.on('gameConnect', function(data){
+            socket.roomcode = data.roomcode;
+            socket.username = data.username;
+            socket.gravURL = data.gravURL;
+            socket.join(socket.roomcode);            
+            console.log(socket.username + " connected to the Room " + socket.roomcode);
+            testmessage = "You are connected to the room";
+            socket.in(socket.roomcode).emit('msg', {testmessage: testmessage});
+
+        });
         
+
+/*        
         //Spiellogik - Ingame
     
         socket.on('lobbyConnect', function(socketSessionID){
@@ -332,7 +372,7 @@ io.on('connection', function(socket){
 
         });
 
-
+*/
         //Der User hat sich disconnected
     
         socket.on('disconnect', function(){
@@ -340,10 +380,10 @@ io.on('connection', function(socket){
         });
     
 
-      }); */
+      });
 
 
-
+/*
 
 // Handle 404 - Keep this as a last route
 // Handle 404
@@ -359,3 +399,5 @@ app.use(function(error, req, res, next) {
     console.log('500')    
     res.render('error.ejs', {title:'500: Internal Server Error', error: error});
 });
+
+*/
