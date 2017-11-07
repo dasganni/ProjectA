@@ -2,7 +2,7 @@
 <html>
   <head>
 
-    <title>Dashboard</title>
+    <title>Dummy Page</title>
  
     <!-- Mobile Specific Metas
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -22,23 +22,6 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
-    <script src="/socket.io/socket.io.js"></script>
-    <script> const socket = io(); </script>
-
-    <script> // Pie-Chart
-        $(function() {
-        $('.circle-graph').easyPieChart({
-          scaleColor: false,
-          lineWidth: 30,
-          lineCap: 'butt',
-          barColor: '#38AF84',
-          trackColor: 'white' ,
-          size: 200,
-          animate: 800
-        });
-      });
-        
-    </script>
 
 
     <!-- SEO meta-tags
@@ -68,14 +51,15 @@
   <nav id="overlay-nav">
     <div id="nav-content">
       <ul>
+        <li><a href="/">Start</a></li>          
         <li><a href="#">Kontakt</a></li>
-        <li><a href="#">Impressum</a></li>
+        <li><a href="/impressum">Impressum</a></li>
         <% if (authenticated = true) { %> 
-        <li> 
-          <form action="/logout" method="/post">
-            <button type="submit" class="button button-primary">Logout</button>
-          </form>
-        </li> <% } %>
+          <li> 
+            <form action="/logout" method="/post">
+              <button type="submit" class="button button-primary">Logout</button>
+            </form>
+          </li> <% } %>
       </ul>
     </div>
   </nav>
@@ -84,63 +68,42 @@
 
   <!-- First content box 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id=""  class="row" style="background-color:#fff;overflow: hidden;">
-    <h2>Dashboard</h2>
-  </div>
   <div id="box1"  class="row height_100 padding_50" style="background-color:#7AFFD1;overflow: hidden;">
 
-    <button>Spiel suchen</button>
-      
+  <h1> Game </h1>
 
+  <div class="Spielgegner" style="border-bottom:1px solid black;">
+    <p>Gegnername</p>
+    <img src="http://www.gravatar.com/avatar/683f8ca42180f7265bad6a32aab8da8a?s=200&r=pg&d=monsterid" style="border-radius:50%;">    
+    <p class="bullets">Bullets: 00</p>    
+  </div>
 
-    <img src="<%= gravURL %>" style="border-radius:50%;">
+  <div class="Timer" style="border-bottom:1px solid black;">
+    <p>
+      Timer: 00:28
+    </p>
+    
+    <p>
+      Round 1
+    </p>
 
-    <h3> Guten Tag, <%= username %></h3>
+  </div>
+
+  <div class="Spieler">
+      <p>Spielername</p>
+      <img src="http://www.gravatar.com/avatar/683f8ca4218057265bad6a32aab8da8a?s=200&r=pg&d=monsterid" style="border-radius:50%;">
+      <p class="bullets">Bullets: 00</p>  
+      <button style="opacity:0.2;">Shoot</button>  
+      <button>Reload</button>  
+      <button>Protect</button> 
+      <button>Give up</button>   <br>
+      <button>Weapon 1</button>  
+      <button style="opacity:0.2;">Weapon 2</button>  
+      <button style="opacity:0.2;">Weapon 3</button>
+  </div>
   
-  <button>Profil Bearbeiten?</button>
-
-  <div class="containergraph">
-      <section class="graph-one">
-        <div class="circle-graph-container">
-          <div class="circle-graph" data-percent="80">
-            <p>80%</p> <!-- Winrate in percent -->
-          </div>
-        </div>
-      </section>
-  </div>
-
-  <div>
-    <h4>Score <br>
-      <span class="Score_var">4300</span>
-    </h4>
-    <h4>Win/Lose <br>
-      <span class="Score_var">39/39</span>
-    </h4>
-  </div>
-
-  <div class="Score_list">
-
-      <h4>Top 10:</h4>
-            <div class="tableScore">
-                <div class="spalteScore">Spielername1 
-                  <img style="margin: 0px 0 0px 5px;position: absolute;height: 20px;border-radius:50%;"  src="//www.gravatar.com/avatar/24b93e12e3s2ec20374e17963ef0c9e1?s=200&r=pg&d=monsterid">
-                </div>
-                <div class="spalteScore">493</div>
-            </div>
-            <div class="tableScore">
-                <div class="spalteScore">Spielername2 
-                    <img style="margin: 0px 0 0px 5px;position: absolute;height: 20px;border-radius:50%;"  src="//www.gravatar.com/avatar/24b93e12e332ec200d4e17963ef0c9e1?s=200&r=pg&d=monsterid">
-                  </div>
-                <div class="spalteScore">239</div>
-            </div>
-        </div>
-
-  <script> 
-    let socketUserName = '<%= username %>';
-    socket.emit('dashboardUser', socketUserName); </script>
 
   </div>
-
 
 
 

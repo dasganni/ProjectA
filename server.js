@@ -153,7 +153,7 @@ app.post('/logInPost', (request, response) => {
     db.collection(DB_COLLECTION).findOne({'username': username}, (error, result) => {
         mail = result.email;
         //Anpasung für Avatar
-        let gravURL = gravatar.url(mail, { s: '200', r: 'pg', d: '404' });
+        let gravURL = gravatar.url(mail, { s: '200', r: 'pg', d: 'monsterid' });
 
         if (error) return console.log(error);
     
@@ -190,6 +190,11 @@ app.get('/logout', (request, response) => {
 // verweis auf Impressum 
 app.get('/impressum', (request, response) => {
     response.render( 'impressum');
+});
+
+// verweis auf Game 
+app.get('/game', (request, response) => {
+    response.render( 'game');
 });
 
 /*
@@ -337,9 +342,12 @@ io.on('connection', function(socket){
 
       }); */
 
-      // Handle 404 - Keep this as a last route
-  // Handle 404
-  app.use(function(req, res) {
+
+
+
+// Handle 404 - Keep this as a last route
+// Handle 404
+app.use(function(req, res) {
     res.status(400);
     console.log('404')
     res.render('error.ejs', {title: '404: File Not Found'});

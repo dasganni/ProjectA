@@ -801,6 +801,73 @@ span.password:after {
   bottom: -5px;
 }
 
+/* Pie-Chart */
+
+.containergraph {
+  height:200px;
+  width:200px;
+  margin:0 auto;
+}
+/*
+=================
+Circle Graph using (https://github.com/rendro/easy-pie-chart)
+================
+*/
+.circle-graph p {
+	text-align: center;
+  padding: 0px;
+  position:absolute;
+  z-index: 100;
+  font-size: 35px;
+  font-weight: 900;
+  display:block;
+  margin:0;
+  height:200px;
+  width:200px;
+  
+} 
+
+.graph-one {
+  height: auto; /* set height for postioning */
+}
+
+circle-graph-container {
+  position: relative;
+}
+
+canvas {
+  position: raltive;
+  top: 0px;
+}
+
+.circle-graph {
+	margin: 0px;
+  float: left;
+}
+
+/* TablleSCore */
+
+
+  div.tableScore {
+    display: table;
+    width: calc(100% - 10px);
+    border: 1px solid transparent;
+    padding: 5px;
+  }
+  div.spalteScore { 
+    display: table-cell;
+    border: thin solid transparent;
+    padding: 5px;
+    text-align: left !important;
+  }
+
+  .Score_list {
+    max-Width:400px;
+    margin:0 auto;
+  }
+
+
+
 
 /* Media Queries
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
