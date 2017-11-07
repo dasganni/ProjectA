@@ -109,7 +109,10 @@
           <form action="/signUpPost" method="post">
             <input type="text" name="username" placeholder="Name">
             <input type="email" name="email" placeholder="E-Mail">
-	          <input type="password" name="password" placeholder="Passwort">
+            <input type="password" name="password" class="passwordinput" placeholder="Passwort">
+            <span class="password">
+              Bitte folgende Password Policy beachten: <br> 1. Mindestens 8 Zeichen und Maximal 100 Zeichen <br> 2. Groß- und Kleinbuchstaben <br> 3. Mindestens eine Zahl <br> 4. Mindestens eine Sonderzeichen <br> 5. Keine Leerzeichen
+            </span>
             <input type="password" name="confirmPassword" placeholder="Passwort Wiederholen">	    
             <button type="submit" class="button button-primary">Registration</button>
 

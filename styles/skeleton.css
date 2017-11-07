@@ -758,6 +758,50 @@ a {
 .row.padding_50 {
 text-align:center;padding:50px 15px;}
 
+
+
+
+/* password Hover  */
+
+.passwordinput:hover ~ .password,
+.passwordinput:focus ~ .password {
+  opacity: 1;
+  z-index: 3;
+  top:115px;
+  transition: all 0.2s ease-out;
+}
+
+span.password {
+  display: block;
+  width: 70%;
+  left: calc( 50% - 36.5% );
+  position: absolute;
+  height: auto;
+  padding:3% 2%;
+  font-size: 11px;
+  background-color: gray;
+  opacity: 0;
+  top: 75px;
+  z-index: 0;
+  transition: all 0.2s ease-in;
+  -webkit-box-shadow: 1px 1px 10px 0px rgba(0,0,0,0.15);
+  -moz-box-shadow: 1px 1px 10px 0px rgba(0,0,0,0.15);
+  box-shadow: 1px 1px 10px 0px rgba(0,0,0,0.15);
+}
+
+span.password:after {
+  display: block;
+  content: " ";
+  background-color: gray;
+  position: absolute;
+  height: 10px;
+  left: calc( 50% - 5px);
+  width: 10px;
+  transform: rotate(-45deg);
+  bottom: -5px;
+}
+
+
 /* Media Queries
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 /*

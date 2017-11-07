@@ -42,7 +42,6 @@ const app = express();
 const gravatar = require('gravatar');
 
 
-
 //socket.io initialisieren
 
 const http = require('http').Server(app);
@@ -76,6 +75,9 @@ http.listen(port, function() {
 
 // verweis auf Styles
 app.use("/styles", express.static(__dirname + '/styles'));
+
+
+
 
 
 //Index für Logik
@@ -334,3 +336,18 @@ io.on('connection', function(socket){
     
 
       }); */
+
+      // Handle 404 - Keep this as a last route
+  // Handle 404
+  app.use(function(req, res) {
+    res.status(400);
+    console.log('404')
+    res.render('error.ejs', {title: '404: File Not Found'});
+});
+
+// Handle 500
+app.use(function(error, req, res, next) {
+    res.status(500);
+    console.log('500')    
+    res.render('error.ejs', {title:'500: Internal Server Error', error: error});
+});
