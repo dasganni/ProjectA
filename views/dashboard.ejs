@@ -22,8 +22,6 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
-    <script src="/socket.io/socket.io.js"></script>
-    <script> const socket = io(); </script>
 
     <script> // Pie-Chart
         $(function() {
@@ -89,10 +87,6 @@
   </div>
   <div id="box1"  class="row height_100 padding_50" style="background-color:#7AFFD1;overflow: hidden;">
 
-      <script> 
-          let username = '<%= username %>';
-          let socketUserName = '<%= username %>';
-          socket.emit('dashboardUser', socketUserName); </script>
   
     <form action="/joinGame" method="post">
       <input type="text" name="roomcode" placeholder="Enter Room Code">  
