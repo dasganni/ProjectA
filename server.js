@@ -288,22 +288,15 @@ io.on('connection', function(socket){
     
         //log logged in username
     
-        socket.on('dashboardUser', function(socketUserName){
-            socket.username = socketUserName;
-            console.log(socket.username + ' connected');        
-        });
-
         socket.on('gameConnect', function(data){
             socket.roomcode = data.roomcode;
             socket.username = data.username;
             socket.gravURL = data.gravURL;
-            socket.join(socket.roomcode);            
+            socket.join(socket.roomcode);
             console.log(socket.username + " connected to the Room " + socket.roomcode);
-            testmessage = "You are connected to the room";
-            socket.in(socket.roomcode).emit('msg', {testmessage: testmessage});
+            io.in(socket.roomcode).emit('connectedToRoom');
 
-        });
-        
+        });  
 
 /*        
         //Spiellogik - Ingame
