@@ -22,6 +22,8 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
+    <script src="/socket.io/socket.io.js"></script>
+    <script> const socket = io(); </script>
 
     <script> // Pie-Chart
         $(function() {
@@ -66,6 +68,7 @@
   <nav id="overlay-nav">
     <div id="nav-content">
       <ul>
+        <li><a href="/createlobby">Spielen</a></li>
         <li><a href="#">Kontakt</a></li>
         <li><a href="#">Impressum</a></li>
         <% if (authenticated = true) { %> 
@@ -85,19 +88,30 @@
   <div id=""  class="row" style="background-color:#fff;overflow: hidden;">
     <h2>Dashboard</h2>
   </div>
-  <div id="box1"  class="row height_100 padding_50" style="background-color:#7AFFD1;overflow: hidden;">
+  <div id="box1"  class="row height_100 padding_50" style="background-color:#fff;overflow: hidden;">
 
+      <script> 
+          let username = '<%= username %>';
+          let socketUserName = '<%= username %>';
+          socket.emit('dashboardUser', socketUserName); </script>
   
     <form action="/joinGame" method="post">
       <input type="text" name="roomcode" placeholder="Enter Room Code">  
       <button type="submit" class="button button-primary">Spiel beitreten</button>
     </form>
 
+
+<script>
+  document.getElementById("checkBox").disabled=true;
+</script>
     <form action="/createGame" method="post">
+      <input type="radio" name="notclick" value="notclick" checked> One vs. One<br>
+      <span  class="disabledinput"><input type="radio" disabled="disabled" id="checkBox" name="notclick" value="notclick" > All vs. All</span><br>
+      <span  class="disabledinput"><input type="radio" disabled="disabled" id="checkBox" name="notclick" value="notclick" > One vs. Pc</span><br>
       <button type="submit" class="button button-primary">Spiel erstellen</button>
     </form>
 
-    <img src="<%= gravURL %>" style="border-radius:50%;">
+    <img height="200px" width="200px" src="<%= gravURL %>" style="border-radius:50%;">
 
     <h3> Guten Tag, <%= username %></h3>
   
@@ -122,26 +136,50 @@
     </h4>
   </div>
 
+  <div  class="row" style="background-color: #7AFFD2; left:-15px;width:calc( 100% + 30px);position:relative;">
+   
   <div class="Score_list">
-
-      <h4>Top 10:</h4>
-            <div class="tableScore">
-                <div class="spalteScore">Spielername1 
-                  <img style="margin: 0px 0 0px 5px;position: absolute;height: 20px;border-radius:50%;"  src="//www.gravatar.com/avatar/24b93e12e3s2ec20374e17963ef0c9e1?s=200&r=pg&d=monsterid">
+    
+          <h4>Top 10:</h4>
+                <div class="tableScore">
+                    <div class="spalteScore">Spielername1 
+                      <img style="margin: 0px 0 0px 5px;position: absolute;height: 20px;border-radius:50%;"  src="//www.gravatar.com/avatar/24b93e12e3s2ec20374e17963ef0c9e1?s=200&r=pg&d=monsterid">
+                    </div>
+                    <div class="spalteScore">493</div>
                 </div>
-                <div class="spalteScore">493</div>
+                <div class="tableScore">
+                    <div class="spalteScore">Spielername2 
+                        <img style="margin: 0px 0 0px 5px;position: absolute;height: 20px;border-radius:50%;"  src="//www.gravatar.com/avatar/24b93e12e332ec200d4e17963ef0c9e1?s=200&r=pg&d=monsterid">
+                      </div>
+                    <div class="spalteScore">239</div>
+                </div>
             </div>
-            <div class="tableScore">
-                <div class="spalteScore">Spielername2 
-                    <img style="margin: 0px 0 0px 5px;position: absolute;height: 20px;border-radius:50%;"  src="//www.gravatar.com/avatar/24b93e12e332ec200d4e17963ef0c9e1?s=200&r=pg&d=monsterid">
-                  </div>
-                <div class="spalteScore">239</div>
-            </div>
-        </div>
-
+    
+      </div>
+    
   </div>
 
 
+  <div  class="row" style="text-align:center;">
+    
+  
+           <h4>Update-News:</h4>
+           <p><strong>1.00.2b</strong> problem is that pointer-events:none only works for inputs where the value is changed as a result of the "pointer event". 
+     Inputs like checkboxes and radio buttons change their state, not their value, when interacted with</p>
+           <ul>
+            <li>css verbesserungen</li>
+            <li>Scoring wurde verbessert</li>
+            <li>All vs. All wurde freigeschaltet</li>
+            <li>Bugfixes</li>
+            <li>new Weapons  [...] </li>
+          </ul>
+
+          <button type="submit" class="button button-primary">Read more</button>
+          
+     
+       </div>
+     
+   </div>
 
 
   
@@ -164,3 +202,4 @@
 </body>
 
 </html>
+test
