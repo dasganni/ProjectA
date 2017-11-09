@@ -1,3 +1,7 @@
-{"k":"0000000078","o":"0000000158","v":"001"}
-{"_id":2,"_uid":2,"_dt":1510057452377,"_s":"c5b3af115295e09dd88e798d9bafde45"}
-{"username":"dasganni","password":"sha1$bd65a197$1$c8359ee59f78b2811ee422bc6d89521b1981c04a","email":"mirkoleschhorn1@gmail.com","_id":{"$wrap":"$oid","v":2}}
+{"k":"0000000078","o":"0000000153","v":"001"}
+{"_id":2,"_uid":2,"_dt":1510146315677,"_s":"47aeb772125e4f48180710fa59621d0b"}
+{"username":"admin","password":"sha1$d92e701c$1$af2b81e8436436ce92338b6c7fbae8f695214bcc","email":"hello@krischanschupp.de","_id":{"$wrap":"$oid","v":2}}
+{"k":"0000000078","o":"0000000159","v":"001"}
+{"_id":3,"_uid":3,"_dt":1510146326681,"_s":"2481b01096826f43ef2e510014a4b6bc"}
+{"username":"Krix","password":"sha1$080daf42$1$8f9a814a4e92feb9b1c26d8350129b04511641e3","email":"krischanschupp@googlemail.com","_id":{"$wrap":"$oid","v":3}}
+{

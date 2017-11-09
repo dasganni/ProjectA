@@ -24,8 +24,7 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
-
-
+    
     <!-- SEO meta-tags
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <meta name="description" content="">
@@ -77,7 +76,7 @@
           <div class="close-modal">&#10006;</div>
         </div>
         <div class="modal-body">
-		
+		<h2>Login</h2>
 	<form action="/logInPost" method="post">
             <input type="text" name="username" placeholder="Username">
             <input type="password" name="password" placeholder="Passwort">
@@ -98,14 +97,9 @@
           <div class="close-modal">&#10006;</div>
         </div>
         <div class="modal-body">
-          <ul>
-              <% for(var i = 0; i < error.length; i++) { %>
-                  <li><%- error[i]%></li>
-              <% } %>
-          </ul>
-          <br>
 
-
+          <h2>Registration</h2>
+          <p>Maybe you can take the same Login like Paypal.</p>
           <form action="/signUpPost" method="post">
             <input type="text" name="username" placeholder="Name">
             <input type="email" name="email" placeholder="E-Mail">
@@ -113,7 +107,12 @@
             <span class="password">
               Bitte folgende Password Policy beachten: <br> 1. Mindestens 8 Zeichen und Maximal 100 Zeichen <br> 2. Groß- und Kleinbuchstaben <br> 3. Mindestens eine Zahl <br> 4. Mindestens eine Sonderzeichen <br> 5. Keine Leerzeichen
             </span>
-            <input type="password" name="confirmPassword" placeholder="Passwort Wiederholen">	    
+            <input type="password" name="confirmPassword" placeholder="Passwort Wiederholen">	 
+            <ul>
+              <% for(var i = 0; i < error.length; i++) { %>
+                  <li><%- error[i]%></li>
+              <% } %>
+          </ul>
             <button type="submit" class="button button-primary">Registration</button>
 
           </form>

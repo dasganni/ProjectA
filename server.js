@@ -216,6 +216,7 @@ app.get('/impressum', (request, response) => {
     response.render( 'impressum');
 });
 
+
 // verweis auf Game 
 app.get('/game', (request, response) => {
     username = request.session.username;
