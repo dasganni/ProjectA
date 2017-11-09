@@ -111,8 +111,9 @@
 
     socket.emit('gameConnect', {'roomcode': roomcode, 'username':username, 'gravURL':gravURL});
 
-    socket.on('connectedToRoom', function(){
-      console.log('Du bist mit dem Raum ' + roomcode + ' verbunden');
+    socket.on('connectedToRoom', function(data){
+      room= data.room
+      console.log('Du bist mit dem Raum ' + room.roomcode + ' verbunden. Insgesamt sind verbunden: ' + room.users.length);
     }); 
   
   

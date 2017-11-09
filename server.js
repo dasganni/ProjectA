@@ -43,9 +43,15 @@ const gravatar = require('gravatar');
 
 
 //socket.io initialisieren
-
 const http = require('http').Server(app);
-const io = require('socket.io')(http);
+const socketScript = require(__dirname + '/socketIO.js');
+socketScript.initializeSocket(http);
+createdRooms=[];
+
+//Playerklasse einbinden
+
+const Player = require(__dirname + '/player.js');
+//let player = new Player('name');
 
 //Randomstring init
 
@@ -182,8 +188,25 @@ app.post('/logInPost', (request, response) => {
 
 app.post('/joinGame', (request, response) => {
     roomcode = request.body.roomcode;   
-    request.session.roomcode = roomcode; 
-    console.log(request.session.username + " joins the Room " + request.session.roomcode)
+
+    // Look for the requested room
+    for (let i = 0; i < createdRooms.length; i++) {
+        if (createdRooms[i].roomcode === roomcode) {
+            request.session.roomcode = roomcode;
+            console.log("Requested lobby was found.");
+            console.log(request.session.username + " joins the Room " + request.session.roomcode)
+            break;
+        }
+    }
+
+    // If the room was found
+    if (request.session.roomcode) {
+        response.redirect("/game");
+    }
+    else {
+        console.log("Requested lobby was not found");        
+        response.redirect("/");
+    }
     
     response.redirect('/game');
 });
@@ -192,7 +215,12 @@ app.post('/createGame', (request, response) => {
     roomcode = randomstring.generate({
         length: 5,
         charset: 'alphanumeric'
-      });
+    });
+    room = {
+        'roomcode': roomcode,
+        'users': []
+    };
+    createdRooms.push(room);
     request.session.roomcode = roomcode;
     console.log(request.session.username + " created the Room " + request.session.roomcode)
       
@@ -219,162 +247,9 @@ app.get('/impressum', (request, response) => {
 // verweis auf Game 
 app.get('/game', (request, response) => {
     username = request.session.username;
-    roomcode = request.session.roomcode;
-    gravURL = request.session.gravURL;
-    response.render( 'game', {'username': username, 'roomcode': roomcode, 'gravURL': gravURL});
+    gravURL = request.session.gravURL;    
+    response.render( 'game', {'username': username, 'roomcode': request.session.roomcode, 'gravURL': gravURL});
 });
-
-/*
-
-//Klasse Player
-
-var Player = (function () {
-    function Player(name) {
-        this.lives = 3;
-        this.ammo = 1;
-        this.attack = 0;
-        this.__defend = false;
-        this.name = name;
-    }
-    Player.prototype.shootPistol = function () {
-        this.attack = 1;
-        this.ammo -= 1;
-        this.__defend = false;
-    };
-    Player.prototype.shootRifle = function () {
-        this.attack = 2;
-        this.ammo -= 3;
-        this.__defend = false;
-    };
-    Player.prototype.shootShotgun = function () {
-        this.attack = 3;
-        this.ammo -= 5;
-        this.__defend = false;
-    };
-    Player.prototype.reload = function () {
-        this.ammo += 1;
-        this.attack = 0;
-        this.__defend = false;
-    };
-    Player.prototype.defend = function () {
-        this.__defend = true;
-    };
-    Player.prototype.looseLife = function (x) {
-        this.lives -= x;
-    };
-    Player.prototype.getLives = function () {
-        return this.lives;
-    };
-    Player.prototype.getAttack = function () {
-        return this.attack;
-    };
-    Player.prototype.getAmmo = function () {
-        return this.ammo;
-    };
-    Player.prototype.getDefense = function () {
-        return this.__defend;
-    };
-    Player.prototype.getName = function () {
-        return this.name;
-    };
-}
-*/
-
-
-//socket.io hört auf Ereignisse
-
-io.on('connection', function(socket){
-    
-        //log logged in username
-    
-        socket.on('gameConnect', function(data){
-            socket.roomcode = data.roomcode;
-            socket.username = data.username;
-            socket.gravURL = data.gravURL;
-            socket.join(socket.roomcode);
-            console.log(socket.username + " connected to the Room " + socket.roomcode);
-            io.in(socket.roomcode).emit('connectedToRoom');
-
-        });  
-
-/*        
-        //Spiellogik - Ingame
-    
-        socket.on('lobbyConnect', function(socketSessionID){
-            socket.sessionID = socketSessionID;
-            let players = [];
-
-            socket.on('ingameUser', function(ingameUsername){
-                socket.ingameUsername = ingameUsername;
-                console.log(socket.ingameUsername + ' connected to LobbyID: ' + socket.sessionID);  
-                let ingameUsername = new Player(ingameUsername); 
-                players.push(ingameUsername);
-            });
-
-
-            while(players[0].getLives() > 0 && players[1].getLives() > 0) { //Schleife für Spielverlauf
-
-                
-                socket.broadcast.emit('playerStats', {
-                    player1Lives: players[0].lives,
-                    player1Ammo: players[0].ammo,
-                    player1Name: players[0].name,
-                    player2Lives: players[1].lives,
-                    player2Ammo: players[1].ammo,
-                    player2Name: players[1].name
-
-                });
-
-
-                socket.on('gameRound', function(userAction){ //Übergabe von Aktionen der Spieler von Clients (Mehrere in Variablen in einer userAction)
-                    socket.action = userAction.action;
-                    socket.attackType = userAction.attackType;
-                    socket.actionUsername = userAction.actionUsername;
-                });
-
-                //Auswertung der Übergaben von Clients (Berechnung Schaden und Spielverlauf)
-
-                if (players[0].getAttack()>players[1].getAttack() && !players[1].getDefense()){
-                    players[1].looseLife((players[0].getAttack()-players[1].getAttack()));
-                }
-    
-                else if (players[1].getAttack()>players[0].getAttack() && !players[0].getDefense()){
-                    players[0].looseLife((players[1].getAttack()-players[0].getAttack()));
-                }
-    
-                else {
-                    socket.broadcast.emit('textMessage', "Nichts passiert.");
-                }
-                System.out.println(player1.getLives() + "  " + player2.getLives());
-            
-            
-            
-            }
-
-            //Spielerleben fallen auf Null
-            
-            if (player[0].getLives()==0){
-                 socket.broadcast.emit('textMessage', "Spieler 2 gewinnt!");
-                 socket.broadcast.emit('backToDashboard'); //Schicke den User zurück zum Dashboard
-            }
-            else{
-                socket.broadcast.emit('textMessage', "Spieler 1 gewinnt!");
-                socket.broadcast.emit('backToDashboard');                
-            }
-
-
-        });
-
-*/
-        //Der User hat sich disconnected
-    
-        socket.on('disconnect', function(){
-            console.log(socket.username + ' disconnected');
-        });
-    
-
-      });
-
 
 /*
 
