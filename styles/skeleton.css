@@ -26,6 +26,9 @@
 - Eigene Änderungen
 */
 
+body {
+  background-color:#333333;
+}
 
 /* Grid
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -55,10 +58,10 @@
     width: 80%; }
   .column,
   .columns {
-    margin-left: 4%; }
+    margin-left: 1%; }
   .column:first-child,
   .columns:first-child {
-    margin-left: 0; }
+    margin-left: 0%; }
 
   .one.column,
   .one.columns                    { width: 4.66666666667%; }
@@ -126,7 +129,8 @@ body {
   line-height: 1.6;
   font-weight: 400;
   font-family:"open sans", "Raleway", "HelveticaNeue", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  color: #222; }
+  color: #fff; }
+
 
 
 /* Typography
@@ -163,6 +167,14 @@ p {
 
 .align-center {
   text-align: center;
+}
+
+.dark {
+  color: #222;
+}
+
+.light {
+  color: #fff;
 }
 
 /* Links
@@ -216,11 +228,13 @@ button.button-primary,
 input[type="submit"].button-primary,
 input[type="reset"].button-primary,
 input[type="button"].button-primary {
-  color: black;
+  color: white;
   background-color: transparent;
-  border-color: black;
+  border-color: white;
   min-width:130px;
-  text-align: center; }
+  text-align: center;
+  z-index: 2;
+  position: relative; }
 .button.button-primary:hover,
 button.button-primary:hover,
 input[type="submit"].button-primary:hover,
@@ -232,8 +246,8 @@ input[type="submit"].button-primary:focus,
 input[type="reset"].button-primary:focus,
 input[type="button"].button-primary:focus {
   color: white;
-  background-color: black;
-  border-color: black; 
+  background-color: white;
+  border-color: white; 
 }
 
 
@@ -479,31 +493,6 @@ hr {
 }
 
 
-/* .modal-box ul:before {
-	content:"!!!!";
-	opacity: 0;
-	animation: cursor 2s infinite;
-}
-
-@keyframes cursor {
-	0% {
-		opacity: 0;
-	}
-	40% {
-		opacity: 0;
-	}
-	50% {
-		opacity: 1;
-	}
-	90% {
-		opacity: 1;
-	}
-	100% {
-		opacity: 0;
-	}
-} */
-
-
 
 
 .modal-header {
@@ -524,9 +513,14 @@ hr {
 }
 
 .row.height_100 {
-  min-height: 100vh;
+  min-height: calc(100vh - 50px);
+  text-align: center;
+  margin: 25px;
 }
+.dark_B {
 
+border: 2px #330A2A solid;
+}
 .row.height_100 div {
   text-align: center;
 }
@@ -556,18 +550,16 @@ p {
 }
 
 .p1 {
-  color: black;
   margin-bottom: 10px;
   font-weight: 100;
 }
 
 .p2 {
-  color: black;
   line-height: 45px;
   height: 110px;
   font-size: 60px;
   margin-bottom: 0;
-  font-family: 'Permanent Marker', cursive;
+  font-family: 'open sans', sans-serif;
   font-weight: 800;
 }
 
@@ -578,7 +570,7 @@ p {
 }
 
 h1, h2, h3, .p2 {
-  font-family: 'Permanent Marker', cursive;
+  font-family: 'open sans', sans-serif;
   letter-spacing: 0.9px;
 }
 
@@ -849,13 +841,8 @@ span.password:after {
 }
 
 
-/* Pie-Chart */
 
-.containergraph {
-  height:200px;
-  width:200px;
-  margin:0 auto;
-}
+
 /*
 =================
 Circle Graph using (https://github.com/rendro/easy-pie-chart)
@@ -893,26 +880,14 @@ canvas {
   float: left;
 }
 
-/* TablleSCore */
+
+.containergraph {
+  height:200px;
+  width:200px;
+  margin:0 auto;
+}
 
 
-  div.tableScore {
-    display: table;
-    width: calc(100% - 10px);
-    border: 1px solid transparent;
-    padding: 5px;
-  }
-  div.spalteScore { 
-    display: table-cell;
-    border: thin solid transparent;
-    padding: 5px;
-    text-align: left !important;
-  }
-
-  .Score_list {
-    max-Width:400px;
-    margin:0 auto;
-  }
 
 
 /* Radio disable enable */

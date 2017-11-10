@@ -11,7 +11,7 @@
     <!-- FONT
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+
     <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="stylesheet" href="styles/normalize.css">
@@ -53,144 +53,115 @@
 <body>
 
 
-  <!-- Menu icon 
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="menu-icon-shape">
-    <div id="menu-icon">
-      <div id="top"></div>
-      <div id="middle"></div>
-      <div id="bottom"></div>
-    </div>
+<div id="menu-icon-shape">
+  <div id="menu-icon">
+    <div id="top"></div>
+    <div id="middle"></div>
+    <div id="bottom"></div>
   </div>
-  
-  <!-- Dark overlay menu 
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <nav id="overlay-nav">
-    <div id="nav-content">
-      <ul>
-        <li><a href="/createlobby">Spielen</a></li>
-        <li><a href="#">Kontakt</a></li>
-        <li><a href="#">Impressum</a></li>
-        <% if (authenticated = true) { %> 
-        <li> 
+</div>
+
+<!-- Dark overlay menu  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<nav id="overlay-nav">
+  <div id="nav-content">
+    <ul>
+      <li>
+        <a href="/createlobby">Spielen</a>
+      </li>
+      <li>
+        <a href="#">Kontakt</a>
+      </li>
+      <li>
+        <a href="#">Impressum</a>
+      </li>
+      <%if (authenticated = true) { %>
+        <li>
           <form action="/logout" method="/post">
-            <button type="submit" class="button button-primary">Logout</button>
+            <button class="button button-primary" type="submit">Logout</button>
           </form>
-        </li> <% } %>
-      </ul>
-    </div>
-  </nav>
-  
-
-
-  <!-- First content box 
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id=""  class="row" style="background-color:#fff;overflow: hidden;">
-    <h2>Dashboard</h2>
+        </li>
+        <%} %>
+    </ul>
   </div>
-  <div id="box1"  class="row height_100 padding_50" style="background-color:#fff;overflow: hidden;">
+</nav>
 
-      <script> 
-          let username = '<%= username %>';
-          let socketUserName = '<%= username %>';
-          socket.emit('dashboardUser', socketUserName); </script>
-  
-    <form action="/joinGame" method="post">
-      <input type="text" name="roomcode" placeholder="Enter Room Code">  
-      <button type="submit" class="button button-primary">Spiel beitreten</button>
-    </form>
-
-
-<script>
-  document.getElementById("checkBox").disabled=true;
-</script>
-    <form action="/createGame" method="post">
-      <input type="radio" name="notclick" value="notclick" checked> One vs. One<br>
-      <span  class="disabledinput"><input type="radio" disabled="disabled" id="checkBox" name="notclick" value="notclick" > All vs. All</span><br>
-      <span  class="disabledinput"><input type="radio" disabled="disabled" id="checkBox" name="notclick" value="notclick" > One vs. Pc</span><br>
-      <button type="submit" class="button button-primary">Spiel erstellen</button>
-    </form>
-
-    <img height="200px" width="200px" src="<%= gravURL %>" style="border-radius:50%;">
-
-    <h3> Guten Tag, <%= username %></h3>
-  
-  <button>Profil Bearbeiten?</button>
-
-  <div class="containergraph">
+<!-- First content box  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<div class="row" id="" style="overflow: hidden;">
+  <h2>Dashboard</h2>
+</div>
+<div class="row height_100 dark_B light" id="box1" style="overflow: hidden;">
+  <div class="nine columns dark_B">
+    <img height="200px" src="<%= gravURL %>" style="border-radius:50%;" width="200px">
+    <h3>Guten Tag,
+      <%= username %>
+    </h3>
+    <button>Profil Bearbeiten?</button>
+    <div class="containergraph">
       <section class="graph-one">
         <div class="circle-graph-container">
           <div class="circle-graph" data-percent="80">
-            <p>80%</p> <!-- Winrate in percent -->
+            <p>80%</p>
+            <!-- Winrate in percent -->
           </div>
         </div>
       </section>
+    </div>
   </div>
+  <div class="three columns">
+    <h1>
+      <span>Wanna Play?</span>Create</h1>
+    <div class="dark_B">
+      <script>
+        let username = '<%= username %>';
+        let socketUserName = '<%= username %>';
+        socket.emit('dashboardUser', socketUserName); 
+      </script>
 
-  <div>
-    <h4>Score <br>
-      <span class="Score_var">4300</span>
-    </h4>
-    <h4>Win/Lose <br>
-      <span class="Score_var">39/39</span>
-    </h4>
+      <form action="/joinGame" method="post">
+        <input name="roomcode" placeholder="Enter Room Code" type="text">
+        <button class="button button-primary" type="submit">Spiel beitreten</button>
+      </form>
+    </div>
+    <div class="dark_B">
+      <script>
+            document.getElementById("checkBox").disabled = true;
+      </script>
+      <form action="/createGame" method="post">
+        <input checked name="notclick" type="radio" value="notclick"> One vs. One
+        <br>
+        <span class="disabledinput">
+          <input disabled="disabled" id="checkBox" name="notclick" type="radio" value="notclick"> All vs. All</span>
+        <br>
+        <span class="disabledinput">
+          <input disabled="disabled" id="checkBox" name="notclick" type="radio" value="notclick"> One vs. Pc</span>
+        <br>
+        <button class="button button-primary" type="submit">Spiel erstellen</button>
+      </form>
+    </div>
   </div>
-
-  <div  class="row" style="background-color: #7AFFD2; left:-15px;width:calc( 100% + 30px);position:relative;">
-   
-  <div class="Score_list">
-    
-          <h4>Top 10:</h4>
-                <div class="tableScore">
-                    <div class="spalteScore">Spielername1 
-                      <img style="margin: 0px 0 0px 5px;position: absolute;height: 20px;border-radius:50%;"  src="//www.gravatar.com/avatar/24b93e12e3s2ec20374e17963ef0c9e1?s=200&r=pg&d=monsterid">
-                    </div>
-                    <div class="spalteScore">493</div>
-                </div>
-                <div class="tableScore">
-                    <div class="spalteScore">Spielername2 
-                        <img style="margin: 0px 0 0px 5px;position: absolute;height: 20px;border-radius:50%;"  src="//www.gravatar.com/avatar/24b93e12e332ec200d4e17963ef0c9e1?s=200&r=pg&d=monsterid">
-                      </div>
-                    <div class="spalteScore">239</div>
-                </div>
-            </div>
-    
-      </div>
-    
+  <div class="eight columns dark_B">
+    <h2>News</h2>
   </div>
-
-
-  <div  class="row" style="text-align:center;">
-    
-  
-           <h4>Update-News:</h4>
-           <p><strong>1.00.2b</strong> problem is that pointer-events:none only works for inputs where the value is changed as a result of the "pointer event". 
-     Inputs like checkboxes and radio buttons change their state, not their value, when interacted with</p>
-           <ul>
-            <li>css verbesserungen</li>
-            <li>Scoring wurde verbessert</li>
-            <li>All vs. All wurde freigeschaltet</li>
-            <li>Bugfixes</li>
-            <li>new Weapons  [...] </li>
-          </ul>
-
-          <button type="submit" class="button button-primary">Read more</button>
-          
-     
-       </div>
-     
-   </div>
-
-
-  
-  <!-- Footer
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="footer"  class="row" style="background-color: white;">
-    <p>&#169; 2017 by <strong>After Work</strong></p> <a href="/impressum">impressum</a>
+  <div class="four columns dark_B">
+    <div>
+      <h4>Score
+        <br>
+        <span class="Score_var">4300</span>
+      </h4>
+      <h4>Win/Lose
+        <br>
+        <span class="Score_var">39/39</span>
+      </h4>
+    </div>
   </div>
-
-
-
+</div>
+<!-- Footer  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+<div class="row" id="footer">
+  <p>&#169; 2017 by
+    <strong>After Work</strong>
+  </p>
+  <a href="/impressum">impressum</a>
+</div>
 
 
   <!-- JS
@@ -202,4 +173,3 @@
 </body>
 
 </html>
-test

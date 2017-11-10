@@ -252,6 +252,9 @@ app.get('/game', (request, response) => {
     response.render( 'game', {'username': username, 'roomcode': request.session.roomcode, 'gravURL': gravURL});
 });
 
+
+
+
 /*
 
 // Handle 404 - Keep this as a last route
