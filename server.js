@@ -253,7 +253,6 @@ app.post('/createGame', (request, response) => {
 app.get('/logout', (request, response) => {
     delete request.session.authenticated;
     delete request.session.username;
-    delete request.session.roomcode;
     // Wenn Error nicht = Null gab es eine Fehlermeldung beim Logout
     error = null;
     response.redirect('/');
@@ -272,10 +271,11 @@ app.get('/game', (request, response) => {
         username = request.session.username;
         gravURL = request.session.gravURL;    
         response.render( 'game', {'username': username, 'roomcode': request.session.roomcode, 'gravURL': gravURL});
+        delete request.session.roomcode;
     } else {
         response.redirect("/");
     }
-});
+});    
 
 /*
 
