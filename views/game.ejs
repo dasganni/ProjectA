@@ -24,7 +24,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
     <script src="/socket.io/socket.io.js"></script>    
     <script> const socket = io(); </script>
-    
+    <script>
+        // Onbeforeload
+        window.onbeforeunload=function(){
+          return "Are you sure to leave this page?";
+        }
+    </script>
 
 
     <!-- SEO meta-tags
