@@ -96,6 +96,11 @@
           socket.emit('dashboardUser', socketUserName); </script>
   
     <form action="/joinGame" method="post">
+      <ul>
+        <% for(let i = 0; i < joinLobbyErrors.length; i++) { %>
+            <li><%- joinLobbyErrors[i]%></li>
+        <% } %>
+      </ul>
       <input type="text" name="roomcode" placeholder="Enter Room Code">  
       <button type="submit" class="button button-primary">Spiel beitreten</button>
     </form>
@@ -104,6 +109,7 @@
 <script>
   document.getElementById("checkBox").disabled=true;
 </script>
+
     <form action="/createGame" method="post">
       <input type="radio" name="notclick" value="notclick" checked> One vs. One<br>
       <span  class="disabledinput"><input type="radio" disabled="disabled" id="checkBox" name="notclick" value="notclick" > All vs. All</span><br>

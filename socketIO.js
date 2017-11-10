@@ -97,6 +97,34 @@ io.on('connection', function(socket){
         //Der User hat sich disconnected
     
         socket.on('disconnect', function(){
+
+            //Löschen der User aus dem Roomobjekt, wenn leer, Raum löschen
+
+            for (let i = 0; i < createdRooms.length; i++) {
+                for (let j = 0; j < createdRooms[i].users.length; j++) {
+                    if (createdRooms[i].users[j] === socket.username) {
+
+                        createdRooms[i].users.splice(j, 1);
+
+                        for (let k = 0; k < createdRooms[i].usersReady.length; k++) {
+                            if (createdRooms[i].usersReady[k] === socket.username) {
+                                
+                                createdRooms[i].usersReady.splice(k,1);
+                            }
+                        }
+                        
+                        if (createdRooms[i].users.length > 0) {
+                            io.to(createdRooms[i].roomcode).emit('refreshUserCount', createdRooms[i].users.length);
+                        }
+                        else {
+                            rooms.splice(i, 1);
+                            console.log('Room ' + createdRooms[i].roomcode + ' is empty now and has been deleted!')
+                        }
+                        break;          
+                    }
+                }
+            }
+
             console.log(socket.username + ' disconnected');
         });
     

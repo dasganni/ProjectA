@@ -6,6 +6,7 @@
 
 // Globale variablen 
 let errors = [];
+let joinLobbyErrors =[];
 
 
 //port
@@ -95,7 +96,8 @@ app.get('/', (request, response) => {
     if (request.session.authenticated) {
         response.render('dashboard', {
             'username': request.session.username,
-            'gravURL': request.session.gravURL
+            'gravURL': request.session.gravURL,
+            'joinLobbyErrors': joinLobbyErrors
         });
     } else {
         if (errors.length==0){
@@ -187,6 +189,7 @@ app.post('/logInPost', (request, response) => {
 });
 
 app.post('/joinGame', (request, response) => {
+    let roomIsFull = false;
     roomcode = request.body.roomcode;   
 
     // Look for the requested room
@@ -194,21 +197,35 @@ app.post('/joinGame', (request, response) => {
         if (createdRooms[i].roomcode === roomcode) {
             request.session.roomcode = roomcode;
             console.log("Requested lobby was found.");
-            console.log(request.session.username + " joins the Room " + request.session.roomcode)
+            console.log(request.session.username + " tries to join the Room " + request.session.roomcode);
+            if(createdRooms[i].users.length === createdRooms[i].userLimit){
+                roomIsFull = createdRooms[i].roomFull;
+            }
+            else if(createdRooms[i].users.length === createdRooms[i].userLimit-1){
+                createdRooms[i].roomFull=true;
+            }
             break;
         }
     }
 
     // If the room was found
     if (request.session.roomcode) {
+            
+        if(roomIsFull){
+            console.log("Requested lobby " + request.session.roomcode + " has reached the Userlimit");
+            joinLobbyErrors=[];
+            joinLobbyErrors.push("Requested Lobby " + request.session.roomcode + " is Full");
+            response.redirect('/');
+            
+        } else{        
         response.redirect("/game");
+        }
     }
     else {
-        console.log("Requested lobby was not found");        
+        joinLobbyErrors=[];
+        joinLobbyErrors.push("Requested Lobby " + request.session.roomcode + " does not exist");
         response.redirect("/");
     }
-    
-    response.redirect('/game');
 });
 
 app.post('/createGame', (request, response) => {
@@ -218,7 +235,10 @@ app.post('/createGame', (request, response) => {
     });
     room = {
         'roomcode': roomcode,
-        'users': []
+        'users': [],
+        'usersReady': [],
+        'userLimit': 2,
+        'roomFull': false
     };
     createdRooms.push(room);
     request.session.roomcode = roomcode;
@@ -247,9 +267,13 @@ app.get('/impressum', (request, response) => {
 
 // verweis auf Game 
 app.get('/game', (request, response) => {
-    username = request.session.username;
-    gravURL = request.session.gravURL;    
-    response.render( 'game', {'username': username, 'roomcode': request.session.roomcode, 'gravURL': gravURL});
+    if (request.session.authenticated) {        
+        username = request.session.username;
+        gravURL = request.session.gravURL;    
+        response.render( 'game', {'username': username, 'roomcode': request.session.roomcode, 'gravURL': gravURL});
+    } else {
+        response.redirect("/");
+    }
 });
 
 /*
