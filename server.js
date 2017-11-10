@@ -215,6 +215,7 @@ app.post('/joinGame', (request, response) => {
             console.log("Requested lobby " + request.session.roomcode + " has reached the Userlimit");
             joinLobbyErrors=[];
             joinLobbyErrors.push("Requested Lobby " + request.session.roomcode + " is Full");
+            delete request.session.roomcode;
             response.redirect('/');
             
         } else{        
@@ -223,7 +224,7 @@ app.post('/joinGame', (request, response) => {
     }
     else {
         joinLobbyErrors=[];
-        joinLobbyErrors.push("Requested Lobby " + request.session.roomcode + " does not exist");
+        joinLobbyErrors.push("Requested Lobby " + roomcode + " does not exist");
         response.redirect("/");
     }
 });
