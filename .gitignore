@@ -36,9 +36,6 @@ build/Release
 node_modules/
 jspm_packages/
 
-#Tingodb Database
-tingodb/users
-
 # Typescript v1 declaration files
 typings/
 
@@ -60,4 +57,5 @@ typings/
 # dotenv environment variables file
 .env
 
+#Tingodb Database
 tingodb/users
