@@ -11,17 +11,23 @@ io.on('connection', function(socket){
             socket.roomcode = data.roomcode;
             socket.username = data.username;
             socket.gravURL = data.gravURL;
-            socket.join(room.roomcode);
                // Look for the requested room
-            for (let i = 0; i < createdRooms.length; i++) {
-                if (createdRooms[i].roomcode === socket.roomcode) {
-                    createdRooms[i].users.push(socket.username);
-                    room= createdRooms[i];                
-                    break;
+            for (let i = 0; i <= createdRooms.length; i++) {
+                if(createdRooms.length>0){
+                    if (createdRooms[i].roomcode === socket.roomcode) {
+                        createdRooms[i].users.push(socket.username);
+                        room= createdRooms[i];
+                        socket.join(room.roomcode); 
+                        console.log(socket.username + " connected to the Room " + room.roomcode);
+                        io.in(room.roomcode).emit('connectedToRoom', {room: room});                   
+                        break;
+                    } else{
+                        socket.emit('backToLobby');             
+                    }
+                } else{
+                    socket.emit('backToLobby');                   
                 }
             }
-            console.log(socket.username + " connected to the Room " + room.roomcode);
-            io.in(room.roomcode).emit('connectedToRoom', {room: room});
 
         });  
 
@@ -97,7 +103,36 @@ io.on('connection', function(socket){
         //Der User hat sich disconnected
     
         socket.on('disconnect', function(){
-            console.log(socket.username + ' disconnected');
+
+            //Löschen der User aus dem Roomobjekt, wenn leer, Raum löschen
+
+                for (let i = 0; i < createdRooms.length; i++) {
+                    for (let j = 0; j < createdRooms[i].users.length; j++) {
+                        if (createdRooms[i].users[j] === socket.username) {
+
+                            createdRooms[i].users.splice(j, 1);
+
+                            for (let k = 0; k < createdRooms[i].usersReady.length; k++) {
+                                if (createdRooms[i].usersReady[k] === socket.username) {
+                                    
+                                    createdRooms[i].usersReady.splice(k,1);
+                                }
+                            }
+                            
+                            if (createdRooms[i].users.length > 0) {
+                                io.to(createdRooms[i].roomcode).emit('refreshUserCount', createdRooms[i].users.length);
+                            }
+                            else {
+                                console.log('Room ' + createdRooms[i].roomcode + ' is empty now and has been deleted!');
+                                createdRooms.splice(i, 1);                            
+                            }
+                            break;          
+                        }
+                    }
+                }
+
+                console.log(socket.username + ' disconnected from Room');
+        
         });
     
 

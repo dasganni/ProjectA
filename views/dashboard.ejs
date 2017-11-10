@@ -111,16 +111,23 @@
     <h1>
       <span>Wanna Play?</span>Create</h1>
     <div class="dark_B">
-      <script>
+      <script> 
         let username = '<%= username %>';
         let socketUserName = '<%= username %>';
-        socket.emit('dashboardUser', socketUserName); 
-      </script>
-
+        socket.emit('dashboardUser', socketUserName); </script>
+      
       <form action="/joinGame" method="post">
-        <input name="roomcode" placeholder="Enter Room Code" type="text">
-        <button class="button button-primary" type="submit">Spiel beitreten</button>
+        <ul>
+          <% for(let i = 0; i < joinLobbyErrors.length; i++) { %>
+            <li>
+              <%- joinLobbyErrors[i]%>
+            </li>
+            <% } %>
+        </ul>
+        <input type="text" name="roomcode" placeholder="Enter Room Code">
+        <button type="submit" class="button button-primary">Spiel beitreten</button>
       </form>
+
     </div>
     <div class="dark_B">
       <script>
