@@ -2,7 +2,7 @@
 <html>
   <head>
 
-    <title>Dummy Page</title>
+    <title>Schützen, Schießen, Nachladen</title>
  
     <!-- Mobile Specific Metas
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -22,12 +22,12 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
-    <script src="/socket.io/socket.io.js"></script>    
+    <script src="/socket.io/socket.io.js"></script>
     <script> const socket = io(); </script>
     <script>
         // Onbeforeload
         window.onbeforeunload=function(){
-          return "Are you sure to leave this page?";
+          return "Are you sure to leave this page? If you are alone in this lobby, this lobby will be deleted!";
         }
     </script>
 
@@ -110,30 +110,15 @@
       <button style="opacity:0.2;">Weapon 2</button>  
       <button style="opacity:0.2;">Weapon 3</button>
   </div>
-  <script> 
-    roomcode= '<%= roomcode%>';
-    username= '<%= username %>';
-    gravURL= '<%= gravURL %>';
-
-    socket.emit('gameConnect', {'roomcode': roomcode, 'username':username, 'gravURL':gravURL});
-
-    socket.on('connectedToRoom', function(data){
-      room= data.room
-      console.log('Du bist mit dem Raum ' + room.roomcode + ' verbunden. Insgesamt sind verbunden: ' + room.users.length);
-    }); 
-
-    socket.on('backToLobby', function(){
-     window.location.href ='/';
-    }); 
-  
-  
-  </script>
-
 
 
   </div>
 
-
+  <script>
+    roomcode= '<%= roomcode%>';
+    username= '<%= username %>';
+    gravURL= '<%= gravURL %>';
+  </script>
 
   
   <!-- Footer
@@ -150,6 +135,9 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="text/javascript" src="styles/rellax.js"></script>
   <script type="text/javascript" src="styles/menu_scroll_type_modal.js"></script>
+  <script type="text/javascript" src="game.js"></script>    
+  
+  
 
 
 </body>

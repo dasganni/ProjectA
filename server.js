@@ -87,6 +87,8 @@ http.listen(port, function() {
 // verweis auf Styles
 app.use("/styles", express.static(__dirname + '/styles'));
 
+//verweis auf js
+app.use(express.static(__dirname + "/views/js"));
 
 
 
