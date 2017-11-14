@@ -1,7 +1,19 @@
 exports.initializeSocket = function(http){
 const io = require('socket.io')(http);
 
-
+updateRoomInCreatedRooms = function(updatedRoom){
+    for (let i = 0; i <= createdRooms.length; i++) {
+        if(createdRooms.length>0){
+            if (createdRooms[i].roomcode === updatedRoom.roomcode) {
+                createdRooms[i]= updatedRoom;
+            } else{
+                socket.emit('backToLobby');             
+            }
+        } else{
+            socket.emit('backToLobby');                   
+        }
+    }
+}
 
 io.on('connection', function(socket){
     
@@ -16,10 +28,11 @@ io.on('connection', function(socket){
                 if(createdRooms.length>0){
                     if (createdRooms[i].roomcode === socket.roomcode) {
                         createdRooms[i].users.push(socket.username);
-                        room= createdRooms[i];
-                        socket.join(room.roomcode); 
-                        console.log(socket.username + " connected to the Room " + room.roomcode);
-                        io.in(room.roomcode).emit('connectedToRoom', {room: room});                   
+                        socket.room= createdRooms[i];
+                        socket.join(socket.room.roomcode); 
+                        console.log(socket.username + " connected to the Room " + socket.room.roomcode);
+                        io.in(socket.room.roomcode).emit('connectedToRoom', {room: socket.room});  
+                        io.in(socket.room.roomcode).emit('updateUsers', {room: socket.room});                   
                         break;
                     } else{
                         socket.emit('backToLobby');             
@@ -29,12 +42,117 @@ io.on('connection', function(socket){
                 }
             }
 
+            let player = new Player('socket.username');
+            socket.room.playerObjects.push(player);
+            updateRoomInCreatedRooms(socket.room);
+            
+
         });  
 
-/*        
+        //check the ready users
+
+        socket.on('readyClicked', function(readyUser){
+            readyUsername = readyUser.username;
+            socket.room.usersReady.push(readyUsername);
+            updateRoomInCreatedRooms(socket.room);
+            console.log(readyUsername + ' is ready');
+            
+
+            if(socket.room.usersReady.length===socket.room.users.length && socket.room.users.length >= socket.room.minUsers){
+                io.in(socket.room.roomcode).emit('startGame');               
+            }
+
+        });
+
+        //game started
+
+        socket.on('gameStarted', function(){
+            gameNotFinished=true;
+            
+            while(gameStartedBoolean) { //Schleife für Spielverlauf
+
+                updateRoomInCreatedRooms(socket.room);
+                     
+                //send playerobjects to the clients every round
+                io.in(socket.room.roomcode).emit('playerStats', {
+                    players: socket.room.playerObjects                
+                });
+
+
+                socket.on('setPlayerAction', function(userAction){                  //Übergabe von Aktionen der Spieler von Clients (Mehrere in Variablen in einer userAction)
+
+                    for(i=0; i < socket.room.playerObjects.length; i++){
+                        if(socket.room.playerObjects[i].name===userAction.actionUsername){
+                            
+                            if (userAction.action == 0){                            //action shoot
+                            
+                                if (userAction.attackType == 0){                    //shoot shotgun when shooting
+                                    socket.room.playerObjects[i].shootShotgun();
+                                }
+                                else if (userAction.attackType==1){                 //shoot rifle when shooting
+                                    socket.room.playerObjects[i].shootRifle();
+                                }
+                                else{                                               //shoot pistol when shooting
+                                    socket.room.playerObjects[i].shootPistol();
+                                }
+                            } else if(userAction.action ==1){                       //action reload
+                                socket.room.playerObjects[i].reload();
+                            }
+                            else{                                                   //action defend
+                                socket.room.playerObjects[i].defend();
+                            }
+                        }
+
+
+                    }
+                });
+
+                //Auswertung der Übergaben von Clients (Berechnung Schaden und Spielverlauf)
+
+                if (socket.room.playerObjects[0].getAttack()>socket.room.playerObjects[1].getAttack() && !socket.room.playerObjects[1].getDefense()){
+                    socket.room.playerObjects[1].looseLife((socket.room.playerObjects[0].getAttack()-socket.room.playerObjects[1].getAttack()));
+                }
+    
+                else if (socket.room.playerObjects[1].getAttack()>socket.room.playerObjects[0].getAttack() && !socket.room.playerObjects[0].getDefense()){
+                    socket.room.playerObjects[0].looseLife((socket.room.playerObjects[1].getAttack()-socket.room.playerObjects[0].getAttack()));
+                }
+    
+                else {
+                    socket.broadcast.emit('textMessage', "Nichts passiert.");
+                }
+                console.log(socket.room.playerObjects[0].getLives() + "  " + socket.room.playerObjects[1].getLives());
+
+                //Check if Players died this round
+                
+                for(i=0; i < socket.room.playerObjects.length; i++){
+                    if (socket.room.playerObjects[i].getLives()==0){
+                        socket.room.usersDead.push(socket.room.playerObjects[i].name);
+                        socket.rooms.playerObjects[i].setDead();
+                        console.log(socket.room.playerObjects[i].name + ' died!');                                        
+                    }
+                }
+
+                if(socket.room.playersDead.length - socket.rooms.playerObjects.length===1){
+                    for(i=0; i < socket.room.playerObjects.length; i++){
+                        if (socket.room.playerObjects[i].getLives()>0){
+                            let winner;
+                            winner=socket.rooms.playerObjects[i]; 
+                            console.log(winner.name + ' hat gewonnen!!!');
+                            gameNotFinished=false;
+                        }
+                                                            
+                        
+                    }
+                }
+            
+            }                
+            socket.broadcast.emit('backToLobby');
+        });
+
+        
         //Spiellogik - Ingame
     
-        socket.on('lobbyConnect', function(socketSessionID){
+        /*socket.on('lobbyConnect', function(socketSessionID){
             socket.sessionID = socketSessionID;
             let players = [];
 
@@ -97,9 +215,8 @@ io.on('connection', function(socket){
             }
 
 
-        });
+        });*/
 
-*/
         //Der User hat sich disconnected
     
         socket.on('disconnect', function(){

@@ -7,6 +7,7 @@ exports.Player = class {
         this.attack = 0;
         this.__defend = false;
         this.name = name;
+        this.alive = true;
     }
     shootPistol() {
         this.attack = 1;
@@ -48,5 +49,8 @@ exports.Player = class {
     };
     getName () {
         return this.name;
+    };
+    setDead () {
+        this.alive=false;
     };
 }
