@@ -123,18 +123,30 @@ socket.on('backToLobby', function(){
 
 deactivateNotAllowedActionButtons = function(playerObject){
 
-  //deactivate all attacktype buttons first
+  pistolButton.disabled=true;
+  shotgunButton.disabled=true;
+  rifleButton.disabled=true;
 
   //activate specific buttons
 
   if(playerObject.getAmmo()>=5){
     //activate all weapons
+    pistolButton.disabled=false;
+    shotgunButton.disabled=false;
+    rifleButton.disabled=false;
 
   } else if(playerObject.getAmmo()<5 && playerObject.getAmmo()>=3){
     //activate rifle and pistol button
+    pistolButton.disabled=false;
+    shotgunButton.disabled=true;
+    rifleButton.disabled=false;
 
   } else if(playerObject.getAmmo()>0 && playerObject.getAmmo()<3){
     //activate only pistol button
+    pistolButton.disabled=false;
+    shotgunButton.disabled=true;
+    rifleButton.disabled=true;
+    
   }
   
 }
