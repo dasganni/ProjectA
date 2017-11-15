@@ -13,6 +13,8 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet"
     type="text/css">
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
 
   <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -42,6 +44,9 @@
         animate: 2500
       });
     });
+
+
+
   </script>
 
 
@@ -56,7 +61,6 @@
 </head>
 
 <body>
-
 
 
 
@@ -87,7 +91,7 @@
 
     <!-- Top row   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <div class="row" style="position:relative;">
-      <h2>Dashboard</h2>
+      <h2>Name</h2>
 
       <div id="menu-icon-shape">
         <div id="menu-icon">
@@ -197,7 +201,8 @@
               document.getElementById("checkBox").disabled = true;
             </script>
             <form action="/createGame" method="post">
-              <button class="button button-primary button_float_right" type="submit">Spiel erstellen</button>
+              <button class="button button-primary button_float_right" type="submit">
+                <span class="fa Example of pencil-square-o fa-pencil-square-o"></span>Create</button>
               <input checked name="notclick" type="radio" value="notclick"> One vs. One
               <br>
               <span class="disabledinput">
@@ -232,7 +237,8 @@
                 </ul>
                 <% } %>
                   <form action="/createGame" method="post">
-                    <button class="button button-primary button_float_right" type="submit">Spiel suchen</button>
+                    <button class="button button-primary button_float_right" type="submit">
+                      <span class="fa Example of pencil-square-o fa-search"></span>Search</button>
 
                     <input checked name="notclick" type="radio" value="notclick"> One vs. One
                     <br>

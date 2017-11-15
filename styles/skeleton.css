@@ -1,3 +1,4 @@
+
 /*
 * Skeleton V2.0.4
 * Copyright 2014, Dave Gamache
@@ -328,8 +329,8 @@ textarea,
 select {
   height: 38px;
   padding: 10px 15px; /* The 6px vertically centers text on FF, ignored by Webkit */
-  background-color: #7AFFD2;
-  border: 1px solid #7AFFD2;
+  background-color: #00FFB1;
+  border: 1px solid #00FFB1;
   border-radius: 25px;
   color: black;
   width: 90%;
@@ -1048,6 +1049,17 @@ box-shadow: 10px 9px 39px -3px rgba(0, 0, 0, 0.36);<h1 class="Headline">
   filter: alpha(opacity=100); /* For IE8 and earlier */
 }
 
+
+/* fontawesome */
+
+.fa {
+  width: auto;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  margin: 0 5px 0 0;
+  font-size: 15px !important;
+}
 
 /* Media Queries
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
