@@ -133,6 +133,11 @@ padding:50px 15px;}
 .padding_25 {
 padding:25px 0 25px 25px;}
 
+.margin_25 {
+  margin: 25px;
+}
+
+
 .padding_12 {
 padding: 12px;}
 
@@ -199,10 +204,9 @@ h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
 
 .window h2 {font-weight: 900;}
 
-
 p {
-  margin-top: 0; }
-
+  margin-top: 0;
+}
 
 .align-center {
   text-align: center;
@@ -565,12 +569,12 @@ hr {
 
 .modal-header {
   padding: 20px 40px;
-  background: #546E7A;
+  background: #333333;
   color: #ffffff;
 }
 
 .modal-body {
-  background: #ECEFF1;
+  background: #333333;
   padding: 30px 40px;
 }
 
@@ -1036,6 +1040,7 @@ box-shadow: 10px 9px 39px -3px rgba(0, 0, 0, 0.36);<h1 class="Headline">
 
 .disabledinput {
   opacity: 0.4;
+  text-decoration: line-through;
   filter: alpha(opacity=40); /* For IE8 and earlier */
 }
 .enabledinput {
