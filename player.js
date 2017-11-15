@@ -1,56 +1,59 @@
 //Klasse Player
 
-exports.Player = class {
-    constructor(name) {
-        this.lives = 3;
-        this.ammo = 1;
-        this.attack = 0;
-        this.__defend = false;
-        this.name = name;
-        this.alive = true;
-    }
-    shootPistol() {
+function Player(name) {
+    
+    this.lives = 3;
+    this.ammo = 1;
+    this.attack = 0;
+    this.__defend = false;
+    this.name = name;
+    this.alive = true;
+    
+    this.shootPistol = function() {
         this.attack = 1;
         this.ammo -= 1;
         this.__defend = false;
-    };
-    shootRifle () {
+    };    
+
+    this.shootRifle = function() {
         this.attack = 2;
         this.ammo -= 3;
         this.__defend = false;
     };
-    shootShotgun () {
+    this.shootShotgun = function() {
         this.attack = 3;
         this.ammo -= 5;
         this.__defend = false;
     };
-    reload () {
+    this.reload = function() {
         this.ammo += 1;
         this.attack = 0;
         this.__defend = false;
     };
-    defend () {
+    this.defend = function() {
         this.__defend = true;
     };
-    looseLife (x) {
+    this.looseLife = function(x) {
         this.lives -= x;
     };
-    getLives () {
+    this.getLives = function() {
         return this.lives;
     };
-    getAttack () {
+    this.getAttack = function() {
         return this.attack;
     };
-    getAmmo () {
+    this.getAmmo = function() {
         return this.ammo;
     };
-    getDefense () {
+    this.getDefense = function() {
         return this.__defend;
     };
-    getName () {
+    this.getName = function() {
         return this.name;
     };
-    setDead () {
+    this.setDead = function() {
         this.alive=false;
     };
 }
+
+module.exports = {Player: Player};

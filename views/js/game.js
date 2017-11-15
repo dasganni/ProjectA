@@ -1,11 +1,13 @@
 let shootButton = document.querySelector(".js-button-shoot");
 let pistolButton = document.querySelector(".js-button-pistol");
-let rifleButton = document.querySelector(".js-button-rifleButton");
+let rifleButton = document.querySelector(".js-button-rifle");
 let shotgunButton = document.querySelector(".js-button-shotgun");
 let reloadButton = document.querySelector(".js-button-reload");
 let protectButton = document.querySelector(".js-button-protect");
 let actionChosen = false;
 let attackTypeChosen = false;
+let yourselfPlayer;
+let enemies= [];
 
 
 
@@ -33,7 +35,18 @@ socket.on('connectedToRoom', function(data){
     });  
   });
 
-  socket.on('startGame', function(){
+  socket.on('startGame', function(data){
+
+    players= data.players;    
+
+    for(i=0; i < players.length; i++){
+      if(players[i].name===username){
+        yourselfPlayer=players[i];
+        console.log('You are ' + yourselfPlayer.name);
+      } else{
+        enemies.push(players[i]);
+      }
+    }
     
     socket.emit('gameStarted');
     console.log(room.roomcode + ' started');
@@ -42,70 +55,119 @@ socket.on('connectedToRoom', function(data){
 
     socket.on('playerStats', function(data){
       players= data.players;
+           
       for(i=0; i < players.length; i++){
         if(players[i].name===username){
           yourselfPlayer=players[i];
-          console.log('You are ' + yourselfPlayer.name);
         } else{
           let enemies = [];
-          enemies.push(player[i]);
+          enemies.push(players[i]);
         }
       }
     });
 
-    deactivateNotAllowedActionButtons(yourselfPlayer)
+    socket.on('nextRound', function(data){
+      players= data.players;
+      
+      console.log("Your Stats: Lifes: " + yourselfPlayer.lives 
+      + ", Ammo: " + yourselfPlayer.ammo
+      + ", Name: " + yourselfPlayer.name + "   ");
+  
+      for(i=0; i < enemies.length; i++){      
+  
+        console.log("Enemie Stats: Lifes: " + enemies[i].lives 
+        + ", Ammo: " + enemies[i].ammo
+        + ", Name: " + enemies[i].name + "   ");
+      }
 
-    console.log("Your Stats: Lifes: " + yourselfPlayer.lives 
-    + ", Ammo: " + yourselfPlayer.ammo
-    + ", Name: " + yourselfPlayer.name + "   ");
+      deactivateNotAllowedActionButtons(yourselfPlayer)
 
-    for(i=0; i < enemies.length; i++){      
-
-      console.log("Enemie Stats: Lifes: " + enemies[i].lives 
-      + ", Ammo: " + enemies[i].ammo
-      + ", Name: " + enemies[i].name + "   ");
-    }
-    
-    actionChosen=false;
-    attackTypeChosen=false;
-
-    shootButton.addEventListener("click", function () {
-      chosenAction=0;
-      actionChosen=true;
-    });
-
-    pistolButton.addEventListener("click", function () {
-      chosenAttacktype=2;
-      attackTypeChosen=true;
-    });
-
-    rifleButton.addEventListener("click", function () {
-      chosenAttacktype=1;
-      attackTypeChosen=true;
-    });
-
-    shotgunButton.addEventListener("click", function () {
-      chosenAttacktype=0;
-      attackTypeChosen=true;
-    });
-
-    reloadButton.addEventListener("click", function () {
-      chosenAction=1;
-      actionChosen=true;
-    });
-
-    protectButton.addEventListener("click", function () {
-      chosenAction=2;
-      actionChosen=true;
-    });
-
-    if(actionChosen && attackTypeChosen){
-      socket.emit('setPlayerAction', {
-      'actionUsername': yourselfPlayer.name, 
-      'action':chosenAction, 
-      'attacktype':chosenAttacktype
+      actionChosen=false;
+      attackTypeChosen=false;
+      
+      shootButton.addEventListener("click", function () {
+        //no action, just a popup button for the weapons
       });
-    }
+  
+      pistolButton.addEventListener("click", function () {
+        chosenAction=0;
+        actionChosen=true;
+        chosenAttacktype=3;
+        attackTypeChosen=true;
+        socket.emit('actionOnClientChosen', {
+          'username': yourselfPlayer.name 
+        });
+        socket.emit('setPlayerAction', {
+          'actionUsername': yourselfPlayer.name, 
+          'action':chosenAction, 
+          'attacktype':chosenAttacktype
+        });
+      });
+  
+      rifleButton.addEventListener("click", function () {
+        chosenAction=0;
+        actionChosen=true;
+        chosenAttacktype=2;
+        attackTypeChosen=true;
+        socket.emit('actionOnClientChosen', {
+          'username': yourselfPlayer.name 
+        });
+        socket.emit('setPlayerAction', {
+          'actionUsername': yourselfPlayer.name, 
+          'action':chosenAction, 
+          'attacktype':chosenAttacktype
+        });
+      });
+  
+      shotgunButton.addEventListener("click", function () {
+        chosenAction=0;
+        actionChosen=true;
+        chosenAttacktype=1;
+        attackTypeChosen=true;
+        socket.emit('actionOnClientChosen', {
+          'username': yourselfPlayer.name 
+        });
+        socket.emit('setPlayerAction', {
+          'actionUsername': yourselfPlayer.name, 
+          'action':chosenAction, 
+          'attacktype':chosenAttacktype
+        });
+      });
+  
+      reloadButton.addEventListener("click", function () {
+        chosenAction=1;
+        chosenAttacktype=0;        
+        actionChosen=true;
+        attackTypeChosen=true;      
+        socket.emit('actionOnClientChosen', {
+          'username': yourselfPlayer.name 
+        });
+        socket.emit('setPlayerAction', {
+          'actionUsername': yourselfPlayer.name, 
+          'action':chosenAction, 
+          'attacktype':chosenAttacktype
+        });
+      });
+  
+      protectButton.addEventListener("click", function () {
+        chosenAction=2;
+        chosenAttacktype=0;        
+        actionChosen=true;
+        attackTypeChosen=true;  
+        actionChosen({
+          yourselfplayername: yourselfPlayer.name,
+          chosenAction: chosenAction,
+          chosenAttacktype: chosenAttacktype        
+        }); 
+
+      });
+
+      socket.on('allUsersHaveChosenAction', function(){
+        socket.emit('roundCheckActions');
+      });   
+    });
+
+
     
     socket.on('textMessage', function(data){
       console.log(data);
@@ -121,27 +183,44 @@ socket.on('backToLobby', function(){
  window.location.href ='/';
 });
 
+actionChosen = function(actionsChosen){
+  yourselfplayername = actionsChosen.yourselfplayername;
+  chosenAction = actionsChosen.chosenAction;
+  chosenAttacktype = actionsChosen.chosenAttacktype;
+
+  socket.emit('setPlayerAction', {
+    'actionUsername': yourselfplayername, 
+    'action':chosenAction, 
+    'attacktype':chosenAttacktype
+  });
+  socket.emit('actionOnClientChosen', {
+    'username': yourselfplayername 
+  });
+}
+  
+
 deactivateNotAllowedActionButtons = function(playerObject){
 
   pistolButton.disabled=true;
   shotgunButton.disabled=true;
   rifleButton.disabled=true;
 
+
   //activate specific buttons
 
-  if(playerObject.getAmmo()>=5){
+  if(playerObject.ammo >= 5){
     //activate all weapons
     pistolButton.disabled=false;
     shotgunButton.disabled=false;
     rifleButton.disabled=false;
 
-  } else if(playerObject.getAmmo()<5 && playerObject.getAmmo()>=3){
+  } else if(playerObject.ammo <5 && playerObject.ammo >= 3){
     //activate rifle and pistol button
     pistolButton.disabled=false;
     shotgunButton.disabled=true;
     rifleButton.disabled=false;
 
-  } else if(playerObject.getAmmo()>0 && playerObject.getAmmo()<3){
+  } else if(playerObject.ammo > 0 && playerObject.ammo < 3){
     //activate only pistol button
     pistolButton.disabled=false;
     shotgunButton.disabled=true;
