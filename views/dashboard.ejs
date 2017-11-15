@@ -1,234 +1,284 @@
 <!DOCTYPE html>
 <html>
-  <head>
 
-    <title>Dashboard</title>
- 
-    <!-- Mobile Specific Metas
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
- 
-    <!-- FONT
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet" type="text/css">
+<head>
 
-    <!-- CSS
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link rel="stylesheet" href="styles/skeleton.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
- 
-    <!-- JS
-    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
-    <script src="/socket.io/socket.io.js"></script>
-    <script> const socket = io(); </script>
+  <title>Dashboard</title>
 
-    <script> // Pie-Chart
-        $(function() {
-        $('.circle-graph').easyPieChart({
-          scaleColor: false,
-          lineWidth: 30,
-          lineCap: 'butt',
-          barColor: '#38AF84',
-          trackColor: 'white' ,
-          size: 200,
-          animate: 800
-        });
+  <!-- Mobile Specific Metas
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet"
+    type="text/css">
+
+  <!-- CSS
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <link rel="stylesheet" href="styles/normalize.css">
+  <link rel="stylesheet" href="styles/skeleton.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- JS
+    –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+  </script>
+
+  <script>
+    // Pie-Chart
+    $(function () {
+      $('.circle-graph').easyPieChart({
+        scaleColor: false,
+        lineWidth: 20,
+        lineCap: 'butt',
+        barColor: '#00FFB1',
+        trackColor: '#330A2A',
+        size: 200,
+        animate: 2500
       });
-        
-    </script>
+    });
+  </script>
 
 
-    <!-- SEO meta-tags
+  <!-- SEO meta-tags
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta name="description" content="">
-    <meta name="keywords" content="">   
-    <meta name="title" content="">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="title" content="">
 
 
 
-  </head>
+</head>
+
 <body>
 
 
-<div id="menu-icon-shape">
-  <div id="menu-icon">
-    <div id="top"></div>
-    <div id="middle"></div>
-    <div id="bottom"></div>
+  <div id="menu-icon-shape">
+    <div id="menu-icon">
+      <div id="top"></div>
+      <div id="middle"></div>
+      <div id="bottom"></div>
+    </div>
   </div>
-</div>
 
-<!-- Dark overlay menu  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<nav id="overlay-nav">
-  <div id="nav-content">
-    <ul>
-      <li>
-        <a href="/createlobby">Spielen</a>
-      </li>
-      <li>
-        <a href="#">Kontakt</a>
-      </li>
-      <li>
-        <a href="#">Impressum</a>
-      </li>
-      <%if (authenticated = true) { %>
+  <!-- Dark overlay menu  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <nav id="overlay-nav">
+    <div id="nav-content">
+      <ul>
         <li>
-          <form action="/logout" method="/post">
-            <button class="button button-primary" type="submit">Logout</button>
-          </form>
+          <a href="/createlobby">Spielen</a>
         </li>
-        <%} %>
-    </ul>
-  </div>
-</nav>
-<div class="container">
+        <li>
+          <a href="#">Kontakt</a>
+        </li>
+        <li>
+          <a href="#">Impressum</a>
+        </li>
+        <%if (authenticated = true) { %>
+          <li>
+            <form action="/logout" method="/post">
+              <button class="button button-primary" type="submit">Logout</button>
+            </form>
+          </li>
+          <%} %>
+      </ul>
+    </div>
+  </nav>
+  <div class="container">
 
-
-<!-- Top row   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<div class="row">
-  <h2>Dashboard</h2>
-</div>
-
-<!-- First row   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<div class="row height_100 dark_B light_F">
-
-
-<!-- Account Infos   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="nine columns dark_B">
-
-    <div class="six columns">
-      <h1 class="Headline">
-        <span>Userprofile</span>
-        <%= username %>
-      </h1>
-
-      <img height="200px" src="<%= gravURL %>" style="border-radius:50%;" width="200px">
-
-     <h1>Last Games:</h1>
-      <P>
-      <BR> Lose again Max
-      <BR> Win again Bruttos
-      <BR> Lose again xXxPatrickxXx
-      <BR> Win again MircoMitC
-      <BR> Win again Max</P>
-
-      <button>Profil Bearbeiten?</button>
-
+    <!-- Top row   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <div class="row">
+      <h2>Dashboard</h2>
     </div>
 
-    <div class="six columns">
+    <!-- First row   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <div class="row height_100 dark_B padding_25 light_F">
 
-       
- 
-      <h1 class="Headline">
-        <span>Rang</span>
-        230
-      </h1>
 
-      <h1 class="Headline">
-        <span>Score</span>
-        435
-      </h1>
+      <!-- Account Infos   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <div class="eight columns dark_B padding_25">
 
-      <div class="containergraph">
-        <section class="graph-one">
-          <div class="circle-graph-container">
-            <div class="circle-graph" data-percent="80">
-              <p>80%</p>
+
+        <div class="row">
+          <div class="four columns">
+            <img height="200px" src="<%= gravURL %>" style="border-radius:50%;" width="200px">
+          </div>
+          <div class="eight columns" style="min-height:220px;">
+            <h1 class="Headline">
+              <span>Userprofile</span>
+              <%= username %>
+            </h1>
+            <div class="candidatos italia">
+              <div class="parcial">
+                <div class="info">
+                  <div class="nome">Level 9</div>
+                </div>
+                <div class="progressBar">
+                  <div class="percentagem" style="width: 86.13%;"></div>
+                </div>
+                <div class="partidas">Bald Level 10</div>
+              </div>
             </div>
           </div>
-        </section>
+        </div>
+
+        <div class="row">
+          <div class="four columns">
+            <h1>Last Games:</h1>
+            <P>
+              <BR>
+              <strong>Lose</strong> again Max
+              <BR>
+              <strong>Lose</strong> again Bruttos
+              <BR>
+              <strong>Lose</strong> again xXxPatrickxXx
+              <BR>
+              <strong>Lose</strong> again MircoMitC
+              <BR>
+              <strong>Lose</strong> again Max</P>
+
+          </div>
+
+          <div class="four columns">
+
+            <h1 class="Headline">
+              <span>Rang</span>
+              230
+            </h1>
+
+            <h1 class="Headline">
+              <span>Score</span>
+              435
+            </h1>
+            <button>Profil Bearbeiten?</button>
+          </div>
+
+          <div class="four columns">
+            <div class="containergraph">
+              <section class="graph-one">
+                <div class="circle-graph-container">
+                  <div class="circle-graph" data-percent="80">
+                    <p>80%</p>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+
+        </div>
+
       </div>
 
 
+      <!-- Wanna play?   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <div class="four columns">
+        <h1 class="Headline">
+          <span>Wanna Play?</span>Create
+        </h1>
+
+        <h1 class="Headline">
+          <span>or</span>Search
+        </h1>
+
+
+
+        <div class="row">
+
+          <div class="dark_B tweleve column padding_25">
+            <script>
+              document.getElementById("checkBox").disabled = true;
+            </script>
+            <form action="/createGame" method="post">
+              <input checked name="notclick" type="radio" value="notclick"> One vs. One
+              <br>
+              <span class="disabledinput">
+                <input disabled="disabled" id="checkBox" name="notclick" type="radio" value="notclick"> All vs. All</span>
+              <br>
+              <span class="disabledinput">
+                <input disabled="disabled" id="checkBox" name="notclick" type="radio" value="notclick"> One vs. Pc</span>
+              <br>
+              <button class="button button-primary" type="submit">Spiel erstellen</button>
+            </form>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="dark_B tweleve column padding_25">
+            <script>
+              let username = '<%= username %>';
+              let socketUserName = '<%= username %>';
+            </script>
+
+            <form action="/joinGame" method="post">
+              <ul>
+                <% for(let i = 0; i < joinLobbyErrors.length; i++) { %>
+                  <li>
+                    <%- joinLobbyErrors[i]%>
+                  </li>
+                  <% } %>
+              </ul>
+              <input type="text" name="roomcode" placeholder="Enter Room Code">
+              <button type="submit" class="button button-primary">Spiel beitreten</button>
+            </form>
+
+          </div>
+        </div>
+
+
+      </div>
+
+      <!-- Space   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+      <div class="space padding_25 row"></div>
+
+      <!-- NEWS   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <div class="row">
+        <div class="eight columns dark_B padding_25">
+
+
+
+          <h2>News</h2>
+        </div>
+        <div class="four columns dark_B">
+          <div>
+            <h4>Score
+              <br>
+              <span class="Score_var">4300</span>
+            </h4>
+            <h4>Win/Lose
+              <br>
+              <span class="Score_var">39/39</span>
+            </h4>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
 
 
-<!-- Wanna play?   –––––––––––––––––––––––––––––––––––––––––––––––––– -->  
-  <div class="three columns">
-    <h1 class="Headline">
-      <span>Wanna Play?</span>Create
-    </h1>
+    <!-- Statistics   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-    <h1 class="Headline">
-      <span>or</span>Search
-    </h1>
-    
-    <div class="dark_B">
-      <script> 
-        let username = '<%= username %>';
-        let socketUserName = '<%= username %>';
-      </script>
-      
-      <form action="/joinGame" method="post">
-        <ul>
-          <% for(let i = 0; i < joinLobbyErrors.length; i++) { %>
-            <li>
-              <%- joinLobbyErrors[i]%>
-            </li>
-            <% } %>
-        </ul>
-        <input type="text" name="roomcode" placeholder="Enter Room Code">
-        <button type="submit" class="button button-primary">Spiel beitreten</button>
-      </form>
 
+
+    <!-- Footer  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <div class="row" id="footer">
+      <p>&#169; 2017 by
+        <strong>After Work</strong>
+      </p>
+      <a href="/impressum">impressum</a>
     </div>
 
-    <div class="dark_B">
-      <script>
-            document.getElementById("checkBox").disabled = true;
-      </script>
-      <form action="/createGame" method="post">
-        <input checked name="notclick" type="radio" value="notclick"> One vs. One
-        <br>
-        <span class="disabledinput">
-          <input disabled="disabled" id="checkBox" name="notclick" type="radio" value="notclick"> All vs. All</span>
-        <br>
-        <span class="disabledinput">
-          <input disabled="disabled" id="checkBox" name="notclick" type="radio" value="notclick"> One vs. Pc</span>
-        <br>
-        <button class="button button-primary" type="submit">Spiel erstellen</button>
-      </form>
-    </div>
   </div>
+  <div class="three columns" style="background-color:#330A2A; height:12px;width:25%;margin:0;"></div>
+  <div class="three columns" style="background-color:#937C8E; height:12px;width:25%;margin:0;"></div>
+  <div class="three columns" style="background-color:#00FFB1; height:12px;width:25%;margin:0;"></div>
+  <div class="three columns" style="background-color:#E8E9EB; height:12px;width:25%;margin:0;"></div>
 
 
-
-<!-- NEWS   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
-  <div class="eight columns dark_B">
-    <h2>News</h2>
-  </div>
-
-
-<!-- Statistics   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div class="four columns dark_B">
-    <div>
-      <h4>Score
-        <br>
-        <span class="Score_var">4300</span>
-      </h4>
-      <h4>Win/Lose
-        <br>
-        <span class="Score_var">39/39</span>
-      </h4>
-    </div>
-  </div>
-</div>
-
-
-<!-- Footer  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-<div class="row" id="footer">
-  <p>&#169; 2017 by
-    <strong>After Work</strong>
-  </p>
-  <a href="/impressum">impressum</a>
-</div>
-</div>
 
   <!-- JS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->

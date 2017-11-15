@@ -59,7 +59,7 @@ body {
     width: 80%; }
   .column,
   .columns {
-    margin-left: 1%; }
+    margin-left: 20px; }
   .column:first-child,
   .columns:first-child {
     margin-left: 0%; }
@@ -118,7 +118,7 @@ body {
 }
 
 .row.height_100 {
-  min-height: calc(100vh - 50px);margin: 25px;
+  min-height: calc(100vh - 50px);
 }
 
 .row.height_20 {
@@ -126,6 +126,12 @@ body {
 }
 
 
+
+.row.padding_50 {
+padding:50px 15px;}
+
+.padding_25 {
+padding:25px 0 25px 25px;}
 
 
 /* Base Styles
@@ -550,7 +556,6 @@ hr {
 }
 
 
-/*font-family: 'Permanent Marker', cursive;*/
 p {
   z-index: 2;
   position: relative;
@@ -650,27 +655,12 @@ a {
 }
 
 /* Menu icon */
-#home #menu-icon-shape {
+#menu-icon-shape {
   width: 60px;
   height: 60px;
   position: fixed;
   top: 40px;
   right: 45px;
-  border-radius: 50%;
-  border: 3px solid transparent;
-  z-index: 5;
-  background: transparent;
-  cursor: pointer;
-  -webkit-transition: all 0.5s ease;
-  transition: all 0.5s ease;
-}
-
-#menu-icon-shape {
-  width: 45px;
-  height: 45px;
-  position: absolute;
-  top: 5px;
-  right: 15px;
   border-radius: 50%;
   border: 3px solid transparent;
   z-index: 5;
@@ -810,10 +800,6 @@ box-shadow: -2px 0px 35px 0px rgba(0,0,0,0.29);
 
 
 
-.row.padding_50 {
-text-align:center;padding:50px 15px;}
-
-
 
 
 /* password Hover  */
@@ -858,6 +844,87 @@ span.password:after {
 }
 
 
+/* Progress bar */
+
+
+div.candidatos {
+    position:relative;
+    height: 40px;
+    margin:40px 0px;
+    padding-left:0px;
+    max-width:80%;
+}
+div.candidatos .parcial {
+    display:inline-block;
+    width:100%;
+    height:40px;
+    vertical-align:middle;
+    padding:0px;
+}
+div.candidatos .parcial .info {
+    height:15px;
+    position: relative;
+}
+div.candidatos .parcial .info > div {
+    float:left;
+}
+div.candidatos .parcial .info .nome {
+    position: absolute;
+    top: 0;
+    left:0;
+    font-size: 15px;
+    font-weight: 600;
+}
+div.candidatos .parcial .info .eleito, div.candidatos .parcial .info .segundo-turno {
+    padding: 0 5px 2px 5px;
+    border-radius: 2px;
+}
+div.candidatos .parcial .progressBar {
+    position:relative;
+    width:100%;
+    height:20px;
+    margin:5px 0 2px;
+    background: #330A2A;
+}
+div.candidatos .parcial .progressBar .percentagem {
+    position:absolute;
+    top:0;
+    left:0;
+    height:20px;
+    background: #00FFB1;
+    -webkit-transition: 2.9s all;
+    -webkit-animation-duration: 2.9s;
+    -webkit-animation-name: animationProgress;
+}
+
+div.candidatos.italia .parcial .percentagem {
+    background-color:#00FFB1;
+}
+
+div.candidatos .parcial .partidas {
+    font-family: Arial, helvetica, Sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+.percentual {
+    -webkit-transition: 2.5s all;
+    -webkit-animation-duration: 2.5s;
+    -webkit-animation-name: animationProgress;
+    transition: 2.5s all;
+    animation-duration: 2.5s;
+    animation-name: animationProgress;
+}
+@-webkit-keyframes animationProgress {
+    from {
+        width:0;
+    }
+}
+@keyframes animationProgress {
+    from {
+        width:0;
+    }
+}
 
 
 /*
@@ -946,14 +1013,6 @@ there.
 /* Larger than tablet */
 @media (max-width: 750px) {
 
-  #home #menu-icon-shape {
-    top: 15px;
-    right: 15px;
-  }
-
-#menu-icon-shape {
-    right: 10px;
-  }
 
 .hero img {
     height: 96vh;
