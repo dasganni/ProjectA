@@ -42,7 +42,6 @@ const app = express();
 
 const gravatar = require('gravatar');
 
-
 //socket.io initialisieren
 const http = require('http').Server(app);
 const socketScript = require(__dirname + '/socketIO.js');
@@ -51,7 +50,7 @@ createdRooms=[];
 
 //Playerklasse einbinden
 
-const Player = require(__dirname + '/player.js');
+let Player = require(__dirname + '/player.js');
 //let player = new Player('name');
 
 //Randomstring init
@@ -89,8 +88,6 @@ app.use("/styles", express.static(__dirname + '/styles'));
 
 //verweis auf js
 app.use(express.static(__dirname + "/views/js"));
-
-
 
 
 //Index für Logik
@@ -241,7 +238,12 @@ app.post('/createGame', (request, response) => {
         'users': [],
         'usersReady': [],
         'userLimit': 2,
-        'roomFull': false
+        'roomFull': false,
+        'playerObjects':[],
+        'minUsers': 2,
+        'usersDead': [],
+        'usersChosenAction':[],
+        'allUsersHaveChosenAction':false
     };
     createdRooms.push(room);
     request.session.roomcode = roomcode;
@@ -277,9 +279,7 @@ app.get('/game', (request, response) => {
     } else {
         response.redirect("/");
     }
-});    
-
-
+});
 
 
 /*
