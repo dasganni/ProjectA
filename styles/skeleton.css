@@ -315,6 +315,18 @@ input[type="button"].button-primary:focus {
 }
 
 
+.disable-button {
+  cursor: none;
+  opacity: 0.4;
+}
+
+
+.disable-button:hover {
+color: #555;
+border-color: #bbb;
+outline: 0;
+}
+
 
 /* Forms
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
