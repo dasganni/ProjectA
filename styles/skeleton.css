@@ -39,31 +39,63 @@ body {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
   box-sizing: border-box; }
 .column,
 .columns {
   width: 100%;
   float: left;
+  margin-bottom:25px;
   box-sizing: border-box; }
 
+.no_mobile {
+  display: none;
+}
+
+.only_mobile {
+  display: block;
+}
+
+
+  
 /* For devices larger than 400px */
 @media (min-width: 400px) {
   .container {
-    width: 85%;
-    padding: 0; }
+    width: 100%;
+    padding: 0;
+   }
+
+   .padding_12 {
+     padding: 0;
+   }
+
 }
 
 /* For devices larger than 550px */
-@media (min-width: 550px) {
+@media (min-width: 850px) {
   .container {
-    width: 80%; }
+    width: 100%; }
   .column,
   .columns {
-    margin-left: 20px; }
+    margin-left: 20px;
+  margin-bottom:25px; }
   .column:first-child,
   .columns:first-child {
     margin-left: 0%; }
+.padding_12 {
+  padding: 12px;
+}
+.no_mobile {
+  display: block;
+}
+
+.only_mobile {
+  display: none;
+}
+
+.row.padding_25 {
+  padding-right: 0 !important;
+}
+
 
   .one.column,
   .one.columns                    { width: 4.66666666667%; }
@@ -132,15 +164,18 @@ body {
 padding:50px 15px;}
 
 .padding_25 {
-padding:25px 0 25px 25px;}
+padding:25px 25px 25px 25px;}
+
+.row .row.padding_25 {
+  padding: 25px 25px 0px 25px;
+}
+
 
 .margin_25 {
   margin: 25px;
 }
 
 
-.padding_12 {
-padding: 12px;}
 
 
 /* Base Styles
@@ -162,6 +197,11 @@ body {
 border: 2px #330A2A solid;
 }
 
+dark_B_mobile_none {
+  border: 0px #330A2A solid;
+
+}
+
 
 /* Typography
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -176,8 +216,33 @@ h4 { font-size: 2.4rem; line-height: 1.35; letter-spacing: -.08rem; }
 h5 { font-size: 1.8rem; line-height: 1.5;  letter-spacing: -.05rem; }
 h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
 
+/* Larger than phablet */
+
+@media (min-width: 550px) {
+  h1 {
+    font-size: 5.6rem;
+  }
+  h2 {
+    font-size: 4.2rem;
+  }
+  h3 {
+    font-size: 3.6rem;
+  }
+  h4 {
+    font-size: 3.0rem;
+  }
+  h5 {
+    font-size: 2.4rem;
+  }
+  h6 {
+    font-size: 1.5rem;
+  }
+}
+
+
 
 .Headline {
+   word-wrap:break-word;
   margin:12px 0 0 0;
   position: relative;
   text-align: left;
@@ -190,15 +255,24 @@ h6 { font-size: 1.5rem; line-height: 1.6;  letter-spacing: 0; }
     top: -12px;
 }
 
-/* Larger than phablet */
-@media (min-width: 550px) {
-  h1 { font-size: 5.6rem; }
-  h2 { font-size: 4.2rem; }
-  h3 { font-size: 3.6rem; }
-  h4 { font-size: 3.0rem; }
-  h5 { font-size: 2.4rem; }
-  h6 { font-size: 1.5rem; }
+h2 {
+  margin: 12px 0 0 0;
+  position: relative;
+  text-align: left;
+      font-size: 35px;
+      font-weight: 900;
+      display: block;
+      margin: 0;
+
 }
+
+h2 span {
+  position: absolute;
+  font-size: 16px;
+  font-weight: 100;
+  top: -12px;
+}
+
 
 
 
@@ -217,6 +291,7 @@ p {
   text-align: left;
 }
 
+
 /* Colors
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 
@@ -229,9 +304,6 @@ p {
 }
 
 
-.backcolor {
-  color:#3c0c32 !important;
-}
 
 /* Text color when Background is light #3c0c32 */
 
@@ -311,12 +383,11 @@ input[type="button"].button-primary:focus {
 
 .button_float_right {
   float: right;
-  margin-right: 25px;
 }
 
 
 .disable-button {
-  cursor: none;
+  cursor:not-allowed;
   opacity: 0.4;
 }
 
@@ -326,6 +397,8 @@ color: #555;
 border-color: #bbb;
 outline: 0;
 }
+
+
 
 
 /* Forms
@@ -473,7 +546,7 @@ form {
   margin-bottom: 0em;
 }
 .goGame input[type="text"] {
-  margin: 10px 25px 0px 0;
+  margin: 10px 0px 0px 0;
   width: 180px;
 }
 
@@ -491,6 +564,18 @@ form {
   float: right; }
 .u-pull-left {
   float: left; }
+
+.display-none {
+  display: none;
+}
+
+.text-right, .text-right span {
+  text-align: right !important;
+}
+
+.pointer {
+  cursor: pointer;
+}
 
 
 /* Misc
@@ -527,6 +612,9 @@ hr {
   z-index: 2;
   position: relative;
 }
+
+
+/* Modal */
 
 .modal, .modal-box {
   z-index: 900;
@@ -642,18 +730,6 @@ h1, h2, h3, .p2 {
   letter-spacing: 0.9px;
 }
 
-.eight h1.Headline.backcolor:after {
-      content: " ";
-      background-color: #00FFB1;
-      height: 90px;
-      width: 200px;
-      border-radius: 45px;
-      left: -340px;
-      position: absolute;
-      z-index: -1;
-      width: 115%;
-      top: -29px;
-}
 
 
 .columns {
@@ -729,7 +805,7 @@ a {
   height: 60px;
   position: absolute;
   top: 2px;
-  right: -17px;
+  right: 35px;
   border-radius: 50%;
   border: 3px solid transparent;
   z-index: 5;
@@ -793,6 +869,7 @@ a {
 }
 
 /* Navigation */
+
 #overlay-nav {
   width: 100%;
   height: 0;
@@ -810,6 +887,8 @@ a {
 -moz-box-shadow: -2px 0px 35px 0px rgba(0,0,0,0.29);
 box-shadow: -2px 0px 35px 0px rgba(0,0,0,0.29);
 }
+
+
 
 /* Open navigiation */
 
@@ -868,6 +947,25 @@ box-shadow: -2px 0px 35px 0px rgba(0,0,0,0.29);
 
 
 
+
+/* Rang */
+
+ul.rangliste {
+  margin-top:30px;
+}
+
+ul.rangliste li span {
+  font-size: 16px;
+  font-weight: 100;
+  position: absolute;
+  margin-top: -19px;
+}
+
+ul.rangliste li {
+  list-style-type: none;
+  font-size: 17px;
+  font-weight: 600;
+  margin: 18px 0 0 0;}
 
 
 
@@ -1014,7 +1112,7 @@ Circle Graph using (https://github.com/rendro/easy-pie-chart)
   height: auto; /* set height for postioning */
 }
 
-circle-graph-container {
+.circle-graph-container {
   position: relative;
 }
 
@@ -1040,13 +1138,22 @@ canvas {
 
 /* mix */
 
-.Grava {
+.Grava, .shadow {
 -webkit-box-shadow: 10px 9px 39px -3px rgba(0, 0, 0, 0.36);
 -moz-box-shadow: 10px 9px 39px -3px rgba(0, 0, 0, 0.36);
 box-shadow: 10px 9px 39px -3px rgba(0, 0, 0, 0.36);<h1 class="Headline">
 
 }
 
+/* message */
+
+.message {
+  margin:20px 0 0 0;
+}
+ 
+.new_p {
+  
+}
 
 /* Radio disable enable */
 
@@ -1085,19 +1192,39 @@ there.
 
 /* Smaller than mobile */
 @media (max-width: 400px) {
+ 
+     .padding_25 {
+       padding: 25px !important;
+     }
+ 
   #footer a {
     float: right;
     width: auto;
     padding-right: 15px;
     right: 0;
     text-align: right;  }
+
+
+
+
 }
 
+
+
+
+
+
 /* Larger than phablet (also point when grid becomes active) */
-@media (min-width: 550px) {}
+@media (min-width: 550px) {
+
+
+
+}
 
 /* Larger than tablet */
-@media (max-width: 750px) {
+@media (min-width: 850px) {
+
+
 
 
 .hero img {
@@ -1107,11 +1234,95 @@ there.
     margin: -50px 0 0 0;
 }
 
+  .padding_25 {
+    padding: 25px 25px 25px 25px;
+  }
+
 }
 
 /* Larger than desktop */
-@media (min-width: 1000px) {}
+@media (min-width: 1000px) {
+.dark_B_mobile_none {
+  border: 2px #330A2A solid;
+}
+
+}
 
 /* Larger than Desktop HD */
-@media (min-width: 1200px) {}
+@media (min-width: 1200px) {
 
+
+}
+
+.button_game_mobile_div {
+  height: 70px;
+  position: fixed;
+  width: 110px;
+  overflow: hidden;
+  right: 0;
+      -webkit-transition: all .5s ease-out;
+      -moz-transition: all .5s ease-out;
+      transition: all .5s ease-out;
+}
+
+.bottom_20 {
+  bottom:20px;
+}
+
+.bottom_30 {
+  bottom:100px;
+}
+
+.button_game_mobile {
+    width: auto;
+    font-size: 34px;
+    position: absolute;
+    font-weight: 900;
+    right: -205px;
+    background-color: #00FFB1;
+    border-radius: 100px;
+    color:#330A2A;
+    opacity: 1;
+    border:0;
+    padding: 18px 80px 41px 60px;
+    -webkit-transition: all .5s ease-out;
+    -moz-transition: all .5s ease-out;
+    transition: all .5s ease-out;
+}
+
+.button_game_mobile_div:hover .button_game_mobile,
+.button_game_mobile_div:focus .button_game_mobile {
+    width: auto;
+    font-size: 34px;
+    position: absolute;
+    font-weight: 900;
+    right: -30px;
+    opacity: 1;
+
+  }
+
+.button_game_mobile_div:hover,
+.button_game_mobile_div:focus {
+width:290px;
+}
+
+
+.button_game_mobile span.gametext {
+    margin-top: -20px;
+    position: absolute;
+    font-size: 16px;
+    font-weight: 100;
+    line-height: 35px;
+}
+
+.button_game_mobile .fa {
+  font-size: 40px!important;
+  margin-right: 0;
+  position: absolute;
+  left: 15px;
+  top: 7px;
+}
+
+  .button_game_mobile .fa.pencil-square-o {
+  top: 12px;
+}
