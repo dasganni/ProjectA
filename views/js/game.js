@@ -4,6 +4,8 @@ let rifleButton = document.querySelector(".js-button-rifle");
 let shotgunButton = document.querySelector(".js-button-shotgun");
 let reloadButton = document.querySelector(".js-button-reload");
 let protectButton = document.querySelector(".js-button-protect");
+let readyButton = document.querySelector(".js-button-ready");
+
 let actionChosen = false;
 let attackTypeChosen = false;
 let yourselfPlayer;
@@ -12,6 +14,14 @@ let enemies= [];
 socket.on('backToLobby', function(){
   window.location.href ='/';
 });
+let buttons = [shootButton, pistolButton, rifleButton, shotgunButton, reloadButton, protectButton, readyButton];
+
+
+  pistolButton.disabled = true;
+  shotgunButton.disabled = true;
+  rifleButton.disabled = true;
+
+
 
 socket.emit('gameConnect', {
   'roomcode': roomcode,
@@ -28,11 +38,18 @@ socket.on('connectedToRoom', function(data){
   room= data.room
   console.log('Du bist mit dem Raum ' + room.roomcode + ' verbunden. Insgesamt sind verbunden: ' + room.users.length);
 
-  let readyButton = document.querySelector(".js-button-ready");
+  socket.on('updateUsers', function(data){
+    room= data.room;
+    console.log('User joined, new Usercount: ' + room.users.length);
+  });
+
   readyButton.addEventListener("click", function () {
     socket.emit('readyClicked', {
       'username':username
     });  
+     $(".js-button-ready").addClass("display-none");
+    readyButton.disabled = true;
+    changeButtonStatus();
   });
 
   socket.on('startGame', function(data){
@@ -197,6 +214,7 @@ deactivateNotAllowedActionButtons = function(playerObject){
   shotgunButton.disabled=true;
   rifleButton.disabled=true;
 
+  changeButtonStatus();
 
   //activate specific buttons
 
@@ -206,18 +224,32 @@ deactivateNotAllowedActionButtons = function(playerObject){
     shotgunButton.disabled=false;
     rifleButton.disabled=false;
 
+    changeButtonStatus();
+
   } else if(playerObject.ammo <5 && playerObject.ammo >= 3){
     //activate rifle and pistol button
     pistolButton.disabled=false;
     shotgunButton.disabled=true;
     rifleButton.disabled=false;
 
+    changeButtonStatus();
+
   } else if(playerObject.ammo > 0 && playerObject.ammo < 3){
     //activate only pistol button
     pistolButton.disabled=false;
     shotgunButton.disabled=true;
     rifleButton.disabled=true;
+
+    changeButtonStatus();
     
   }
   
 }
+
+changeButtonStatus = function () {
+  for (i = 0; i < buttons.length; i++) {
+    if (buttons[i].disabled) {
+      $(buttons[i]).addClass("disable-button");
+    }
+  }
+};

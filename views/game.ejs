@@ -29,6 +29,9 @@
         window.onbeforeunload=function(){
           return "Are you sure to leave this page? If you are alone in this lobby, this lobby will be deleted!";
         }
+
+
+
     </script>
 
 
@@ -91,6 +94,9 @@
     <p>
       Timer: 00:28
     </p>
+
+          <button class="js-button-ready">Ready</button>
+
     
     <p>
       Round 1
@@ -98,17 +104,16 @@
 
   </div>
 
-  <div class="Spieler">
+  <div class="Spieler" id="spieler">
       <p>Spielername</p>
       <img src="http://www.gravatar.com/avatar/683f8ca4218057265bad6a32aab8da8a?s=200&r=pg&d=monsterid" style="border-radius:50%;">
       <p class="bullets">Bullets: 00</p>
-      <button class="js-button-ready" >Ready</button>  
             
       <button class="js-button-shoot" >Shoot</button>  
       <button class="js-button-reload">Reload</button>  
       <button class="js-button-protect">Protect</button> 
       <button>Give up</button>   <br>
-      <button class="js-button-pistol">Pistol</button>  
+      <button class="js-button-pistol" id="js-button-pistol">Pistol</button>  
       <button class="js-button-rifle">Rifle</button>  
       <button class="js-button-shotgun">Shotgun</button>
   </div>
@@ -139,9 +144,13 @@
   <script type="text/javascript" src="styles/menu_scroll_type_modal.js"></script>
   <script type="text/javascript" src="game.js"></script>    
   
+  <script>
+
+    window.onload = changeButtonStatus();
+    console.log('Change Button');
+  </script>
+
   
-
-
 </body>
 
 </html>

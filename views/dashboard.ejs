@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
 
@@ -104,7 +104,7 @@
     </div>
 
     <!-- First row   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <div class="row dark_B padding_25 light_F">
+    <div class="row dark_B_mobile_none padding_25 light_F">
 
 
       <!-- Account Infos   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -123,10 +123,16 @@
             <div class="candidatos italia">
               <div class="parcial">
                 <div class="info">
-                  <div class="nome">Level 01</div>
+                  <% let percent = 20; 
+                    let level = 2;
+                    if ( username == "DasGanni" || username == "dasGanni" || username == "dasganni") {
+                      percent = 0.1;
+                      level = "-9999";
+                    } %>
+                  <div class="nome">Level <%= level %></div>
                 </div>
                 <div class="progressBar">
-                  <div class="percentagem" style="width: 86.13%;"></div>
+                  <div class="percentagem" style="width:<%= percent %>%;"></div>
                 </div>
               </div>
             </div>
@@ -151,15 +157,15 @@
 
           <div class="two columns">
 
-            <h1 class="Headline">
+            <h2 class="Headline">
               <span>Rang</span>
               230
-            </h1>
+            </h2>
 
-            <h1 class="Headline">
+            <h2 class="Headline">
               <span>Score</span>
               435
-            </h1>
+            </h2>
           </div>
 
           <div class="six columns">
@@ -181,7 +187,7 @@
 
 
       <!-- Wanna play?   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-      <div class="four columns">
+      <div class="four columns no_mobile last">
         <h1 class="Headline">
           <span>Wanna Play?</span>Create
         </h1>
@@ -189,11 +195,10 @@
         <h1 class="Headline">
           <span>or</span>Search
         </h1>
-
-        <!-- Space   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-
-        <div class="space padding_12 row "></div>
-
+      <!-- Space   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      
+      <div class="space padding_25 row"></div>
+   
         <div class="row">
 
           <div class="dark_B tweleve column padding_25 goGame">
@@ -214,9 +219,8 @@
           </div>
         </div>
 
-        <!-- Space   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-        <div class="space padding_12 row"></div>
+        
 
         <div class="row">
           <div class="dark_B tweleve column padding_25 goGame">
@@ -259,9 +263,7 @@
 
       </div>
 
-      <!-- Space   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-      <div class="space padding_25 row"></div>
 
       <!-- NEWS   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
       <div class="row">
@@ -275,45 +277,30 @@
           </div>
 
 
-
-          <div class="row">
+          <div class="row message">
             <div class="three columns">
               <img height="120px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c" style="border-radius:50%;" class="Grava"
                 width="120px">
             </div>
-            <div class="nine columns">
+            <div class="nine columns pointer">
               <h2>Neues Update</h2>
-              <p class="new_p">n enim justo, rhoncus ut, imperdiet a, venenatis vitae, jusrhoncus ut, i...</p>
+              <p class="new_p">n enim justo, rhoncus ut, imperhoncus ut, imperdiet a, venenatis vitaerhoncus ut, imperdiet a, venenatis vitaerhoncus ut, imperdiet a, venenatis vitaerdiet a, venenatis vitae, jusrhoncus ut, i...</p>
               <p class="new_name">
-                <%= username %>
+                - <%= username %>
               </p>
             </div>
           </div>
 
-          <div class="row">
+          <div class="row message pointer">
             <div class="three columns">
               <img height="120px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c" style="border-radius:50%;" class="Grava"
                 width="120px">
             </div>
             <div class="nine columns">
               <h2>Neues Update</h2>
-              <p class="new_p">n enim justo, rhoncus ut, imperdiet a, venenatis vitae, jusrhoncus ut, i...</p>
+              <p class="new_p">n enim justo, rhoncus ut, imrhoncus ut, imperdiet a, venenatis vitaerhoncus ut, imperdiet a, venenatis vitaerhoncus ut, imperdiet a, venenatis vitaeperdiet a, venenatis vitae, jusrhoncus ut, i...</p>
               <p class="new_name">
-                <%= username %>
-              </p>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="three columns">
-              <img height="120px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c" style="border-radius:50%;" class="Grava"
-                width="120px">
-            </div>
-            <div class="nine columns">
-              <h2>Neues Update</h2>
-              <p class="new_p">n enim justo, rhoncus ut, imperdiet a, venenatis vitae, jusrhoncus ut, i...</p>
-              <p class="new_name">
-                <%= username %>
+                - <%= username %>
               </p>
             </div>
           </div>
@@ -325,41 +312,43 @@
           <h1 class="Headline">
             <span>Numbers and Facts</span>Statistics</h1>
           <div>
-            <h1 class="Headline">
-              <span>Score</span>
-              3942
-            </h1>
-            <h1 class="Headline">
-              <span>Win/lose</span>
-              23/34
-            </h1>
-            <ul>
+            <ul class="rangliste">
               <li>
                 <span>Rang 1</span>
-                <img height="30px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c" style="border-radius:50%;" class="Grava"
-                  width="30px"> Max
-              </li>
-              <li>
+                <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c" style="border-radius:50%;" class="Grava"
+                  width="13px"> Max
+              </li>            <li>
                 <span>Rang 2</span>
-                <img height="30px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c" style="border-radius:50%;" class="Grava"
-                  width="30px"> Peter
+                <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c" style="border-radius:50%;" class="Grava"
+                  width="13px"> Peter
               </li>
               <li>
                 <span>Rang 3</span>
-                <img height="30px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c9dddee827110c" style="border-radius:50%;" class="Grava"
-                  width="30px"> Patrick
+                <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c9dddee827110c" style="border-radius:50%;" class="Grava"
+                  width="13px"> Patrick
               </li>
               <li>
                 <span>Rang 4</span>
-                <img height="30px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c99sadee827110c" style="border-radius:50%;" class="Grava"
-                  width="30px"> Mrco
+                <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c99sadee827110c" style="border-radius:50%;" class="Grava"
+                  width="13px"> Mrco
               </li>
               <li>
                 <span>Rang 5</span>
-                <img height="30px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c99sadee827110c" style="border-radius:50%;" class="Grava"
-                  width="30px"> Mrco
+                <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c99sadee827110c" style="border-radius:50%;" class="Grava"
+                  width="13px"> Mrco
               </li>
             </ul>
+
+                        <h1 class="Headline">
+                          <span>Score</span>
+                          3942
+                        </h1>
+                        <h1 class="Headline">
+                          <span>Win/lose</span>
+                          23/34
+                        </h1>
+
+
             <button class="button button-primary button_float_right" type="submit">
               Feedback
             </button>
@@ -383,10 +372,6 @@
     </div>
 
   </div>
-  <div class="three columns" style="background-color:#330A2A; height:12px;width:25%;margin:0;"></div>
-  <div class="three columns" style="background-color:#937C8E; height:12px;width:25%;margin:0;"></div>
-  <div class="three columns" style="background-color:#00FFB1; height:12px;width:25%;margin:0;"></div>
-  <div class="three columns" style="background-color:#E8E9EB; height:12px;width:25%;margin:0;"></div>
 
 
 
@@ -395,7 +380,16 @@
   <script type="text/javascript" src="styles/rellax.js"></script>
   <script type="text/javascript" src="styles/menu_scroll_type_modal.js"></script>
 
+<div class="button_game_mobile_div bottom_30 only_mobile ">
+<button class="button_game_mobile shadow"><span class="fa Example of pencil-square-o fa-pencil-square-o"></span><span class="gametext" >Game</span>Search</button>
+</div>
+
+<div class="button_game_mobile_div bottom_20 only_mobile ">
+<button class="button_game_mobile shadow"><span class="fa Example of search fa-search"></span><span class="gametext" >Game</span>Search</button>
+</div>
 
 </body>
 
 </html>
+
+
