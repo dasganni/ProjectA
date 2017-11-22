@@ -4,38 +4,15 @@ exports.initializeSocket = function(http){
     let PlayerClassExport = require(__dirname + '/player.js');
     let Player= PlayerClassExport.Player;
 
+    //socket
+
     io.on('connection', function(socket){
-
-        //update room function
-
-        let updateRoomInCreatedRooms = function (updatedRoom){
-            for (let i = 0; i < createdRooms.length; i++) {
-                if(createdRooms.length>0){
-                    if (createdRooms[i].roomcode === updatedRoom.roomcode) {
-                        createdRooms[i]= updatedRoom;
-                    } else{
-                        socket.emit('backToLobby');             
-                    }
-                } else{
-                    socket.emit('backToLobby');                   
-                }
-            }
-        }
-
-        let resetUserAttributes = function (){
-            for (let i = 0; i < socket.room.playerObjects.length; i++) {
-                socket.room.playerObjects[i].attack= 0;
-                socket.room.playerObjects[i].__defend = false;                  
-            }
-        }
-
-
-        //log logged in username
-    
+        
         socket.on('gameConnect', function(data){
             socket.roomcode = data.roomcode;
             socket.username = data.username;
             socket.gravURL = data.gravURL;
+
             // Look for the requested room
             for (let i = 0; i < createdRooms.length; i++) {
                 if(createdRooms.length>0){
@@ -54,10 +31,14 @@ exports.initializeSocket = function(http){
                     socket.emit('backToLobby');                   
                 }
             }
-
-            let player = new Player(socket.username);
-            socket.room.playerObjects.push(player);            
-            updateRoomInCreatedRooms(socket.room);
+            if (socket.room==undefined){
+                socket.emit('backToLobby');
+            }else{
+                let player = new Player(socket.username);
+                socket.room.playerObjects.push(player);            
+                updateRoomInCreatedRooms(socket.room);
+            }
+            
 
             
             
@@ -214,11 +195,10 @@ exports.initializeSocket = function(http){
             });
 
         });
-            
 
         //Der User hat sich disconnected
     
-        socket.on('disconnect', function(){
+        socket.on('disconnect', function(){            
 
             //Löschen der User aus dem Roomobjekt, wenn leer, Raum löschen
 
@@ -240,17 +220,46 @@ exports.initializeSocket = function(http){
                             }
                             else {
                                 console.log('Room ' + createdRooms[i].roomcode + ' is empty now and has been deleted!');
-                                createdRooms.splice(i, 1);                            
+                                createdRooms.splice(i, 1);
                             }
                             break;          
                         }
                     }
                 }
 
-                console.log(socket.username + ' disconnected from Room');
-            
+                if (socket.username!==undefined){
+                    console.log(socket.username + ' disconnected from Room');
+                }
+                
         });
 
 
     });
+
+    //functions used by socket
+    
+    //update room function
+
+
+    let updateRoomInCreatedRooms = function (updatedRoom){
+        for (let i = 0; i < createdRooms.length; i++) {
+            if(createdRooms.length>0){
+                if (createdRooms[i].roomcode === updatedRoom.roomcode) {
+                    createdRooms[i]= updatedRoom;
+                } else{
+                    socket.emit('backToLobby');             
+                }
+            } else{
+                socket.emit('backToLobby');                   
+            }
+        }
+    }
+
+    let resetUserAttributes = function (){
+        for (let i = 0; i < socket.room.playerObjects.length; i++) {
+            socket.room.playerObjects[i].attack= 0;
+            socket.room.playerObjects[i].__defend = false;                  
+        }
+    }
+
 }

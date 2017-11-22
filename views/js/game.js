@@ -9,24 +9,24 @@ let attackTypeChosen = false;
 let yourselfPlayer;
 let enemies= [];
 
-
-
-
+socket.on('backToLobby', function(){
+  window.location.href ='/';
+});
 
 socket.emit('gameConnect', {
   'roomcode': roomcode,
   'username':username,
   'gravURL':gravURL
-  });
+});
+
+socket.on('updateUsers', function(data){
+  room= data.room;
+  console.log('User joined, new Usercount: ' + room.users.length);
+});
 
 socket.on('connectedToRoom', function(data){
   room= data.room
   console.log('Du bist mit dem Raum ' + room.roomcode + ' verbunden. Insgesamt sind verbunden: ' + room.users.length);
-
-  socket.on('updateUsers', function(data){
-    room= data.room;
-    console.log('User joined, new Usercount: ' + room.users.length);
-  });
 
   let readyButton = document.querySelector(".js-button-ready");
   readyButton.addEventListener("click", function () {
@@ -166,8 +166,6 @@ socket.on('connectedToRoom', function(data){
         socket.emit('roundCheckActions');
       });   
     });
-
-
     
     socket.on('textMessage', function(data){
       console.log(data);
@@ -176,12 +174,6 @@ socket.on('connectedToRoom', function(data){
   });
 
 }); 
-
-
-
-socket.on('backToLobby', function(){
- window.location.href ='/';
-});
 
 actionChosen = function(actionsChosen){
   yourselfplayername = actionsChosen.yourselfplayername;

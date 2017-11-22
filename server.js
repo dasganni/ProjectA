@@ -7,6 +7,7 @@
 // Globale variablen 
 let errors = [];
 let joinLobbyErrors =[];
+roomExists=false;
 
 
 //port
@@ -92,7 +93,7 @@ app.use(express.static(__dirname + "/views/js"));
 
 //Index für Logik
 app.get('/', (request, response) => {
-    if (request.session.authenticated) {
+    if (request.session.authenticated || request.session.authenticated!==undefined) {
         response.render('dashboard', {
             'username': request.session.username,
             'gravURL': request.session.gravURL,
@@ -271,16 +272,24 @@ app.get('/impressum', (request, response) => {
 
 // verweis auf Game 
 app.get('/game', (request, response) => {
-    if (request.session.authenticated) {        
+    if (request.session.authenticated || request.session.authenticated!==undefined) {
+
+        
         username = request.session.username;
         gravURL = request.session.gravURL;    
-        response.render( 'game', {'username': username, 'roomcode': request.session.roomcode, 'gravURL': gravURL});
-        delete request.session.roomcode;
+        response.render( 'game', {
+            'username': username,
+            'roomcode': request.session.roomcode, 
+            'gravURL': gravURL
+        });
+            
+        
+
     } else {
+        delete request.session.roomcode;        
         response.redirect("/");
     }
 });
-
 
 /*
 
