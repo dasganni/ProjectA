@@ -269,6 +269,11 @@ app.get('/impressum', (request, response) => {
     response.render( 'impressum');
 });
 
+// verweis auf Profil 
+app.get('/profil', (request, response) => {
+    response.render('profil');
+});
+
 
 // verweis auf Game 
 app.get('/game', (request, response) => {
