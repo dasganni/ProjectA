@@ -291,6 +291,41 @@ app.get('/game', (request, response) => {
     }
 });
 
+// Nicht fertig 
+// Passwort änderungen
+app.post('/user/passwordChange_verify', (request, response) => { //Krischan
+
+    const oldPass = request.body.oldPass;
+    const newPass = passwordHash.generate(request.body.newPass);
+    const userId = request.session.userId;
+
+
+    console.log("userId: " + userId + " user name: " + request.session.username);
+
+    db.collection(DB_COLLECTION).findOne({ '_id': userId }, (error, result) => {
+
+        if (error) return console.log(error);
+
+        if (!passwordHash.verify(oldPass, result.password)) {
+            console.log("Dein Password ist nicht korrekt!");
+            response.redirect('/user/passwordChange'); //Krischan
+        }
+        //passwords match
+        else {
+
+            db.collection(DB_COLLECTION).update(
+
+                { '_id': userId },
+                { $set: { password: newPass } }
+
+            );
+
+            response.redirect('/user/passwordChange') //Krischan
+        }
+
+    });
+});
+
 /*
 
 // Handle 404 - Keep this as a last route
