@@ -244,7 +244,8 @@ app.post('/createGame', (request, response) => {
         'minUsers': 2,
         'usersDead': [],
         'usersChosenAction':[],
-        'allUsersHaveChosenAction':false
+        'allUsersHaveChosenAction':false,
+        'playersReadyForNextRound':0
     };
     createdRooms.push(room);
     request.session.roomcode = roomcode;

@@ -398,6 +398,17 @@ border-color: #bbb;
 outline: 0;
 }
 
+.enable-button {
+  cursor:pointer;
+  opacity: 1;
+}
+
+
+.enable-button:hover {
+color: #bbb;
+border-color: #bbb;
+outline: 0;
+}
 
 
 

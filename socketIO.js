@@ -3,6 +3,7 @@ exports.initializeSocket = function(http){
 
     let PlayerClassExport = require(__dirname + '/player.js');
     let Player= PlayerClassExport.Player;
+    let userAlreadyInArray = false;
 
     //socket
 
@@ -13,30 +14,19 @@ exports.initializeSocket = function(http){
             socket.username = data.username;
             socket.gravURL = data.gravURL;
 
-            // Look for the requested room
-            for (let i = 0; i < createdRooms.length; i++) {
-                if(createdRooms.length>0){
-                    if (createdRooms[i].roomcode === socket.roomcode) {
-                        createdRooms[i].users.push(socket.username);
-                        socket.room= createdRooms[i];
-                        socket.join(socket.room.roomcode); 
-                        console.log(socket.username + " connected to the Room " + socket.room.roomcode);
-                        io.in(socket.room.roomcode).emit('connectedToRoom', {room: socket.room});  
-                        io.in(socket.room.roomcode).emit('updateUsers', {room: socket.room});                   
-                        break;
-                    } else{
-                        socket.emit('backToLobby');             
-                    }
-                } else{
-                    socket.emit('backToLobby');                   
-                }
-            }
-            if (socket.room==undefined){
+            socket.roomIndex = getRoomIndex(socket.roomcode);
+            
+            createdRooms[socket.roomIndex].users.push(socket.username);
+            socket.join(createdRooms[socket.roomIndex].roomcode); 
+            console.log(socket.username + " connected to the Room " + createdRooms[socket.roomIndex].roomcode);
+            io.in(createdRooms[socket.roomIndex].roomcode).emit('connectedToRoom', {room: createdRooms[socket.roomIndex]});  
+            io.in(createdRooms[socket.roomIndex].roomcode).emit('updateUsers', {room: createdRooms[socket.roomIndex]});
+               
+            if (createdRooms[socket.roomIndex]==undefined){
                 socket.emit('backToLobby');
             }else{
                 let player = new Player(socket.username);
-                socket.room.playerObjects.push(player);            
-                updateRoomInCreatedRooms(socket.room);
+                createdRooms[socket.roomIndex].playerObjects.push(player);            
             }
             
 
@@ -47,16 +37,19 @@ exports.initializeSocket = function(http){
         //check the ready users
 
         socket.on('readyClicked', function(readyUser){
+
+            socket.roomIndex = getRoomIndex(socket.roomcode);            
+
             readyUsername = readyUser.username;
-            socket.room.usersReady.push(readyUsername);
-            updateRoomInCreatedRooms(socket.room);
+            createdRooms[socket.roomIndex].usersReady.push(readyUsername);
             console.log(readyUsername + ' is ready');
                         
 
-            if(socket.room.usersReady.length===socket.room.users.length && socket.room.users.length >= socket.room.minUsers){
-                players= socket.room.playerObjects;
-                io.in(socket.room.roomcode).emit('startGame', {
-                    players: socket.room.playerObjects
+            if(createdRooms[socket.roomIndex].usersReady.length===createdRooms[socket.roomIndex].users.length && createdRooms[socket.roomIndex].users.length >= createdRooms[socket.roomIndex].minUsers){
+                players= createdRooms[socket.roomIndex].playerObjects;
+                createdRooms[socket.roomIndex].playersReadyForNextRound=0;
+                io.in(createdRooms[socket.roomIndex].roomcode).emit('startGame', {
+                    players: createdRooms[socket.roomIndex].playerObjects
                 });               
             }
 
@@ -65,26 +58,30 @@ exports.initializeSocket = function(http){
         //client has chosen action
 
         socket.on('actionOnClientChosen', function(readyUser){
-            readyUsername = readyUser.username;
-            socket.room.usersChosenAction.push(readyUsername);
-            updateRoomInCreatedRooms(socket.room);
-            console.log(readyUsername + ' has chosen his action');
-            
 
-            if(socket.room.usersChosenAction.length===socket.room.users.length && socket.room.users.length >= socket.room.minUsers){
-                for (let i = 0; i < createdRooms.length; i++) {
-                    if(createdRooms.length>0){
-                        if (createdRooms[i].roomcode === socket.room.roomcode) {
-                            socket.room.allUsersHaveChosenAction=true;
-                            updateRoomInCreatedRooms(socket.room);
-                            io.in(socket.room.roomcode).emit('allUsersHaveChosenAction');   
-                        } else{
-                            socket.emit('backToLobby');             
-                        }
-                    } else{
-                        socket.emit('backToLobby');                   
-                    }
+            socket.roomIndex = getRoomIndex(socket.roomcode);            
+
+            readyUsername = readyUser.username;
+            userAlreadyInArray=false;       
+            for(i=0; i<createdRooms[socket.roomIndex].usersChosenAction.length; i++){
+                if(createdRooms[socket.roomIndex].usersChosenAction[i]==readyUsername){
+                    userAlreadyInArray=true;
+                    break;
                 }
+            }
+            if (userAlreadyInArray==false){
+                createdRooms[socket.roomIndex].usersChosenAction.push(readyUsername);
+                console.log(readyUsername + ' has chosen his action');
+            }            
+
+            if(createdRooms[socket.roomIndex].usersChosenAction.length===createdRooms[socket.roomIndex].users.length && createdRooms[socket.roomIndex].users.length >= createdRooms[socket.roomIndex].minUsers){
+                
+                createdRooms[socket.roomIndex].allUsersHaveChosenAction=true;
+                io.in(createdRooms[socket.roomIndex].roomcode).emit('allUsersHaveChosenAction');
+                createdRooms[socket.roomIndex].usersChosenAction=[]; 
+                createdRooms[socket.roomIndex].allUsersHaveChosenAction=false;
+                
+            
             }
 
         });
@@ -93,48 +90,56 @@ exports.initializeSocket = function(http){
 
         socket.on('setPlayerAction', function(userAction){                  //Übergabe von Aktionen der Spieler von Clients (Mehrere in Variablen in einer userAction)
             
-            for(i=0; i < socket.room.playerObjects.length; i++){
-                if(socket.room.playerObjects[i].name===userAction.actionUsername){
+            socket.roomIndex = getRoomIndex(socket.roomcode);            
+
+            for(i=0; i < createdRooms[socket.roomIndex].playerObjects.length; i++){
+                if(createdRooms[socket.roomIndex].playerObjects[i].name===userAction.actionUsername){
                     
                     if (userAction.action == 0){                            //action shoot
                     
-                        if (userAction.attackType == 1){                    //shoot shotgun when shooting
-                            socket.room.playerObjects[i].shootShotgun();
+                        if (userAction.attacktype == 1){                    //shoot shotgun when shooting
+                            createdRooms[socket.roomIndex].playerObjects[i].shootShotgun();
                         }
-                        else if (userAction.attackType==2){                 //shoot rifle when shooting
-                            socket.room.playerObjects[i].shootRifle();
+                        else if (userAction.attacktype==2){                 //shoot rifle when shooting
+                            createdRooms[socket.roomIndex].playerObjects[i].shootRifle();
                         }
-                        else if (userAction.attackType==3){                                               //shoot pistol when shooting
-                            socket.room.playerObjects[i].shootPistol();
+                        else if (userAction.attacktype==3){                                               //shoot pistol when shooting
+                            createdRooms[socket.roomIndex].playerObjects[i].shootPistol();
                         } else {
-                            socket.room.playerObjects[i].reload();
+                            createdRooms[socket.roomIndex].playerObjects[i].reload();
                         }
                     } else if(userAction.action ==1){                       //action reload
-                        socket.room.playerObjects[i].reload();
+                        createdRooms[socket.roomIndex].playerObjects[i].reload();
                     }
                     else{                                                   //action defend
-                        socket.room.playerObjects[i].defend();
+                        createdRooms[socket.roomIndex].playerObjects[i].defend();
                     }
+                    createdRooms[socket.roomIndex].playersReadyForNextRound=0;     
+                    break;                 
                 }
 
-
             }
+   
         });
 
         //game started
 
         socket.on('gameStarted', function(){
+
+            socket.roomIndex = getRoomIndex(socket.roomcode);
             
-            updateRoomInCreatedRooms(socket.room);                
-
             //send playerobjects to the clients every round
-            io.in(socket.room.roomcode).emit('playerStats', {
-                'players': socket.room.playerObjects             
-            });
 
-            io.in(socket.room.roomcode).emit('nextRound', {
-                'players': socket.room.playerObjects             
-            });
+            createdRooms[socket.roomIndex].playersReadyForNextRound+=1;
+
+            if(createdRooms[socket.roomIndex].playersReadyForNextRound==createdRooms[socket.roomIndex].users.length){
+                createdRooms[socket.roomIndex].playersReadyForNextRound=0;
+                
+                io.in(createdRooms[socket.roomIndex].roomcode).emit('nextRound', {
+                    'players': createdRooms[socket.roomIndex].playerObjects        
+                });
+            }
+            
                             
         });
 
@@ -143,62 +148,66 @@ exports.initializeSocket = function(http){
 
         socket.on('roundCheckActions', function(){
 
-             //Auswertung der Übergaben von Clients (Berechnung Schaden und Spielverlauf)
+            socket.roomIndex = getRoomIndex(socket.roomcode);
 
-            if (socket.room.playerObjects[0].getAttack()>socket.room.playerObjects[1].getAttack() && !socket.room.playerObjects[1].getDefense()){
-                socket.room.playerObjects[1].looseLife((socket.room.playerObjects[0].getAttack()-socket.room.playerObjects[1].getAttack()));
-            }
-
-            else if (socket.room.playerObjects[1].getAttack()>socket.room.playerObjects[0].getAttack() && !socket.room.playerObjects[0].getDefense()){
-                socket.room.playerObjects[0].looseLife((socket.room.playerObjects[1].getAttack()-socket.room.playerObjects[0].getAttack()));
-            }
-
-            else {
-                socket.broadcast.emit('textMessage', "Nichts passiert.");
-            }
-
-            //Check if Players died this round
+            createdRooms[socket.roomIndex].playersReadyForNextRound+=1;            
             
-            for(i=0; i < socket.room.playerObjects.length; i++){
-                if (socket.room.playerObjects[i].getLives()==0){
-                    socket.room.usersDead.push(socket.room.playerObjects[i].name);
-                    socket.room.playerObjects[i].setDead();
-                    console.log(socket.room.playerObjects[i].name + ' died!');                                        
-                }
-            }
+            if(createdRooms[socket.roomIndex].playersReadyForNextRound==createdRooms[socket.roomIndex].users.length){
+                    
+                //Auswertung der Übergaben von Clients (Berechnung Schaden und Spielverlauf)
 
-            if(typeof socket.room.usersDead !== 'undefined'){
-                if(socket.room.usersDead.length - socket.room.playerObjects.length===1){
-                    for(i=0; i < socket.room.playerObjects.length; i++){
-                        if (socket.room.playerObjects[i].getLives()>0){
-                            let winner;
-                            winner=socket.room.playerObjects[i]; 
-                            console.log(winner.name + ' hat gewonnen!!!');
-                            gameNotFinished=false;
-                        }
-                                                            
-                        
+                if (createdRooms[socket.roomIndex].playerObjects[0].getAttack()>createdRooms[socket.roomIndex].playerObjects[1].getAttack() && !createdRooms[socket.roomIndex].playerObjects[1].getDefense()){
+                    createdRooms[socket.roomIndex].playerObjects[1].looseLife((createdRooms[socket.roomIndex].playerObjects[0].getAttack()-createdRooms[socket.roomIndex].playerObjects[1].getAttack()));
+                }
+
+                else if (createdRooms[socket.roomIndex].playerObjects[1].getAttack()>createdRooms[socket.roomIndex].playerObjects[0].getAttack() && !createdRooms[socket.roomIndex].playerObjects[0].getDefense()){
+                    createdRooms[socket.roomIndex].playerObjects[0].looseLife((createdRooms[socket.roomIndex].playerObjects[1].getAttack()-createdRooms[socket.roomIndex].playerObjects[0].getAttack()));
+                }
+
+                else {
+                    socket.broadcast.emit('textMessage', "Nichts passiert.");
+                }
+
+                //Check if Players died this round
+                
+                for(i=0; i < createdRooms[socket.roomIndex].playerObjects.length; i++){
+                    if (createdRooms[socket.roomIndex].playerObjects[i].getLives()==0){
+                        createdRooms[socket.roomIndex].usersDead.push(createdRooms[socket.roomIndex].playerObjects[i].name);
+                        createdRooms[socket.roomIndex].playerObjects[i].setDead();
+                        console.log(createdRooms[socket.roomIndex].playerObjects[i].name + ' died!');                                        
                     }
                 }
+
+                if(typeof createdRooms[socket.roomIndex].usersDead !== 'undefined'){
+                    if(createdRooms[socket.roomIndex].usersDead.length - createdRooms[socket.roomIndex].playerObjects.length===1){
+                        for(i=0; i < createdRooms[socket.roomIndex].playerObjects.length; i++){
+                            if (createdRooms[socket.roomIndex].playerObjects[i].getLives()>0){
+                                let winner;
+                                winner=createdRooms[socket.roomIndex].playerObjects[i]; 
+                                console.log(winner.name + ' hat gewonnen!!!');
+                                gameNotFinished=false;
+                            }
+                                                                
+                            
+                        }
+                    }
+                }
+
+                resetUserAttributes(socket.roomIndex);                        
+
+                //createdRooms[socket.roomIndex]= createdRooms[socket.roomIndex];
+
+                createdRooms[socket.roomIndex].playersReadyForNextRound=0;
+                
+                io.in(createdRooms[socket.roomIndex].roomcode).emit('nextRound', {
+                    'players': createdRooms[socket.roomIndex].playerObjects    
+                });
             }
-
-            resetUserAttributes(socket.room);            
-
-            updateRoomInCreatedRooms(socket.room);            
-
-            io.in(socket.room.roomcode).emit('playerStats', {
-                'players': socket.room.playerObjects             
-            });
-
-            io.in(socket.room.roomcode).emit('nextRound', {
-                'players': socket.room.playerObjects             
-            });
-
         });
 
         //Der User hat sich disconnected
     
-        socket.on('disconnect', function(){            
+        socket.on('disconnect', function(){          
 
             //Löschen der User aus dem Roomobjekt, wenn leer, Raum löschen
 
@@ -233,33 +242,34 @@ exports.initializeSocket = function(http){
                 
         });
 
-
-    });
-
     //functions used by socket
     
     //update room function
 
+    let resetUserAttributes = function (roomIndex){
+        for (let i = 0; i < createdRooms[roomIndex].playerObjects.length; i++) {
+            createdRooms[roomIndex].playerObjects[i].attack= 0;
+            createdRooms[roomIndex].playerObjects[i].__defend = false;                  
+        }
+    }
 
-    let updateRoomInCreatedRooms = function (updatedRoom){
+    let getRoomIndex = function(requestedRoomcode){
+
         for (let i = 0; i < createdRooms.length; i++) {
             if(createdRooms.length>0){
-                if (createdRooms[i].roomcode === updatedRoom.roomcode) {
-                    createdRooms[i]= updatedRoom;
-                } else{
-                    socket.emit('backToLobby');             
-                }
+                if (createdRooms[i].roomcode === requestedRoomcode) {
+                    index = i;
+                    return index;
+                } 
             } else{
                 socket.emit('backToLobby');                   
             }
         }
+
+
     }
 
-    let resetUserAttributes = function (){
-        for (let i = 0; i < socket.room.playerObjects.length; i++) {
-            socket.room.playerObjects[i].attack= 0;
-            socket.room.playerObjects[i].__defend = false;                  
-        }
-    }
+
+    });
 
 }
