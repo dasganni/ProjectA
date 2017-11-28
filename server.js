@@ -5,8 +5,6 @@
 
 
 // Globale variablen 
-let errors = [];
-let joinLobbyErrors =[];
 roomExists=false;
 
 
@@ -94,16 +92,22 @@ app.use(express.static(__dirname + "/views/js"));
 //Index für Logik
 app.get('/', (request, response) => {
     if (request.session.authenticated || request.session.authenticated!==undefined) {
+        if (request.session.joinLobbyErrors==null || request.session.joinLobbyErrors==undefined){
+            request.session.joinLobbyErrors=[];
+        }
         response.render('dashboard', {
             'username': request.session.username,
             'gravURL': request.session.gravURL,
-            'joinLobbyErrors': joinLobbyErrors
+            'joinLobbyErrors': request.session.joinLobbyErrors
         });
     } else {
-        if (errors.length==0){
-            errorDummy=[];
+        if (request.session.errors==null || request.session.errors==undefined){
+            request.session.errors=[];
         }
-        response.render('index',{'error':errorDummy});
+        if (request.session.loginErrors==null || request.session.loginErrors==undefined){
+            request.session.loginErrors=[];
+        }
+        response.render('index',{'error':request.session.errors, 'loginErrors':request.session.loginErrors});
     }   
 });
 
@@ -112,31 +116,34 @@ app.post('/signUpPost', (request, response) => {
     let password = request.body.password;
     let confirmPassword = request.body.confirmPassword;
     let email = request.body.email;
+    request.session.errors=[];
 
     if (username == "" || username == undefined) {
-        errors.push('Bitte einen Username eingeben.');
+        request.session.errors.push('Bitte einen Username eingeben.');
     } 
     if (password == "" || password == undefined) {
-        errors.push('Bitte ein Passwort eingeben.');
+        request.session.errors.push('Bitte ein Passwort eingeben.');
     } 
     if (confirmPassword == "" || confirmPassword == undefined) {
-        errors.push('Bitte ein Passwort zur Bestätigung eingeben.');
+        request.session.errors.push('Bitte ein Passwort zur Bestätigung eingeben.');
     } 
     if (password != confirmPassword) {
-        errors.push('Die Passwörter stimmen nicht überein.');
+        request.session.errors.push('Die Passwörter stimmen nicht überein.');
     }
     if(email == "" || email == undefined){
-        errors.push('Bitte eine Email eingeben');
+        request.session.errors.push('Bitte eine Email eingeben');
     }
-   if(pwPolicy.validate(password)==false){
-        errors.push('Bitte folgende Password Policy beachten: <br> 1. Mindestens 8 Zeichen und Maximal 100 Zeichen <br> 2. Groß- und Kleinbuchstaben <br> 3. Mindestens eine Zahl <br> 4. Mindestens eine Sonderzeichen <br> 5. Keine Leerzeichen');
+    if(pwPolicy.validate(password)==false){
+        request.session.errors.push('Bitte folgende Password Policy beachten: <br> 1. Mindestens 8 Zeichen und Maximal 100 Zeichen <br> 2. Groß- und Kleinbuchstaben <br> 3. Mindestens eine Zahl <br> 4. Mindestens eine Sonderzeichen <br> 5. Keine Leerzeichen');
     }
    
     db.collection(DB_COLLECTION).findOne({'username': username}, (error, result) => {
         if (result != null) {
-            errors.push('User existiert bereits.');
+            request.session.errors.push('User existiert bereits.');
+            response.redirect('/');
+            
         } else {
-            if (errors.length == 0) {
+            if (request.session.errors.length == 0) {
                 const encryptedPassword = passwordHash.generate(password);
                 const newUser = {
                     'username': username,
@@ -144,13 +151,12 @@ app.post('/signUpPost', (request, response) => {
                     'email': email
                 }
                 db.collection(DB_COLLECTION).save(newUser, (error, result) => {
-                    if (error) return console.log(error);
                     console.log(username + ' added to database');
                     response.redirect('/');
                 });
             } else {
                 
-               response.render('index', {'error': errors});
+                response.redirect('/');
             }
         } 
     });
@@ -160,29 +166,29 @@ app.post('/logInPost', (request, response) => {
     let username = request.body.username;
     let password = request.body.password;
     let mail;
-    let loginFail;
-    
-    db.collection(DB_COLLECTION).findOne({'username': username}, (error, result) => {
-        mail = result.email;
-        //Anpasung für Avatar
-        let gravURL = gravatar.url(mail, { s: '200', r: 'pg', d: 'monsterid' });
+    request.session.loginErrors=[];
 
-        if (error) return console.log(error);
+    db.collection(DB_COLLECTION).findOne({'username': username}, (error, result) => {
+        //if (error) return console.log(error);
     
         if (result == null) {
-            console.log(error);
-            return;
+            request.session.loginErrors=[];
+            request.session.loginErrors.push('User existiert nicht');
+            response.redirect('/');
         } else {
+            mail = result.email;
+            //Anpasung für Avatar
+            let gravURL = gravatar.url(mail, { s: '200', r: 'pg', d: 'monsterid' });
+
             if (passwordHash.verify(password, result.password)) {
                 request.session.authenticated = true;
                 request.session.username = username;
                 request.session.gravURL = gravURL;
                 response.redirect('/');
-                loginFail = false;
             } else {
-                errors.push('Das Passwort für diesen User stimmt nicht überein.');
-                console.log(error);     
-                loginFail = true;           
+                request.session.loginErrors=[];                
+                request.session.loginErrors.push('Das Passwort für diesen User stimmt nicht überein.');
+                response.redirect('/');
             }
         }
     });
@@ -213,8 +219,8 @@ app.post('/joinGame', (request, response) => {
             
         if(roomIsFull){
             console.log("Requested lobby " + request.session.roomcode + " has reached the Userlimit");
-            joinLobbyErrors=[];
-            joinLobbyErrors.push("Requested Lobby " + request.session.roomcode + " is Full");
+            request.session.joinLobbyErrors=[];
+            request.session.joinLobbyErrors.push("Requested Lobby " + request.session.roomcode + " is Full");
             delete request.session.roomcode;
             response.redirect('/');
             
@@ -223,8 +229,8 @@ app.post('/joinGame', (request, response) => {
         }
     }
     else {
-        joinLobbyErrors=[];
-        joinLobbyErrors.push("Requested Lobby " + roomcode + " does not exist");
+        request.session.joinLobbyErrors=[];
+        request.session.joinLobbyErrors.push("Requested Lobby " + roomcode + " does not exist");
         response.redirect("/");
     }
 });
@@ -272,7 +278,16 @@ app.get('/impressum', (request, response) => {
 
 // verweis auf Profil 
 app.get('/profil', (request, response) => {
-    response.render('profil');
+    if (request.session.authenticated || request.session.authenticated!==undefined) {
+
+        if (request.session.updateErrors==null || request.session.updateErrors==undefined){
+            request.session.updateErrors=[];
+        }
+
+        response.render('profil',{'updateErrors': request.session.updateErrors});
+    }else{
+        response.redirect('/');
+    }
 });
 
 
@@ -302,42 +317,44 @@ app.get('/game', (request, response) => {
 app.post('/user/update', (request, response) => {
     
     const usernameUpdate = request.session.username;
-    const oldPW = request.body.oldPass
-    const newPW = passwordHash.generate(request.body.newPass);
+    const oldPW = request.body.oldPass;
+    const newPW = request.body.newPass;
     const repeatNewPW = request.body.newPassRepeat;
+    request.session.updateErrors=[];
 
-    let updateErrors = [];
-    if (oldPW == "" || newPW == "" || repeatNewPW == "")
-        updateErrors.push('Fill all fields');
-    if (newPW != repeatNewPW)
-        updateErrors.push('Passwords dont match');
-    
-    console.log(usernameUpdate);
-    console.log(oldPW);
-    console.log(newPW);
-    console.log(repeatNewPW);
+    if (oldPW == "" || newPW == "" || repeatNewPW == ""){
+        request.session.updateErrors.push('Fill all fields');
+    }
+    if (newPW != repeatNewPW){
+        request.session.updateErrors.push('Passwords dont match');
+    }
+    if(pwPolicy.validate(newPW)==false){
+        request.session.updateErrors.push('Bitte folgende Password Policy beachten: <br> 1. Mindestens 8 Zeichen und Maximal 100 Zeichen <br> 2. Groß- und Kleinbuchstaben <br> 3. Mindestens eine Zahl <br> 4. Mindestens eine Sonderzeichen <br> 5. Keine Leerzeichen');
+    }
+    if (request.session.updateErrors.length==0){
+        db.collection(DB_COLLECTION).findOne({ 'username': usernameUpdate }, (error, result) => {
 
-    db.collection(DB_COLLECTION).findOne({ 'username': usernameUpdate }, (error, result) => {
+            if (!passwordHash.verify(oldPW, result.password)) {
+                request.session.updateErrors.push("Dein altes Passwort ist nicht korrekt!");
+                response.redirect('/profil');
+            }
+            
+            //passwords match
+            else {
 
-        if (error) return console.log(error);
+                db.collection(DB_COLLECTION).update(
 
-        if (!passwordHash.verify(oldPW, result.password)) {
-            console.log("Dein Password ist nicht korrekt!");
-            response.redirect('/user/update');
-        }
-        //passwords match
-        else {
+                    { 'username': usernameUpdate },
+                    { $set: { password: passwordHash.generate(newPW) } }
 
-            db.collection(DB_COLLECTION).update(
+                );
 
-                { 'username': usernameUpdate },
-                { $set: { password: newPW } }
-
-            );
-
-            response.redirect('/');
-        }
-    });	
+                response.redirect('/');
+            }
+        });
+    }else{
+        response.redirect('/profil');        
+    }
 });
 
 /*

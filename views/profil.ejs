@@ -83,6 +83,13 @@
         <div class="newPassRepeat">
           <input type="password" name="newPassRepeat" placeholder="Password wiederholen">
         </div>
+        <ul>
+            <% for(var i = 0; i < updateErrors.length; i++) { %>
+              <li>
+                <%- updateErrors[i]%>
+              </li>
+              <% } %>
+          </ul>
         <div class="PWchangeButton">
           <button type="sumbit">Password ändern</button>
         </div>

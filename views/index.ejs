@@ -74,14 +74,13 @@
     </div>
   </nav>
 
-
-
   <!-- First content box 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div class="row height_100 dark_B light_F margin_25" style="overflow: hidden;">
 
     <!-- Login Formular Box Login -->
-    <div class="modal" id="Login">
+    <div class="modal" id="Login" <% if(loginErrors.length>=1){ %> style='display:block;'<% }  %>
+        >
       <div class="modal-sandbox">
       </div>
       <div class="modal-box">
@@ -93,6 +92,13 @@
           <form action="/logInPost" method="post">
             <input type="text" name="username" placeholder="Username">
             <input type="password" name="password" placeholder="Passwort">
+            <ul>
+              <% for(var i = 0; i < loginErrors.length; i++) { %>
+                <li>
+                  <%- loginErrors[i]%>
+                </li>
+                <% } %>
+            </ul>
             <button type="submit" class="button button-primary">Login</button>
           </form>
 
@@ -101,9 +107,9 @@
     </div>
 
     <!-- Login Formular Box Registration -->
-    <div class="modal" id="Registration" <% if(error.length> 1){ %> style='display:block;'
+    <div class="modal" id="Registration" <% if(error.length>=1){ %> style='display:block;'
       <% }  %>
-        >
+      >
         <div class="modal-sandbox">
         </div>
         <div class="modal-box">

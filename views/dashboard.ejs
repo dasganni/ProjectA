@@ -234,7 +234,7 @@
 
 
             <form action="/joinGame" method="post">
-              <% if (joinLobbyErrors.length < 0) { %>
+              <% if (joinLobbyErrors.length > 0) { %>
                 <ul>
                   <% for(let i = 0; i < joinLobbyErrors.length; i++) { %>
                     <li>
