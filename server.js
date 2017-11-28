@@ -270,6 +270,11 @@ app.get('/impressum', (request, response) => {
     response.render( 'impressum');
 });
 
+// verweis auf Profil 
+app.get('/profil', (request, response) => {
+    response.render('profil');
+});
+
 
 // verweis auf Game 
 app.get('/game', (request, response) => {
@@ -290,6 +295,49 @@ app.get('/game', (request, response) => {
         delete request.session.roomcode;        
         response.redirect("/");
     }
+});
+
+// Nicht fertig 
+// Passwort änderungen
+app.post('/user/update', (request, response) => {
+    
+    const usernameUpdate = request.session.username;
+    const oldPW = request.body.oldPass
+    const newPW = passwordHash.generate(request.body.newPass);
+    const repeatNewPW = request.body.newPassRepeat;
+
+    let updateErrors = [];
+    if (oldPW == "" || newPW == "" || repeatNewPW == "")
+        updateErrors.push('Fill all fields');
+    if (newPW != repeatNewPW)
+        updateErrors.push('Passwords dont match');
+    
+    console.log(usernameUpdate);
+    console.log(oldPW);
+    console.log(newPW);
+    console.log(repeatNewPW);
+
+    db.collection(DB_COLLECTION).findOne({ 'username': usernameUpdate }, (error, result) => {
+
+        if (error) return console.log(error);
+
+        if (!passwordHash.verify(oldPW, result.password)) {
+            console.log("Dein Password ist nicht korrekt!");
+            response.redirect('/user/update');
+        }
+        //passwords match
+        else {
+
+            db.collection(DB_COLLECTION).update(
+
+                { 'username': usernameUpdate },
+                { $set: { password: newPW } }
+
+            );
+
+            response.redirect('/');
+        }
+    });	
 });
 
 /*
