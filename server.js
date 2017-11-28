@@ -6,6 +6,7 @@
 
 // Globale variablen 
 roomExists=false;
+let loggedInUsers=[];
 
 
 //port
@@ -152,6 +153,10 @@ app.post('/signUpPost', (request, response) => {
                 }
                 db.collection(DB_COLLECTION).save(newUser, (error, result) => {
                     console.log(username + ' added to database');
+                    request.session.authenticated = true;
+                    let gravURL = gravatar.url(email, { s: '200', r: 'pg', d: 'monsterid' });                    
+                    request.session.username = username;
+                    request.session.gravURL = gravURL;
                     response.redirect('/');
                 });
             } else {
@@ -181,10 +186,25 @@ app.post('/logInPost', (request, response) => {
             let gravURL = gravatar.url(mail, { s: '200', r: 'pg', d: 'monsterid' });
 
             if (passwordHash.verify(password, result.password)) {
-                request.session.authenticated = true;
-                request.session.username = username;
-                request.session.gravURL = gravURL;
-                response.redirect('/');
+                if(loggedInUsers!==null && loggedInUsers !==undefined){
+                    for(i=0; i<loggedInUsers.length; i++){
+                        if(loggedInUsers[i]==result.username){
+                            request.session.loginErrors.push('User ist bereits angemeldet!');
+                            break;                      
+                        }
+                        console.log("test")
+                    }
+                } 
+                if(request.session.loginErrors.length>=1){
+                    response.redirect('/');
+                }else{
+                    request.session.authenticated = true;
+                    request.session.username = username;
+                    request.session.gravURL = gravURL;
+                    loggedInUsers.push(request.session.username);
+                    response.redirect('/');
+                }
+                
             } else {
                 request.session.loginErrors=[];                
                 request.session.loginErrors.push('Das Passwort für diesen User stimmt nicht überein.');
@@ -263,10 +283,16 @@ app.post('/createGame', (request, response) => {
 // Logout logik implementieren!
 
 app.get('/logout', (request, response) => {
+    for(i=0; i<loggedInUsers.length; i++){
+        if(request.session.username==loggedInUsers[i]){
+            loggedInUsers.splice(i,1)            
+        }
+    }
     delete request.session.authenticated;
     delete request.session.username;
+    
     // Wenn Error nicht = Null gab es eine Fehlermeldung beim Logout
-    error = null;
+    //error = null;
     response.redirect('/');
 }); 
 
