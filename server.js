@@ -298,37 +298,45 @@ app.get('/game', (request, response) => {
 
 // Nicht fertig 
 // Passwort änderungen
-app.post('/user/passwordChange_verify', (request, response) => { //Krischan
+app.post('/user/update', (request, response) => {
+    
+    const usernameUpdate = request.session.username;
+    const oldPW = request.body.oldPass
+    const newPW = passwordHash.generate(request.body.newPass);
+    const repeatNewPW = request.body.newPassRepeat;
 
-    const oldPass = request.body.oldPass;
-    const newPass = passwordHash.generate(request.body.newPass);
-    const userId = request.session.userId;
+    let updateErrors = [];
+    if (oldPW == "" || newPW == "" || repeatNewPW == "")
+        updateErrors.push('Fill all fields');
+    if (newPW != repeatNewPW)
+        updateErrors.push('Passwords dont match');
+    
+    console.log(usernameUpdate);
+    console.log(oldPW);
+    console.log(newPW);
+    console.log(repeatNewPW);
 
-
-    console.log("userId: " + userId + " user name: " + request.session.username);
-
-    db.collection(DB_COLLECTION).findOne({ '_id': userId }, (error, result) => {
+    db.collection(DB_COLLECTION).findOne({ 'username': usernameUpdate }, (error, result) => {
 
         if (error) return console.log(error);
 
-        if (!passwordHash.verify(oldPass, result.password)) {
+        if (!passwordHash.verify(oldPW, result.password)) {
             console.log("Dein Password ist nicht korrekt!");
-            response.redirect('/user/passwordChange'); //Krischan
+            response.redirect('/user/update');
         }
         //passwords match
         else {
 
             db.collection(DB_COLLECTION).update(
 
-                { '_id': userId },
-                { $set: { password: newPass } }
+                { 'username': usernameUpdate },
+                { $set: { password: newPW } }
 
             );
 
-            response.redirect('/user/passwordChange') //Krischan
+            response.redirect('/');
         }
-
-    });
+    });	
 });
 
 /*
