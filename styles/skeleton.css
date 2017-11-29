@@ -370,6 +370,18 @@ input[type="button"].button-primary {
   text-align: center;
   z-index: 2;
   position: relative; }
+.button.button-primary.button-dark,
+button.button-primary.button-dark,
+input[type="submit"].button-primary.button-dark,
+input[type="reset"].button-primary.button-dark,
+input[type="button"].button-primary.button-dark {
+  color: #330A2A;
+  background-color: transparent;
+  border-color: #330A2A;
+  min-width:130px;
+  text-align: center;
+  z-index: 2;
+  position: relative; }
 .button.button-primary:hover,
 button.button-primary:hover,
 input[type="submit"].button-primary:hover,
