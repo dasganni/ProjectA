@@ -195,7 +195,6 @@ app.post('/logInPost', (request, response) => {
                             request.session.loginErrors.push('User ist bereits angemeldet!');
                             break;                      
                         }
-                        console.log("test")
                     }
                 } 
                 if(request.session.loginErrors.length>=1){

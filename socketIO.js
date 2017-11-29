@@ -13,7 +13,6 @@ exports.initializeSocket = function(http){
         socket.on('addToLoggedInUsers', function(data){
             socket.username = data.username;
             loggedInUsers.push(socket.username);
-            console.log(loggedInUsers)
         });
 
         socket.on('gameConnect', function(data){
@@ -236,7 +235,6 @@ exports.initializeSocket = function(http){
                 for (let i = 0; i < createdRooms.length; i++) {
                     for (let j = 0; j < createdRooms[i].users.length; j++) {
                         if (createdRooms[i].users[j] === socket.username) {
-                            console.log()
                             createdRooms[i].users.splice(j, 1);
 
                             for (let k = 0; k < createdRooms[i].usersReady.length; k++) {
