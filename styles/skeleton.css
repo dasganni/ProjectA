@@ -1253,7 +1253,7 @@ there.
 }
 
 .titel {z-index:1;
-  cursor: pointer;
+  cursor: pointer;max-width:200px;
       margin: 10px 25px 10px 75px;
 }
 
@@ -1278,6 +1278,157 @@ there.
     -webkit-transform: rotate(360deg);
     transform: rotate(360deg);
 }
+
+
+
+
+/*  Pre loader  */
+
+.wrapperLoader {
+  background-color: #00FFB1;
+  overflow: hidden;
+      width: 100vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 999;
+}
+
+
+.buttonPreLoader {
+  left: calc(50% - 65px);
+  top: 54%;
+  min-width:130px;
+  text-align: center;  
+  position: absolute;
+}
+
+
+.wrapperLoader h2 {
+  color:#330A2A;
+  text-align: center;  
+  font-family: 'Open Sans';
+  font-weight: 800;
+  font-size: 16px;
+  margin: 0 0 20px 0;
+}
+
+.yellow {
+    position: absolute;
+    top: calc( 50% - 20px );
+    left: calc( 50% - 90px );
+    height: auto;
+    animation: speeder 0.8s linear infinite;
+}
+
+
+@keyframes speeder {
+  0% {
+    transform: translate(2px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -3px) rotate(-1deg);
+  }
+  20% {
+    transform: translate(-2px, 0px) rotate(1deg);
+  }
+  30% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  40% {
+    transform: translate(1px, -1px) rotate(1deg);
+  }
+  50% {
+    transform: translate(-1px, 3px) rotate(-1deg);
+  }
+  60% {
+    transform: translate(-1px, 1px) rotate(0deg);
+  }
+  70% {
+    transform: translate(3px, 1px) rotate(-1deg);
+  }
+  80% {
+    transform: translate(-2px, -1px) rotate(1deg);
+  }
+  90% {
+    transform: translate(2px, 1px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+.longfazers {
+  position: absolute;
+  width: 100%;
+  overflow:hidden;
+  height: 100%;
+}
+.longfazers span {
+  position: absolute;
+  height: 2px;
+  width: 20%;
+  background: #330A2A;
+}
+.longfazers span:nth-child(1) {
+  top: 20%;
+  animation: lf .6s linear infinite;
+  animation-delay: -5s;
+}
+.longfazers span:nth-child(2) {
+  top: 40%;
+  animation: lf2 .8s linear infinite;
+  animation-delay: -1s;
+}
+.longfazers span:nth-child(3) {
+  top: 60%;
+  animation: lf3 .6s linear infinite;
+}
+.longfazers span:nth-child(4) {
+  top: 80%;
+  animation: lf4 .5s linear infinite;
+  animation-delay: -3s;
+}
+
+@keyframes lf {
+  0% {
+    left: 200%;
+  }
+  100% {
+    left: -200%;
+    opacity: 0;
+  }
+}
+@keyframes lf2 {
+  0% {
+    left: 200%;
+  }
+  100% {
+    left: -200%;
+    opacity: 0;
+  }
+}
+@keyframes lf3 {
+  0% {
+    left: 200%;
+  }
+  100% {
+    left: -100%;
+    opacity: 0;
+  }
+}
+@keyframes lf4 {
+  0% {
+    left: 200%;
+  }
+  100% {
+    left: -100%;
+    opacity: 0;
+  }
+}
+
+
+
+
+
 
 /* Larger than phablet (also point when grid becomes active) */
 @media (min-width: 550px) {

@@ -322,10 +322,42 @@ socket.on('nextRound', function(data){
 
 //check actions if everyone has chosen an action
 socket.on('allUsersHaveChosenAction', function(){
+
   socket.emit('roundCheckActions');
-});   
+});  
+
+socket.on('startAnimation', function(data) {
+
+  // Who is who?
+
+  for (i = 0; i < players.length; i++) {
+    if (players[i].name === username) {
+      yourselfPlayer = players[i];
+    } else {
+      var enemies = [];
+      enemies.push(players[i]);
+    }
+  }
+
+  // log inhalte
+
+  console.log("Your Stats: Lifes: " + yourselfPlayer.lives
+    + ", Ammo: " + yourselfPlayer.ammo
+    + ", Name: " + yourselfPlayer.name + "   ");
+
+  for (i = 0; i < enemies.length; i++) {
+
+    console.log("Enemie Stats: Lifes: " + enemies[i].lives
+      + ", Ammo: " + enemies[i].ammo
+      + ", Name: " + enemies[i].name + "   ");
+  }
+
+  // yourselPlayer.lives 
+  // 
+});
 
 //print a textmessage
 socket.on('textMessage', function(data){
   console.log(data);
 }); 
+
