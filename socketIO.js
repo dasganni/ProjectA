@@ -5,9 +5,6 @@ exports.initializeSocket = function(http){
     let Player= PlayerClassExport.Player;
     let userAlreadyInArray = false;
 
-
-    //!!!ZUR ÜBERSICHTLICHKEIT LIEGEN DIE SOCKET EMITTER UND LISTENER VON CLIENT(game.js) UND SERVER(socketIO.js) NEBENEINANDER!!!
-
     //socket
 
     io.on('connection', function(socket){
@@ -59,7 +56,7 @@ exports.initializeSocket = function(http){
                 socket.emit('backToLobby');
             }else{
                         
-                let player = new Player(socket.username);
+                let player = new Player(socket.username, socket.gravURL);
                 createdRooms[socket.roomIndex].playerObjects.push(player);
                 socket.join(createdRooms[socket.roomIndex].roomcode); 
                 console.log(socket.username + " connected to the Room " + createdRooms[socket.roomIndex].roomcode);
