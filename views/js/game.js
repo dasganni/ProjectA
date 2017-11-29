@@ -342,12 +342,7 @@ socket.on('nextRound', function(data){
 
 
 //check actions if everyone has chosen an action
-<<<<<<< HEAD
 socket.on('allUsersHaveChosenAction', function(){   
-=======
-socket.on('allUsersHaveChosenAction', function(){
-
->>>>>>> 555cf583324bd88f9d6a33339fe2cfccb86982c7
   socket.emit('roundCheckActions');
 });  
 
