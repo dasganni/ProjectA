@@ -188,8 +188,19 @@ exports.initializeSocket = function(http){
 
             createdRooms[socket.roomIndex].playersReadyForNextRound+=1;            
             
+<<<<<<< HEAD
             if(createdRooms[socket.roomIndex].playersReadyForNextRound==createdRooms[socket.roomIndex].playerObjects.length){
                     
+=======
+            if(createdRooms[socket.roomIndex].playersReadyForNextRound==createdRooms[socket.roomIndex].users.length){
+                 
+
+                io.in(createdRooms[socket.roomIndex].roomcode).emit('startAnimation', {
+                    'players': createdRooms[socket.roomIndex].playerObjects
+                });
+
+
+>>>>>>> 555cf583324bd88f9d6a33339fe2cfccb86982c7
                 //Auswertung der Übergaben von Clients (Berechnung Schaden und Spielverlauf)
 
                 if (createdRooms[socket.roomIndex].playerObjects[0].getAttack()>createdRooms[socket.roomIndex].playerObjects[1].getAttack() && !createdRooms[socket.roomIndex].playerObjects[1].getDefense()){
