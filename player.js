@@ -1,6 +1,6 @@
 //Klasse Player
 
-function Player(name) {
+function Player(name, gravURL) {
     
     this.lives = 3;
     this.ammo = 1;
