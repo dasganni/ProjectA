@@ -316,7 +316,7 @@ app.get('/profil', (request, response) => {
             request.session.updateErrors=[];
         }
 
-        response.render('profil',{'updateErrors': request.session.updateErrors});
+        response.render('profil',{'updateErrors': request.session.updateErrors, 'authenticated': request.session.autheticated});
     }else{
         response.redirect('/');
     }
@@ -408,3 +408,59 @@ app.use(function(error, req, res, next) {
 });
 
 */
+
+app.post('/signUpPost', (request, response) => {
+    let username = request.body.username;
+    let password = request.body.password;
+    let confirmPassword = request.body.confirmPassword;
+    let email = request.body.email;
+    request.session.errors=[];
+
+    if (username == "" || username == undefined) {
+        request.session.errors.push('Bitte einen Username eingeben.');
+    } 
+    if (password == "" || password == undefined) {
+        request.session.errors.push('Bitte ein Passwort eingeben.');
+    } 
+    if (confirmPassword == "" || confirmPassword == undefined) {
+        request.session.errors.push('Bitte ein Passwort zur Bestätigung eingeben.');
+    } 
+    if (password != confirmPassword) {
+        request.session.errors.push('Die Passwörter stimmen nicht überein.');
+    }
+    if(email == "" || email == undefined){
+        request.session.errors.push('Bitte eine Email eingeben');
+    }
+    if(pwPolicy.validate(password)==false){
+        request.session.errors.push('Bitte folgende Password Policy beachten: <br> 1. Mindestens 8 Zeichen und Maximal 100 Zeichen <br> 2. Groß- und Kleinbuchstaben <br> 3. Mindestens eine Zahl <br> 4. Mindestens eine Sonderzeichen <br> 5. Keine Leerzeichen');
+    }
+   
+    db.collection(DB_COLLECTION).findOne({'username': username}, (error, result) => {
+        if (result != null) {
+            request.session.errors.push('User existiert bereits.');
+            response.redirect('/');
+            
+        } else {
+            if (request.session.errors.length == 0) {
+                const encryptedPassword = passwordHash.generate(password);
+                const newUser = {
+                    'username': username,
+                    'password': encryptedPassword,
+                    'email': email
+                }
+                db.collection(DB_COLLECTION).save(newUser, (error, result) => {
+                    console.log(username + ' added to database');
+                    request.session.authenticated = true;
+                    let gravURL = gravatar.url(email, { s: '200', r: 'pg', d: 'monsterid' });                    
+                    request.session.username = username;
+                    request.session.gravURL = gravURL;
+                    response.redirect('/');
+                });
+            } else {
+                
+                response.redirect('/');
+            }
+        } 
+    });
+});
+

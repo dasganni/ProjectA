@@ -286,3 +286,7 @@ Thanks to Philip Thrasher for the jquery plugin boilerplate for coffee script
   };
   return void 0;
 })(jQuery);
+
+
+
+

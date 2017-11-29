@@ -33,6 +33,8 @@
           authenticated=false;
         }
         
+        
+        
       </script>   
     <script>
         // Onbeforeload
@@ -73,7 +75,6 @@
     <div id="nav-content">
       <ul>
         <li><a href="/">Start</a></li>          
-        <li><a href="#">Kontakt</a></li>
         <li><a href="/impressum">Impressum</a></li>
         <% if (authenticated) { %> 
           <li> 
@@ -92,7 +93,7 @@
   <div id="box1"  class="row height_100 dark_B light" style="">
 
 
-  <h1> Game </h1>
+  <h2 id="titel" class="titel">Reload.io</h2>
 
   <div class="Spielgegner" style="border-bottom:1px solid black;">
     <p>Gegnername</p>
@@ -104,6 +105,9 @@
     <p>
       Timer: 00:28
     </p>
+        <p id="RoomCode">
+<%= roomcode %>
+        </p>
 
           <button class="js-button-ready">Ready</button>
 
