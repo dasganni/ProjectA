@@ -22,7 +22,17 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
-
+    <script src="/socket.io/socket.io.js"></script>
+    <script> var socket = io(); </script>  
+    <script>
+        var authenticated = '<%= authenticated %>';
+        if(authenticated==='true'){
+          authenticated=true;
+        }else{
+          authenticated=false;
+        }
+        
+    </script>  
 
     <!-- SEO meta-tags
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -115,6 +125,7 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="text/javascript" src="styles/rellax.js"></script>
   <script type="text/javascript" src="styles/menu_scroll_type_modal.js"></script>
+  <script> socket.emit('addToLoggedInUsers', {'username':username});</script>  
 
 
 </body>

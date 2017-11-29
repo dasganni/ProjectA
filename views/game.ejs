@@ -25,6 +25,16 @@
     <script src="/socket.io/socket.io.js"></script>
     <script> const socket = io(); </script>
     <script>
+        var authenticated = '<%= authenticated %>';
+        
+        if(authenticated==='true'){
+          authenticated=true;
+        }else{
+          authenticated=false;
+        }
+        
+      </script>   
+    <script>
         // Onbeforeload
         window.onbeforeunload=function(){
           return "Are you sure to leave this page? If you are alone in this lobby, this lobby will be deleted!";
@@ -65,7 +75,7 @@
         <li><a href="/">Start</a></li>          
         <li><a href="#">Kontakt</a></li>
         <li><a href="/impressum">Impressum</a></li>
-        <% if (authenticated = true) { %> 
+        <% if (authenticated) { %> 
           <li> 
             <form action="/logout" method="/post">
               <button type="submit" class="button button-primary">Logout</button>

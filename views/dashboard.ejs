@@ -27,10 +27,18 @@
   <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>
   <script src="/socket.io/socket.io.js"></script>
+  <script> var socket = io(); </script>
   <script>
-    const socket = io();
-  </script>
-
+      var username = '<%= username %>';
+      var currentlyLoggedInUsers = '<%= currentlyLoggedInUsers %>';
+      var authenticated = '<%= authenticated %>';
+      if(authenticated==='true'){
+        authenticated=true;
+      }else{
+        authenticated=false;
+      }
+      
+    </script>  
   <script>
     // Pie-Chart
     $(function () {
@@ -44,8 +52,6 @@
         animate: 2500
       });
     });
-
-
 
   </script>
 
@@ -62,8 +68,6 @@
 
 <body>
 
-
-
   <!-- Dark overlay menu  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <nav id="overlay-nav">
     <div id="nav-content">
@@ -75,9 +79,9 @@
           <a href="#">Kontakt</a>
         </li>
         <li>
-          <a href="#">Impressum</a>
+          <a href="/impressum">Impressum</a>
         </li>
-        <%if (authenticated = true) { %>
+        <%if (authenticated) { %>
           <li>
             <form action="/logout" method="/post">
               <button class="button button-primary" type="submit">Logout</button>
@@ -126,8 +130,8 @@
             <div class="candidatos italia">
               <div class="parcial">
                 <div class="info">
-                  <% let percent = 20; 
-                    let level = 2;
+                  <% var percent = 20; 
+                    var level = 2;
                     if ( username == "DasGanni" || username == "dasGanni" || username == "dasganni") {
                       percent = 0.1;
                       level = "-9999";
@@ -227,16 +231,12 @@
 
         <div class="row">
           <div class="dark_B tweleve column padding_25 goGame">
-            <script>
-              let username = '<%= username %>';
-              let socketUserName = '<%= username %>';
-            </script>
 
 
             <form action="/joinGame" method="post">
               <% if (joinLobbyErrors.length > 0) { %>
                 <ul>
-                  <% for(let i = 0; i < joinLobbyErrors.length; i++) { %>
+                  <% for(var i = 0; i < joinLobbyErrors.length; i++) { %>
                     <li>
                       <%- joinLobbyErrors[i]%>
                     </li>
@@ -350,6 +350,10 @@
                           <span>Win/lose</span>
                           23/34
                         </h1>
+                        <h1 class="Headline">
+                            <span>Currently Logged In Users</span>
+                            <%=currentlyLoggedInUsers%>
+                          </h1>
 
 
             <button class="button button-primary button_float_right" type="submit">
@@ -382,6 +386,8 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="text/javascript" src="styles/rellax.js"></script>
   <script type="text/javascript" src="styles/menu_scroll_type_modal.js"></script>
+  <script>  socket.emit('addToLoggedInUsers', {'username':username});  </script>
+  
 
 <div class="button_game_mobile_div bottom_30 only_mobile ">
 <button class="button_game_mobile shadow"><span class="fa Example of pencil-square-o fa-pencil-square-o"></span><span class="gametext" >Game</span>Search</button>

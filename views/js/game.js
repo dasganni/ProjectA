@@ -214,6 +214,8 @@ var changeButtonStatus = function () {
 };
 
 //begin socket listeners and logic
+socket.emit('addToLoggedInUsers', {'username':username});
+
 
 // connect to game
 socket.emit('gameConnect', {
