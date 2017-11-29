@@ -1,3 +1,5 @@
+//declaration of all buttons
+
 var shootButton = document.querySelector(".js-button-shoot");
 var pistolButton = document.querySelector(".js-button-pistol");
 var rifleButton = document.querySelector(".js-button-rifle");
@@ -6,10 +8,14 @@ var reloadButton = document.querySelector(".js-button-reload");
 var protectButton = document.querySelector(".js-button-protect");
 var readyButton = document.querySelector(".js-button-ready");
 
+//declaration of global variables
+
 var chosenAction = false;
 var attackTypeChosen = false;
 var yourselfPlayer;
 var enemies= [];
+
+//initialize button status at the beginning
 
 pistolButton.disabled = true;
 shotgunButton.disabled = true;
@@ -18,8 +24,9 @@ shootButton.disabled=true;
 protectButton.disabled=true;
 reloadButton.disabled=true;
 readyButton.disabled=false;
-//functions
 
+//functions
+// you have chosen your action
 var actionChosen = function(yourselfplayername, chosenAction, chosenAttacktype ){
   pistolButton.disabled = true;
   shotgunButton.disabled = true;
@@ -30,22 +37,21 @@ var actionChosen = function(yourselfplayername, chosenAction, chosenAttacktype )
 
   changeButtonStatus();
   
-  socket.emit('setPlayerAction', {
+  socket.emit('setPlayerAction', {            //set your action
     'actionUsername': yourselfplayername, 
     'action':chosenAction, 
     'attacktype':chosenAttacktype
   });
-  socket.emit('actionOnClientChosen', {
+  socket.emit('actionOnClientChosen', {       //add yourself to an array of players that have chosen their actions. If all have chosen the action, the server will start the next step
     'username': yourselfplayername 
   });
 }
 
+
+//check which button has been clicked and send the button actions to the function actionchosen above. Delete all buttoneventlisteners after this
 var buttonClicked = function(buttonNumber){
   if(buttonNumber==0){//shootbutton
     deleteEventListeners();
-
-    
-
   }
   else if(buttonNumber==1){//pistolbutton
     deleteEventListeners();
@@ -90,6 +96,8 @@ var buttonClicked = function(buttonNumber){
   }
 }
 
+
+//delete all button event listener fuction
 var deleteEventListeners = function(){
   shootButton.removeEventListener("click", buttonClicked);
   pistolButton.removeEventListener("click", buttonClicked);      
@@ -100,6 +108,7 @@ var deleteEventListeners = function(){
   
 }
 
+//check the ammo and deactivate all not allowed buttons
 var deactivateNotAllowedActionButtons = function(playerObject){
 
   pistolButton.disabled=true; 
@@ -140,7 +149,9 @@ var deactivateNotAllowedActionButtons = function(playerObject){
   }
   
 }
-  
+
+
+//check which buttons are enabled and which are disabled and change the style of the buttons configured in skeleton.css
 var changeButtonStatus = function () {
   if (shootButton.disabled) {
     $(shootButton).addClass("disable-button");
@@ -213,39 +224,42 @@ var changeButtonStatus = function () {
   }
 };
 
-//begin socket listeners and logic
+//initialize socket listeners (one listener per socket.on for the eventnames) and logic
+
+//add yourself to the globally loggedinusers array for counting all users
 socket.emit('addToLoggedInUsers', {'username':username});
 
-
-// connect to game
-socket.emit('gameConnect', {
+// connect to room and create an player object
+socket.emit('roomConnect', {
   'roomcode': roomcode,
   'username':username,
   'gravURL':gravURL
 });
 
-//get back to lobby initiated by server
 
+//if errors occur or user is not authenticated, send him back to the root
 socket.on('backToLobby', function(){
   window.location.href ='/';
 });
   
-//update the list of connected users
+//update the list of connected users if a new user connected or disonnected
 socket.on('updateUsers', function(data){
   room= data.room;
-  console.log('User joined, new Usercount: ' + room.users.length);
+  console.log('User count changed, new Usercount: ' + room.playerObjects.length);
 });
 
-//user connected to the room
+//user successfully connected to the room, !! First user action awaited !! --> wait for clicking ready
 socket.on('connectedToRoom', function(data){
   room= data.room
-  console.log('Du bist mit dem Raum ' + room.roomcode + ' verbunden. Insgesamt sind verbunden: ' + room.users.length);
+  console.log('Du bist mit dem Raum ' + room.roomcode + ' verbunden. Insgesamt sind verbunden: ' + room.playerObjects.length);
 
 
   readyButton.addEventListener("click", function () {
      $(".js-button-ready").addClass("display-none");
     readyButton.disabled = true; //readybutton
     changeButtonStatus();
+    readyButton.removeEventListener("click", this);
+      
     socket.emit('readyClicked', {
       'username':username
     });  
@@ -253,7 +267,7 @@ socket.on('connectedToRoom', function(data){
 
 });
 
-//started game after everyone is ready
+//started game after everyone is ready, check which player you are and check who are your enemies
 socket.on('startGame', function(data){
   shootButton.disabled=false;
   protectButton.disabled=false;
@@ -270,24 +284,27 @@ socket.on('startGame', function(data){
     }
   }
   
-  socket.emit('gameStarted');
+  socket.emit('gameStarted'); //after check of players acknowledge that the game started
   console.log(room.roomcode + ' started');
   
 });
 
-//begin next round
-socket.on('nextRound', function(data){
-  players= data.players;
-  console.log("nextRound")
+//begin next/first round
 
-  for(i=0; i < players.length; i++){
+socket.on('nextRound', function(data){
+
+  players= data.players;
+
+  for(i=0; i < players.length; i++){ // check players for yourself and enemies
     if(players[i].name===username){
       yourselfPlayer=players[i];
     } else{
-      var enemies = [];
+      enemies = [];
       enemies.push(players[i]);
     }
   }
+
+  //!!!Show actual stats here!!!
   
   console.log("Your Stats: Lifes: " + yourselfPlayer.lives 
   + ", Ammo: " + yourselfPlayer.ammo
@@ -303,8 +320,12 @@ socket.on('nextRound', function(data){
   deactivateNotAllowedActionButtons(yourselfPlayer);
   changeButtonStatus();
 
+
+  //reset action variables
   chosenAction=null;
   attackTypeChosen=null;
+
+  //create event listeners for all buttons. if they are clicked, their event will be triggered, their action sent to server and the actions chosen counter raised 
 
   shootButton.addEventListener("click", function (){buttonClicked(0)});
 
@@ -317,13 +338,26 @@ socket.on('nextRound', function(data){
   reloadButton.addEventListener("click", function (){buttonClicked(4)});
 
   protectButton.addEventListener("click", function (){buttonClicked(5)});
-  
-})
+});
+
 
 //check actions if everyone has chosen an action
-socket.on('allUsersHaveChosenAction', function(){
+socket.on('allUsersHaveChosenAction', function(){   
   socket.emit('roundCheckActions');
 });   
+
+//check actions if everyone has chosen an action
+socket.on('endGame', function(data){
+  console.log('And the Winner is: ' + data.finishedRoom.winner);
+  console.log('These Players lost: ');
+  for(i=0; i<data.finishedRoom.loosers.length; i++){
+    console.log(data.finishedRoom.loosers.name + ', ');
+  }
+
+
+  //!!HIER BITTE NEUEN BUTTON + OVERLAY EINTRAGEN UM SPIELER NACH BESTÄTIGEN ERST ZUM DASHBOARD ZU SCHICKEN
+  window.location.href ='/';  
+});  
 
 //print a textmessage
 socket.on('textMessage', function(data){

@@ -216,7 +216,7 @@ app.post('/logInPost', (request, response) => {
 });
 
 app.post('/joinGame', (request, response) => {
-    let roomIsFull = false;
+    request.session.roomIsFull = false;
     roomcode = request.body.roomcode;   
 
     // Look for the requested room
@@ -225,10 +225,10 @@ app.post('/joinGame', (request, response) => {
             request.session.roomcode = roomcode;
             console.log("Requested lobby was found.");
             console.log(request.session.username + " tries to join the Room " + request.session.roomcode);
-            if(createdRooms[i].users.length === createdRooms[i].userLimit){
-                roomIsFull = createdRooms[i].roomFull;
+            if(createdRooms[i].playerObjects.length === createdRooms[i].userLimit){
+                request.session.roomIsFull = createdRooms[i].roomFull;
             }
-            else if(createdRooms[i].users.length === createdRooms[i].userLimit-1){
+            else if(createdRooms[i].playerObjects.length === createdRooms[i].userLimit-1){
                 createdRooms[i].roomFull=true;
             }
             break;
@@ -238,7 +238,7 @@ app.post('/joinGame', (request, response) => {
     // If the room was found
     if (request.session.roomcode) {
             
-        if(roomIsFull){
+        if(request.session.roomIsFull){
             console.log("Requested lobby " + request.session.roomcode + " has reached the Userlimit");
             request.session.joinLobbyErrors=[];
             request.session.joinLobbyErrors.push("Requested Lobby " + request.session.roomcode + " is Full");
@@ -263,7 +263,6 @@ app.post('/createGame', (request, response) => {
     });
     room = {
         'roomcode': roomcode,
-        'users': [],
         'usersReady': [],
         'userLimit': 2,
         'roomFull': false,
@@ -272,7 +271,9 @@ app.post('/createGame', (request, response) => {
         'usersDead': [],
         'usersChosenAction':[],
         'allUsersHaveChosenAction':false,
-        'playersReadyForNextRound':0
+        'playersReadyForNextRound':0,
+        'loosers':[],
+        'winner':null
     };
     createdRooms.push(room);
     

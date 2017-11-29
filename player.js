@@ -8,6 +8,7 @@ function Player(name) {
     this.__defend = false;
     this.name = name;
     this.alive = true;
+    this.gravURL="";
     
     this.shootPistol = function() {
         this.attack = 1;
