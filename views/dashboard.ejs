@@ -72,16 +72,12 @@
   <nav id="overlay-nav">
     <div id="nav-content">
       <ul>
-        <li>
-          <a href="/createlobby">Spielen</a>
-        </li>
-        <li>
-          <a href="#">Kontakt</a>
-        </li>
-        <li>
-          <a href="/impressum">Impressum</a>
-        </li>
+
+
         <%if (authenticated) { %>
+                  <li>
+                    <a href="/createlobby">Spielen</a>
+                  </li>
           <li>
             <form action="/logout" method="/post">
               <button class="button button-primary" type="submit">Logout</button>
@@ -91,6 +87,10 @@
           <a href="/profil">Profil</a>
         </li>
           <%} %>
+        <li>
+          <a href="/impressum">Impressum</a>
+        </li>
+      
       </ul>
     </div>
   </nav>

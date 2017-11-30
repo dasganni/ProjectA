@@ -14,6 +14,7 @@ var chosenAction = false;
 var attackTypeChosen = false;
 var yourselfPlayer;
 var enemies= [];
+var gameIsStarted = false;
 
 //initialize button status at the beginning
 
@@ -286,6 +287,7 @@ socket.on('startGame', function(data){
   
   socket.emit('gameStarted'); //after check of players acknowledge that the game started
   console.log(room.roomcode + ' started');
+  preloader();
   
 });
 
@@ -394,3 +396,28 @@ socket.on('textMessage', function(data){
   console.log(data);
 }); 
 
+
+
+
+
+
+// preloader anmation
+
+function preloader () {
+
+
+      setTimeout(function () {
+        $('.bulletsvg').velocity({
+          opacity: 0.95,
+          translateX: "1200px"
+        }, {
+            duration: 1000,
+            complete: function () {
+              $('.wrapperLoader').velocity({
+                translateY: "-100%"
+              })
+            }
+          })
+      }, 2000)
+
+  }

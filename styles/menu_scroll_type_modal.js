@@ -290,3 +290,28 @@ Thanks to Philip Thrasher for the jquery plugin boilerplate for coffee script
 
 
 
+(function ($) {
+
+
+
+  $(".main-cir, .togglePop").click(function ballPop() {
+
+      if ($('.cir-mini-box div').hasClass('togglePop')) {
+    $('.cir-mini-box div').removeClass('togglePop');
+  $('.main-cir').addClass('active')
+      } else {
+    $('.cir-mini-box div').addClass('togglePop');
+  $('.main-cir').removeClass('active');
+      }
+
+    });
+
+
+  $(".main-cir, .togglePop").click( 
+
+    
+  );
+
+
+
+})(jQuery);
