@@ -112,7 +112,7 @@ var buttonClicked = function(buttonNumber){
     actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);    
   }
   else if(buttonNumber==6){//leavebutton
-    window.location.href('/');
+    window.location.href='/';
   }else{//should be never triggered
     console.log("Not existing Button clicked?!")
   }
