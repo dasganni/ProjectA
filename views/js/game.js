@@ -27,7 +27,8 @@ shootButton.disabled=true;
 protectButton.disabled=true;
 reloadButton.disabled=true;
 readyButton.disabled=true;
-leaveButton.disabled=true;
+if (leaveButton != undefined) {
+leaveButton.disabled=true;}
 
 //add event listeners for readybutton with anonymous function
 readyButton.addEventListener("click", function () {
@@ -54,9 +55,9 @@ shotgunButton.addEventListener("click", function (){buttonClicked(3)});
 reloadButton.addEventListener("click", function (){buttonClicked(4)});
 
 protectButton.addEventListener("click", function (){buttonClicked(5)});
-
+if (leaveButton != undefined) {
 leaveButton.addEventListener("click", function (){buttonClicked(6)});
-
+}
 
 
 //functions
@@ -127,8 +128,9 @@ var deactivateNotAllowedActionButtons = function(playerObject){
   reloadButton.disabled=false;
   shootButton.disabled=false;
   protectButton.disabled=false;
+  if (leaveButton != undefined) {
   leaveButton.disabled=true;
-  
+  }
 
   changeButtonStatus();
 
@@ -239,7 +241,7 @@ var changeButtonStatus = function () {
     $(readyButton).removeClass("disable-button");
     
   }
-  if ( leaveButton !== undefined) {
+  if ( leaveButton != undefined) {
     if (leaveButton.disabled) {
       $(leaveButton).addClass("disable-button");
       $(leaveButton).removeClass("enable-button");     
@@ -418,9 +420,9 @@ socket.on('endGame', function(data){
   protectButton.disabled=true;
   reloadButton.disabled=true;
   readyButton.disabled=true;
-
+  if (leaveButton != undefined) {
   leaveButton.disabled=false;
-
+  }
   changeButtonStatus();
   afterloader(data);
 });  
