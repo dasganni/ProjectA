@@ -40,8 +40,19 @@ exports.initializeSocket = function(http){
 
         //adds all logged in users in every ejs to the global loggedinusers array
         socket.on('addToLoggedInUsers', function(data){
+            
             socket.username = data.username;
-            loggedInUsers.push(socket.username);
+            
+            for(i=0; i<=loggedInUsers.length; i++){
+                if(loggedInUsers[i]==socket.username){
+                    loggedInUsers.splice(i, 1);
+                    socket.emit('kickUser');
+                    break;
+                }else{
+                    loggedInUsers.push(socket.username);
+                    break;               
+                }
+            }
         });
 
         //each client connecting to a room calls this listener --> create player object for all this users in the rooms
@@ -114,8 +125,8 @@ exports.initializeSocket = function(http){
 
         socket.on('setPlayerAction', function(userAction){                  //Übergabe von Aktionen der Spieler von Clients (Mehrere in Variablen in einer userAction)
             
-            socket.roomIndex = getRoomIndex(socket.roomcode);            
-
+            socket.roomIndex = getRoomIndex(socket.roomcode);   
+            
             for(i=0; i < createdRooms[socket.roomIndex].playerObjects.length; i++){
                 if(createdRooms[socket.roomIndex].playerObjects[i].name===userAction.actionUsername){
                     
@@ -187,7 +198,7 @@ exports.initializeSocket = function(http){
             
             if(createdRooms[socket.roomIndex].playersReadyForNextRound==createdRooms[socket.roomIndex].playerObjects.length){
                     
-                 
+                createdRooms[socket.roomIndex].playersReadyForNextRound=0;                
 
                 io.in(createdRooms[socket.roomIndex].roomcode).emit('startAnimation', {
                     'players': createdRooms[socket.roomIndex].playerObjects
@@ -222,23 +233,23 @@ exports.initializeSocket = function(http){
                 if(createdRooms[socket.roomIndex].usersDead !== undefined){
                     if(createdRooms[socket.roomIndex].playerObjects.length - createdRooms[socket.roomIndex].usersDead.length===1){                        
                         for(i=0; i < createdRooms[socket.roomIndex].playerObjects.length; i++){
-                            if (createdRooms[socket.roomIndex].playerObjects[i].getLives()>0){
+                            if (createdRooms[socket.roomIndex].playerObjects[i].alive){
                                 createdRooms[socket.roomIndex].winner=createdRooms[socket.roomIndex].playerObjects[i]; 
                                 console.log(createdRooms[socket.roomIndex].winner.name + ' hat gewonnen!!!');
-                             }else{
+                            }else{
+                                console.log(createdRooms[socket.roomIndex].playerObjects[i].name + 'lost')
                                 createdRooms[socket.roomIndex].loosers.push(createdRooms[socket.roomIndex].playerObjects[i]);
                             }
                                                                 
                             
                         }
-                        io.in(createdRooms[socket.roomIndex].roomcode).emit('endGame', { //start first round
+                        io.in(createdRooms[socket.roomIndex].roomcode).emit('endGame', { //send result to clients
                             'finishedRoom': createdRooms[socket.roomIndex]        
-                        });                    }
+                        });                   
+                    }
                 }
 
                 resetUserAttributes(socket.roomIndex);                        
-
-                createdRooms[socket.roomIndex].playersReadyForNextRound=0;
 
                 //after round, refer to next round
                 

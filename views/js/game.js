@@ -24,7 +24,34 @@ rifleButton.disabled = true;
 shootButton.disabled=true;
 protectButton.disabled=true;
 reloadButton.disabled=true;
-readyButton.disabled=false;
+readyButton.disabled=true;
+
+//add event listeners for readybutton with anonymous function
+readyButton.addEventListener("click", function () {
+  $(".js-button-ready").addClass("display-none");
+ readyButton.disabled = true; //readybutton
+ changeButtonStatus();
+ readyButton.removeEventListener("click", this);
+   
+ socket.emit('readyClicked', {
+   'username':username
+ });  
+});
+
+//create event listeners for all buttons. if they are clicked, their event will be triggered, their action sent to server and the actions chosen counter raised 
+
+shootButton.addEventListener("click", function (){buttonClicked(0)});
+
+pistolButton.addEventListener("click", function (){buttonClicked(1)});   
+
+rifleButton.addEventListener("click", function (){buttonClicked(2)});
+
+shotgunButton.addEventListener("click", function (){buttonClicked(3)});
+
+reloadButton.addEventListener("click", function (){buttonClicked(4)});
+
+protectButton.addEventListener("click", function (){buttonClicked(5)});
+
 
 //functions
 // you have chosen your action
@@ -52,61 +79,34 @@ var actionChosen = function(yourselfplayername, chosenAction, chosenAttacktype )
 //check which button has been clicked and send the button actions to the function actionchosen above. Delete all buttoneventlisteners after this
 var buttonClicked = function(buttonNumber){
   if(buttonNumber==0){//shootbutton
-    deleteEventListeners();
   }
   else if(buttonNumber==1){//pistolbutton
-    deleteEventListeners();
     chosenAction=0;
     chosenAttacktype=3;
     actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);       
   }
   else if(buttonNumber==2){//riflebutton
-    deleteEventListeners();
-
     chosenAction=0;
     chosenAttacktype=2;
     actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);    
   }
   else if(buttonNumber==3){//shotgunbutton
-    deleteEventListeners();
-
-    
     chosenAction=0;
     chosenAttacktype=1;
     actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);      
   }
   else if(buttonNumber==4){//reloadbutton
-    deleteEventListeners();
-
     chosenAction=1;
     chosenAttacktype=0;        
     actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);         
   }
   else if(buttonNumber==5){//protectbutton
-    deleteEventListeners();
-
-    
     chosenAction=2;
     chosenAttacktype=0;        
     actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);    
-  }else{
-    deleteEventListeners();    
-
-    
+  }else{//should be never triggered
     console.log("Not existing Button clicked?!")
   }
-}
-
-
-//delete all button event listener fuction
-var deleteEventListeners = function(){
-  shootButton.removeEventListener("click", buttonClicked);
-  pistolButton.removeEventListener("click", buttonClicked);      
-  rifleButton.removeEventListener("click", buttonClicked);         
-  shotgunButton.removeEventListener("click", buttonClicked);      
-  reloadButton.removeEventListener("click", buttonClicked);      
-  protectButton.removeEventListener("click", buttonClicked);  
-  
 }
 
 //check the ammo and deactivate all not allowed buttons
@@ -222,6 +222,11 @@ var changeButtonStatus = function () {
 
   if (readyButton.disabled) {
     $(readyButton).addClass("disable-button");
+    $(readyButton).removeClass("enable-button");     
+  }else{
+    $(readyButton).addClass("enable-button"); 
+    $(readyButton).removeClass("disable-button");
+    
   }
 };
 
@@ -242,6 +247,11 @@ socket.emit('roomConnect', {
 socket.on('backToLobby', function(){
   window.location.href ='/';
 });
+
+//if errors occur or user is not authenticated, log him out
+socket.on('kickUser', function(){
+  window.location.href ='/logout';
+});
   
 //update the list of connected users if a new user connected or disonnected
 socket.on('updateUsers', function(data){
@@ -253,19 +263,10 @@ socket.on('updateUsers', function(data){
 socket.on('connectedToRoom', function(data){
   room= data.room
   console.log('Du bist mit dem Raum ' + room.roomcode + ' verbunden. Insgesamt sind verbunden: ' + room.playerObjects.length);
-
-
-  readyButton.addEventListener("click", function () {
-     $(".js-button-ready").addClass("display-none");
-    readyButton.disabled = true; //readybutton
-    changeButtonStatus();
-    readyButton.removeEventListener("click", this);
-      
-    socket.emit('readyClicked', {
-      'username':username
-    });  
-  });
-
+  
+  //wenn richtig verbunden, aktiviere readybutton
+  readyButton.disabled=false;
+  changeButtonStatus();
 });
 
 //started game after everyone is ready, check which player you are and check who are your enemies
@@ -319,27 +320,16 @@ socket.on('nextRound', function(data){
     + ", Name: " + enemies[i].name + "   ");
   }
 
+  //player ends here every round to input new action
+
+   //reset action variables
+   chosenAction=null;
+   attackTypeChosen=null;
+
   deactivateNotAllowedActionButtons(yourselfPlayer);
   changeButtonStatus();
 
 
-  //reset action variables
-  chosenAction=null;
-  attackTypeChosen=null;
-
-  //create event listeners for all buttons. if they are clicked, their event will be triggered, their action sent to server and the actions chosen counter raised 
-
-  shootButton.addEventListener("click", function (){buttonClicked(0)});
-
-  pistolButton.addEventListener("click", function (){buttonClicked(1)});   
-  
-  rifleButton.addEventListener("click", function (){buttonClicked(2)});
-
-  shotgunButton.addEventListener("click", function (){buttonClicked(3)});
-
-  reloadButton.addEventListener("click", function (){buttonClicked(4)});
-
-  protectButton.addEventListener("click", function (){buttonClicked(5)});
 });
 
 
@@ -380,10 +370,10 @@ socket.on('startAnimation', function(data) {
 
 //check actions if everyone has chosen an action
 socket.on('endGame', function(data){
-  console.log('And the Winner is: ' + data.finishedRoom.winner);
+  console.log('And the Winner is: ' + data.finishedRoom.winner.name);
   console.log('These Players lost: ');
   for(i=0; i<data.finishedRoom.loosers.length; i++){
-    console.log(data.finishedRoom.loosers.name + ', ');
+    console.log(data.finishedRoom.loosers[i].name + ', ');
   }
 
 
