@@ -92,9 +92,7 @@ exports.initializeSocket = function(http){
                         'players': createdRooms[socket.roomIndex].playerObjects        
                     });
                 }
-                else{
-                    console.log('connect update users')
-                    
+                else{                  
                     let player = new Player(socket.username, socket.gravURL);
                     createdRooms[socket.roomIndex].playerObjects.push(player);
                     socket.join(createdRooms[socket.roomIndex].roomcode); 
@@ -339,7 +337,6 @@ exports.initializeSocket = function(http){
                             }
                             
                             if (createdRooms[i].playerObjects.length > 0) {
-                                console.log('disconnect update users')
                                 io.to(createdRooms[i].roomcode).emit('updateUsers', {room: createdRooms[i]});
                             }
                             else {
