@@ -449,3 +449,67 @@ function preloader () {
       }, 2000)
 
   }
+
+
+
+// preloader anmation
+
+function preloader() {
+
+
+  setTimeout(function () {
+    $('.bulletsvg').velocity({
+      opacity: 0.95,
+      translateX: "1200px"
+    }, {
+        duration: 1000,
+        complete: function () {
+          $('.wrapperLoader').velocity({
+            translateY: "-100%"
+          })
+        }
+      })
+  }, 2000)
+
+}
+
+
+
+function afterloader() {
+  if (data.finishedRoom.winner.name === username) {
+    winner();
+  } else {
+    loser();
+  }
+
+
+  setTimeout(function () {
+    $('.endgame').velocity({
+      top: "-90%"
+    }, {
+        duration: 1000,
+        complete: function () {
+          $('.endgame').velocity({
+            top: "0"
+          })
+        }
+      })
+  }, 2000)
+
+}
+
+
+function loser() {
+  document.getElementById("Liste")
+  var trophy = "<div class='endgame' ><div><img class='bullet' src='styles/img/shoot.svg'><img class='skull' src='styles/img/trophy.svg'><p>Du hast gewonnen!</p><button>Leave</button></div></div>";
+
+  document.getElementById('afterloader').innerHTML = trophy;
+}
+
+
+function loser() {
+  var skull = "<div class='endgame' ><div><img class='bullet' src='styles/img/shoot.svg'><img class='skull' src='styles/img/skull.svg'><p>Du hast verloren!</p><button>Leave</button></div></div>";
+
+  document.getElementById('afterloader').innerHTML = skull;
+
+}
