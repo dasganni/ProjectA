@@ -22,18 +22,17 @@ exports.initializeSocket = function(http){
     
         let getRoomIndex = function(requestedRoomcode){
     
-            for (let i = 0; i < createdRooms.length; i++) {
+            for (let i = 0; i <= createdRooms.length; i++) {
                 if(createdRooms.length>0){
                     if (createdRooms[i].roomcode === requestedRoomcode) {
                         index = i;
                         return index;
                     } 
                 } else{
-                    socket.emit('backToLobby');                   
+                    return null;
                 }
             }
-    
-    
+            return null;
         }
 
         //initialize socket listeners on server
@@ -60,7 +59,7 @@ exports.initializeSocket = function(http){
             socket.roomcode = data.roomcode;
             socket.username = data.username;
             socket.gravURL = data.gravURL;
-            userAlreadyInArray = false;
+            socket.userAlreadyInArray = false;
             
 
             socket.roomIndex = getRoomIndex(socket.roomcode);
@@ -69,21 +68,30 @@ exports.initializeSocket = function(http){
                 socket.emit('backToLobby');
             }else{
                 //check if user reconnected, if so, don't create new player, let him use his old playerobject(but dead)
-                if(createdRooms[socket.roomIndex].length>0){
+                if(socket.roomIndex!==null){
                     for(i=0; i<createdRooms[socket.roomIndex].playerObjects.length; i++){
+                        
                         if(createdRooms[socket.roomIndex].playerObjects[i].name==socket.username){
                             socket.yourPlayerIndex=i;
-                            userAlreadyInArray=true;
+                            socket.userAlreadyInArray=true;
+                            break;
                         }
                     }       
                 }
-                if(userAlreadyInArray){
+                if(socket.roomIndex==null){
+                    socket.emit('backToLobby');
+                }
+                if(socket.userAlreadyInArray){
+                    console.log(socket.username + " reconnected to the Room " + createdRooms[socket.roomIndex].roomcode);
+                    
                     createdRooms[socket.roomIndex].playerObjects[socket.yourPlayerIndex].setDead();
                     io.in(createdRooms[socket.roomIndex].roomcode).emit('nextRound', { //start first round
                         'players': createdRooms[socket.roomIndex].playerObjects        
                     });
                 }
                 else{
+                    console.log('connect update users')
+                    
                     let player = new Player(socket.username, socket.gravURL);
                     createdRooms[socket.roomIndex].playerObjects.push(player);
                     socket.join(createdRooms[socket.roomIndex].roomcode); 
@@ -287,23 +295,23 @@ exports.initializeSocket = function(http){
                 if (loggedInUsers[i] === socket.username) {
                     loggedInUsers.splice(i, 1);
                 }
-            }
-
-
+            }            
 
             //Löschen der User aus dem Roomobjekt, wenn leer, Raum löschen
+            //user dies if disconnecting
 
-                for (let i = 0; i < createdRooms.length; i++) {
-                    if(createdRooms[i].roomcode==socket.roomcode){
-                        for (let j = 0; j < createdRooms[i].playerObjects.length; j++) {
-                            if (createdRooms[i].playerObjects[j].name === socket.username) {
+            for (let i = 0; i < createdRooms.length; i++) {
+                if(createdRooms[i].roomcode==socket.roomcode){
+                    for (let j = 0; j < createdRooms[i].playerObjects.length; j++) {
+                        if (createdRooms[i].playerObjects[j].name === socket.username) {
 
-                                createdRooms[i].playerObjects[j].setDead();
-                                createdRooms[i].usersDead.push(createdRooms[i].playerObjects[j]);
+                            createdRooms[i].playerObjects[j].setDead();
+                            createdRooms[i].usersDead.push(createdRooms[i].playerObjects[j]);                           
+                            if(createdRooms[i].playerObjects.length!==0){
                                 
-
-                                if(createdRooms[i].playerObjects.length - createdRooms[i].usersDead.length===1){  
-                                    for(k=0; i < createdRooms[i].playerObjects.length; k++){
+                                if(createdRooms[i].playerObjects.length - createdRooms[i].usersDead.length<=1){  
+                                    
+                                    for(k=0; k < createdRooms[i].playerObjects.length; k++){
                                         if (createdRooms[i].playerObjects[k].alive){
                                             createdRooms[i].winner=createdRooms[i].playerObjects[k]; 
                                             console.log(createdRooms[i].winner.name + ' hat gewonnen!!!');
@@ -312,29 +320,34 @@ exports.initializeSocket = function(http){
                                             createdRooms[i].loosers.push(createdRooms[i].playerObjects[k]);
                                         }
                                     }
-                                    createdRooms[i].playerObjects.splice(0, createdRooms[i].playerObjects.length);
                                     
                                     io.in(createdRooms[i].roomcode).emit('endGame', { //send result to clients
                                         'finishedRoom': createdRooms[i]        
                                     });
+                                    createdRooms[i].playerObjects.splice(0, createdRooms[i].playerObjects.length);
+                                    
                                 }
-                                
-                                if (createdRooms[i].playerObjects.length > 0) {
-                                    io.to(createdRooms[i].roomcode).emit('updateUsers', createdRooms[i]);
-                                }
-                                else {
-                                    console.log('Room ' + createdRooms[i].roomcode + ' is empty now and has been deleted!');
-                                    createdRooms.splice(i, 1);
-                                }
-                                break;          
                             }
+                            
+                            if (createdRooms[i].playerObjects.length > 0) {
+                                console.log('disconnect update users')
+                                io.to(createdRooms[i].roomcode).emit('updateUsers', {room: createdRooms[i]});
+                            }
+                            else {
+                                
+                                console.log('Room ' + createdRooms[i].roomcode + ' is empty now and has been deleted!');
+                                createdRooms.splice(i, 1); 
+                                
+                            }
+                            break;          
                         }
                     }
                 }
+            }
 
-                if (socket.username!==undefined){
-                    console.log(socket.username + ' disconnected from Room');
-                }
+            if (socket.username!==undefined){
+                console.log(socket.username + ' disconnected from Room');
+            }
                 
         });
 
