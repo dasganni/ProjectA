@@ -18,7 +18,6 @@ const http = require('http').Server(app);
 const https = require('https').Server({
     key: fs.readFileSync('./cert/privatekey.pem'),
     cert: fs.readFileSync('./cert/certificate.crt'),
-    requestCert: true,
     rejectUnauthorized: false
 },app);
 
