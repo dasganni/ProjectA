@@ -6,10 +6,22 @@
 
 //port
 const port = 3000;
+const sslport = 4000;
+
+//File System init
+const fs = require('fs');
 
 // Express init
 const express = require("express");
 const app = express();
+const http = require('http').Server(app);
+const https = require('https').Server({
+    key: fs.readFileSync('./cert/privatekey.pem'),
+    cert: fs.readFileSync('./cert/certificate.crt'),
+    requestCert: true,
+    rejectUnauthorized: false
+},app);
+
 
 // Sessions initialisieren
  const session = require('express-session');
@@ -38,9 +50,10 @@ const app = express();
 const gravatar = require('gravatar');
 
 //socket.io initialisieren
-const http = require('http').Server(app);
 const socketScript = require(__dirname + '/socketIO.js');
 socketScript.initializeSocket(http);
+socketScript.initializeSocket(https);
+
 
 // Globale variablen 
 roomExists=false;
@@ -81,6 +94,10 @@ const ObjectId = require('tingodb')().ObjectID;
 // Server starten
 http.listen(port, function() {
 	console.log("listening to port " + port);
+});
+
+https.listen(sslport, function() {
+	console.log("listening secure to port " + sslport);
 });
 
 
