@@ -2,7 +2,7 @@
 <html>
   <head>
 
-    <title>Dummy Page</title>
+    <title>Schützen, Schießen, Nachladen</title>
  
     <!-- Mobile Specific Metas
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -16,12 +16,30 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="stylesheet" href="styles/normalize.css">
     <link rel="stylesheet" href="styles/skeleton.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
- 
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ -->
     <!-- JS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
+    <script src="//cdnjs.cloudflare.com/ajax/libs/velocity/0.7.0/jquery.velocity.min.js"></script>    
+    <script src="/socket.io/socket.io.js"></script>
+    <script> const socket = io(); </script>
+    <script>
+        var authenticated = '<%= authenticated %>';
+        
+        if(authenticated==='true'){
+          authenticated=true;
+        }else{
+          authenticated=false;
+        }
+      </script>   
+    <script>
+        // Onbeforeload
+        window.onbeforeunload=function(){
+          return "Are you sure to leave this page? If you are alone in this lobby, this lobby will be deleted!";
+        }
+    </script>
 
 
     <!-- SEO meta-tags
@@ -33,7 +51,29 @@
 
 
   </head>
-<body>
+<body class="align-left">
+
+
+<div id="afterloader"></div>
+
+<div class="wrapperLoader">
+  <div class="yellow">
+    <img class="bulletsvg" src="styles/img/bulletdark.svg" style="margin:-200px 0 0 0;">
+ </div>
+<div class="longfazers">
+  <span></span><span></span><span></span><span></span>
+</div>
+<div class="buttonPreLoader">
+  <h2>Reload.io</h2>
+    <p id="RoomCode">
+      <%= roomcode %>
+    </p>
+  <button id="js-button-ready" class="js-button-ready button button-dark button-primary">Ready</button>
+</div>
+</div>
+</div>
+
+
 
 
   <!-- Menu icon 
@@ -52,9 +92,8 @@
     <div id="nav-content">
       <ul>
         <li><a href="/">Start</a></li>          
-        <li><a href="#">Kontakt</a></li>
         <li><a href="/impressum">Impressum</a></li>
-        <% if (authenticated = true) { %> 
+        <% if (authenticated) { %> 
           <li> 
             <form action="/logout" method="/post">
               <button type="submit" class="button button-primary">Logout</button>
@@ -68,22 +107,92 @@
 
   <!-- First content box 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="box1"  class="row height_100 padding_50" style="background-color:#7AFFD1;overflow: hidden;">
+    <h2 id="titel" class="titel">Reload.io</h2>
 
-  <h1> empty </h1>
-  <!-- Pack dein kram hier rein. -->
+  <div id="box1"  class="row height_100 dark_B padding_25 margin_25 light text-center">
+
+
+
+
+
+
+  <div class="enemy" id="enemy">
+    <p id="enemyname">Gegnername</p>
+    
+    
+    <p id="liveenemy">
+    </p>
+    <p id="enemyammo">
+    </p>
+
+  </div>
+
+  
+
+  <div class="player" id="player">
+
+      <img src="<%= gravURL %>" class="gamesImg">
+
+    <p id="liveplayer">
+    </p>
+    <p id="ammoplayer">
+    </p>
+
 
   </div>
 
 
+
+           
+    <div class="cir2 togglePop js-button-shoot" id="js-button-shoot">
+      <img src="http://www.krischanschupp.de/uni/3.svg">2
+    </div>
+
+<div class="cir-box">
+  <div class="cir-mini-box">
+    <div class="cir2 togglePop js-button-pistol" id="js-button-pistol">
+      <img src="/styles/img/shoot.svg">2
+    </div>
+    <div class="cir3 togglePop js-button-rifle">
+      <img src="/styles/img/shoot.svg">1
+    </div>
+    <div class="cir4 togglePop js-button-reload">
+      <img src="/styles/img/reload.svg">
+    </div>
+
+    <div class="cir5 togglePop js-button-protect">
+      <img src="/styles/img/protect.svg">
+    </div>
+
+
+    <div class="cir6 togglePop js-button-shotgun">
+      <img src="/styles/img/shoot.svg">3
+    </div>
+
+  
+  </div>
+
+  <div class="main-cir" id="main-cir">
+    <img src="/styles/img/protect.svg" />
+  </div>
+</div>
+
+
+
+  </div>
+
+  <script>
+    roomcode= '<%= roomcode%>';
+    username= '<%= username %>';
+    gravURL= '<%= gravURL %>';
+  </script>
 
   
   <!-- Footer
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="footer"  class="row" style="background-color: white;">
+  <div id="footer"  class="row" >
     <p>&#169; 2017 by <strong>After Work</strong></p> <a href="/impressum">impressum</a>
   </div>
-
 
 
 
@@ -92,8 +201,15 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="text/javascript" src="styles/rellax.js"></script>
   <script type="text/javascript" src="styles/menu_scroll_type_modal.js"></script>
+  <script type="text/javascript" src="game.js"></script>    
 
+  
+  <script>
+    window.onload = changeButtonStatus();
+    console.log('Change Button');
+  </script>
 
+  
 </body>
 
 </html>

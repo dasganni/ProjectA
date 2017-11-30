@@ -2,7 +2,7 @@
 <html>
   <head>
 
-    <title>Dummy Page</title>
+    <title>Profil</title>
  
     <!-- Mobile Specific Metas
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -22,7 +22,17 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
-
+    <script src="/socket.io/socket.io.js"></script>
+    <script> var socket = io(); </script>  
+    <script>
+        var authenticated = '<%= authenticated %>';
+        if(authenticated==='true'){
+          authenticated=true;
+        }else{
+          authenticated=false;
+        }
+        
+    </script>  
 
     <!-- SEO meta-tags
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -69,9 +79,32 @@
   <!-- First content box 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <div id="box1"  class="row height_100 padding_50" style="background-color:#7AFFD1;overflow: hidden;">
-
-  <h1> empty </h1>
-  <!-- Pack dein kram hier rein. -->
+    <form action="/user/update" method="post">
+      <div class="inputs">
+        <div class="title">
+          <h2>ÄNDERN SIE IHR PASSWORT:</h2>
+        </div>
+        <div class="oldPass">
+          <input type="password" name="oldPass" placeholder="Altes Passwort">
+        </div>
+        <div class="newPass">
+          <input type="password" name="newPass" placeholder="Neues Passwort">
+        </div>
+        <div class="newPassRepeat">
+          <input type="password" name="newPassRepeat" placeholder="Passwort wiederholen">
+        </div>
+        <ul>
+            <% for(var i = 0; i < updateErrors.length; i++) { %>
+              <li>
+                <%- updateErrors[i]%>
+              </li>
+              <% } %>
+          </ul>
+        <div class="PWchangeButton">
+          <button type="sumbit">Passwort ändern</button>
+        </div>
+      </div>
+    </form>
 
   </div>
 
@@ -92,6 +125,13 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="text/javascript" src="styles/rellax.js"></script>
   <script type="text/javascript" src="styles/menu_scroll_type_modal.js"></script>
+  <script> 
+  socket.emit('addToLoggedInUsers', {'username':username});
+  //if errors occur or user is not authenticated, log him out
+  socket.on('kickUser', function(){
+    window.location.href ='/logout';
+  });
+  </script>  
 
 
 </body>

@@ -14,8 +14,11 @@
     "ejs": "^2.5.7",
     "express": "^4.16.2",
     "express-session": "^1.15.5",
+    "gravatar": "^1.6.0",
     "mongodb": "^2.2.31",
     "password-hash": "^1.2.2",
+    "password-validator": "^4.0.0",
+    "randomstring": "^1.1.5",
     "socket.io": "^2.0.3",
     "tingodb": "^0.5.1"
   },

@@ -1,41 +1,52 @@
 <!DOCTYPE html>
 <html>
-  <head>
 
-    <title>Projekt Angewandte Programierung</title>
- 
-    <!-- Mobile Specific Metas
+<head>
+
+  <title>Projekt Angewandte Programierung</title>
+
+  <!-- Mobile Specific Metas
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
- 
-    <!-- FONT
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet"
+    type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-    <!-- CSS
+
+  <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link rel="stylesheet" href="styles/skeleton.css">
+  <link rel="stylesheet" href="styles/normalize.css">
+  <link rel="stylesheet" href="styles/skeleton.css">
 
-    <!-- JS
+  <!-- JS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>
+  
 
-
-    <!-- SEO meta-tags
+  <!-- SEO meta-tags
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta name="description" content="">
-    <meta name="keywords" content="">   
-    <meta name="title" content="">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="title" content="">
 
 
 
-  </head>
-<body>
+</head>
+
+<body id="home" class="align-center">
+
+
+
+
+<!-- title icon 
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+<h2 id="titel" class="titel start">Reload.io</h2>
 
 
   <!-- Menu icon 
@@ -47,91 +58,120 @@
       <div id="bottom"></div>
     </div>
   </div>
-  
+
   <!-- Dark overlay menu 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <nav id="overlay-nav">
     <div id="nav-content">
       <ul>
-        <li><a href="/">Start</a></li>          
-        <li><a href="#" class="modal-trigger" data-modal="Login">Login</a></li>
-        <li><a href="#" class="modal-trigger" data-modal="Registration">Registration</a></li>
-        <li><a href="/impressum">Impressum</a></li>
-        <li><a href="#">Kontakt</a></li>
+        <li>
+          <a href="#" class="modal-trigger" data-modal="Login">Login</a>
+        </li>
+        <li>
+          <a href="#" class="modal-trigger" data-modal="Registration">Registration</a>
+        </li>
+        <li>
+          <a href="/impressum">Impressum</a>
+        </li>
       </ul>
     </div>
   </nav>
-  
-
 
   <!-- First content box 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="head" style="overflow: hidden;">
+  <div class="row height_100 dark_B light_F margin_25" style="overflow: hidden;">
 
     <!-- Login Formular Box Login -->
-    <div class="modal" id="Login">
+    <div class="modal" id="Login" <% if(loginErrors.length>=1){ %> style='display:block;'<% }  %>
+        >
       <div class="modal-sandbox">
       </div>
-      <div class="modal-box">
+      <div class="modal-box ">
         <div class="modal-header">
-          <div class="close-modal">&#10006;</div>
+          <div class="close-modal">&#10006;</div><h2 class=" text-center">Login</h2>
         </div>
         <div class="modal-body">
-		
-	<form action="/logInPost" method="post">
-              
-            <img src="styles/img/profile.png" width="150px">
+        
+          <form action="/logInPost" method="post">
             <input type="text" name="username" placeholder="Username">
             <input type="password" name="password" placeholder="Passwort">
+            <ul>
+              <% for(var i = 0; i < loginErrors.length; i++) { %>
+                <li>
+                  <%- loginErrors[i]%>
+                </li>
+                <% } %>
+            </ul>
             <button type="submit" class="button button-primary">Login</button>
-	</form>
-	
+          </form>
+
         </div>
       </div>
     </div>
 
     <!-- Login Formular Box Registration -->
-    <div class="modal" id="Registration">
-      <div class="modal-sandbox">
-      </div>
-      <div class="modal-box">
-        <div class="modal-header">
-          <div class="close-modal">&#10006;</div>
+    <div class="modal" id="Registration" <% if(error.length>=1){ %> style='display:block;'
+      <% }  %>
+      >
+        <div class="modal-sandbox">
         </div>
-        <div class="modal-body">
+        <div class="modal-box">
+          <div class="modal-header">
+            <div class="close-modal">&#10006;</div><h2 class=" text-center ">Registration</h2>
+          </div>
+          <div class="modal-body">
 
-          <form action="/signUpPost" method="post">
+            
+            <p>Maybe you can take the same Login like Paypal.</p>
+            <form action="/signUpPost" method="post">
+              <input type="text" name="username" placeholder="Name">
+              <input type="email" name="email" placeholder="E-Mail">
+              <input type="password" name="password" class="passwordinput" placeholder="Passwort">
+              <span class="password">
+                Bitte folgende Password Policy beachten:
+                <br> 1. Mindestens 8 Zeichen und Maximal 100 Zeichen
+                <br> 2. Groß- und Kleinbuchstaben
+                <br> 3. Mindestens eine Zahl
+                <br> 4. Mindestens eine Sonderzeichen
+                <br> 5. Keine Leerzeichen
+              </span>
+              <input type="password" name="confirmPassword" placeholder="Passwort Wiederholen">
+              <ul>
+                <% for(var i = 0; i < error.length; i++) { %>
+                  <li>
+                    <%- error[i]%>
+                  </li>
+                  <% } %>
+              </ul>
+              <button type="submit" class="button button-primary">Registration</button>
 
-            <img src="styles/img/profile.png" width="150px">
-            <input type="text" name="username" placeholder="Name">
-            <input type="text" name="email" placeholder="E-Mail">
-	          <input type="password" name="password" placeholder="Passwort">
-            <input type="password" name="confirmPassword" placeholder="Passwort Wiederholen">	    
-            <button type="submit" class="button button-primary">Registration</button>
+            </form>
 
-          </form>
-          
+          </div>
         </div>
-      </div>
     </div>
-    
+
 
     <section class="hero">
       <div class="inner-text">
-        <img src="styles/img/icons.svg " class="rellax" data-rellax-speed="-10" style="z-index:0;">
+        <img src="styles/img/icons.svg" class="rellax" data-rellax-speed="-10" style="z-index:0;">
       </div>
     </section>
-    
+
     <p class="p1">Try to survive and Choose:</p>
     <p class="p2">Reload</p>
 
     <!-- Trigger Login -->
-    <a href="#" class="modal-trigger button button-primary" data-modal="Login">Login</a><br>
+    <a href="#" class="modal-trigger button button-primary" data-modal="Login">Login</a>
+    <br>
     <!-- Trigger Registration -->
-    <a href="#" class="modal-trigger button button-primary" data-modal="Registration">Registration</a> <br>
-    
-    <!-- Link Scroll to #box2-->    
-    <a class="scroll" data-speed="2000" href="javascript:;" data-scroll="#box2"><i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+    <a href="#" class="modal-trigger button button-primary" data-modal="Registration">Registration</a>
+    <br>
+
+    <!-- Link Scroll to #box2-->
+    <a class="scroll" data-speed="2000" href="javascript:;" data-scroll="#box2">
+      <i class="fa fa-chevron-down" aria-hidden="true"></i>
+    </a>
 
   </div>
 
@@ -140,12 +180,14 @@
 
   <!-- Second content box 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="box2"  class="row height_100" style="background-color:#7AFFD1;overflow: hidden;">
+  <div id="box2" class="row height_100 dark_B light margin_25">
     <div class="twellve columns secondbox">
       <h1>Wie Schere, Stein, Papier nur mit Rumballern</h1>
-      <p>Every hand image was taken using my hands and my partner's, Christine Oen. So there is lierally a physical representation of the makers on every page. I think that's really cool.</p>
+      <p>Every hand image was taken using my hands and my partner's, Christine Oen. So there is lierally a physical representation
+        of the makers on every page. I think that's really cool.</p>
       <a class="scroll" data-speed="2000" href="javascript:;" data-scroll="#box3">
-      <i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+        <i class="fa fa-chevron-down" aria-hidden="true"></i>
+      </a>
     </div>
   </div>
 
@@ -155,28 +197,33 @@
 
   <!-- Third content box 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="box3"  class="row height_100" style="overflow: hidden;">
+  <div id="box3" class="row height_100 dark_B light_F margin_25" style="overflow: hidden;">
 
     <div class="four columns thirdbox">
-      <img src="styles/img/reload.svg "  style="z-index:0;">
+      <img src="styles/img/reload.svg " style="z-index:0;">
       <h1>1. Reload</h1>
-      <p>Every hand image was taken using my hands and my partner's, Christine Oen. So there is lierally a physical representation of the makers on every page. I think that's really cool.</p>
+      <p>Every hand image was taken using my hands and my partner's, Christine Oen. So there is lierally a physical representation
+        of the makers on every page. I think that's really cool.</p>
     </div>
 
     <div class="four columns thirdbox">
-      <img src="styles/img/protect.svg "  style="z-index:0;">
+      <img src="styles/img/protect.svg " style="z-index:0;">
       <h1>2. Protect</h1>
-      <p>Every hand image was taken using my hands and my partner's, Christine Oen. So there is lierally a physical representation of the makers on every page. I think that's really cool.</p>
+      <p>Every hand image was taken using my hands and my partner's, Christine Oen. So there is lierally a physical representation
+        of the makers on every page. I think that's really cool.</p>
     </div>
 
     <div class="four columns thirdbox">
-      <img src="styles/img/shoot.svg "  style="z-index:0;">
+      <img src="styles/img/shoot.svg " style="z-index:0;">
       <h1>3. Shoot</h1>
-      <p>Every hand image was taken using my hands and my partner's, Christine Oen. So there is lierally a physical representation of the makers on every page. I think that's really cool.</p>
+      <p>Every hand image was taken using my hands and my partner's, Christine Oen. So there is lierally a physical representation
+        of the makers on every page. I think that's really cool.</p>
     </div>
 
-    <!-- Link Scroll to #box4--> 
-    <a class="scroll" data-speed="2000" href="javascript:;" data-scroll="#box4"><i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+    <!-- Link Scroll to #box4-->
+    <a class="scroll" data-speed="2000" href="javascript:;" data-scroll="#box4">
+      <i class="fa fa-chevron-down" aria-hidden="true"></i>
+    </a>
 
   </div>
 
@@ -185,18 +232,21 @@
 
   <!-- Fourth content box 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="box4"  class="row height_100" style="background-color:#7AFFD1;">
-    <h2 style="padding-top:44vh;text-align:center;">Platz für mehr Kontent...</h2>
+  <div id="box4" class="row height_100 dark_B light margin_25" >
+    <h2 style="padding-top:44vh;text-align:center;">Platz für mehr Inhalte...</h2>
   </div>
 
 
 
 
-  <div id="footer"  class="row" style="background-color: white;">
-    <p>&#169; 2017 by <strong>After Work</strong></p> <a href="/impressum">impressum</a>
+  <div id="footer" class="row light " >
+    <p>&#169; 2017 by
+      <strong>After Work</strong>
+    </p>
+    <a href="/impressum">impressum</a>
   </div>
 
-  
+
 
 
 

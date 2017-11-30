@@ -1,83 +1,386 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
 
-    <title>Dashboard</title>
- 
-    <!-- Mobile Specific Metas
+<head>
+
+  <title>Dashboard</title>
+
+  <!-- Mobile Specific Metas
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
- 
-    <!-- FONT
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- FONT
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Permanent+Marker" rel="stylesheet">
-    <!-- CSS
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet"
+    type="text/css">
+  <link rel="stylesheet" href="path/to/font-awesome/css/font-awesome.min.css">
+
+
+  <!-- CSS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <link rel="stylesheet" href="styles/normalize.css">
-    <link rel="stylesheet" href="styles/skeleton.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
- 
-    <!-- JS
+  <link rel="stylesheet" href="styles/normalize.css">
+  <link rel="stylesheet" href="styles/skeleton.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <!-- JS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script> var socket = io(); </script>
+  <script>
+      var username = '<%= username %>';
+      var currentlyLoggedInUsers = '<%= currentlyLoggedInUsers %>';
+      var authenticated = '<%= authenticated %>';
+      if(authenticated==='true'){
+        authenticated=true;
+      }else{
+        authenticated=false;
+      }
+      
+    </script>  
+  <script>
+    // Pie-Chart
+    $(function () {
+      $('.circle-graph').easyPieChart({
+        scaleColor: false,
+        lineWidth: 25,
+        lineCap: 'butt',
+        barColor: '#00FFB1',
+        trackColor: '#330A2A',
+        size: 200,
+        animate: 2500
+      });
+    });
+
+  </script>
 
 
-    <!-- SEO meta-tags
+  <!-- SEO meta-tags
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-    <meta name="description" content="">
-    <meta name="keywords" content="">   
-    <meta name="title" content="">
+  <meta name="description" content="">
+  <meta name="keywords" content="">
+  <meta name="title" content="">
 
 
 
-  </head>
+</head>
+
 <body>
 
-
-  <!-- Menu icon 
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="menu-icon-shape">
-    <div id="menu-icon">
-      <div id="top"></div>
-      <div id="middle"></div>
-      <div id="bottom"></div>
-    </div>
-  </div>
-  
-  <!-- Dark overlay menu 
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+  <!-- Dark overlay menu  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <nav id="overlay-nav">
     <div id="nav-content">
       <ul>
-        <li><a href="#">Kontakt</a></li>
-        <li><a href="#">Impressum</a></li>
+
+
+        <%if (authenticated) { %>
+                  <li>
+                    <a href="/createlobby">Spielen</a>
+                  </li>
+          <li>
+            <form action="/logout" method="/post">
+              <button class="button button-primary" type="submit">Logout</button>
+            </form>
+          </li>
+        <li>
+          <a href="/profil">Profil</a>
+        </li>
+          <%} %>
+        <li>
+          <a href="/impressum">Impressum</a>
+        </li>
+      
       </ul>
     </div>
   </nav>
-  
+  <div class="container">
+
+    <!-- Top row   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <div class="row" style="position:relative;">
+      <h2 id="titel" class="titel">Reload.io</h2>
+      <div id="menu-icon-shape">
+        <div id="menu-icon">
+          <div id="top"></div>
+          <div id="middle"></div>
+          <div id="bottom"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- First row   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <div class="row dark_B_mobile_none padding_25 light_F">
 
 
-  <!-- First content box 
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="box1"  class="row height_100 padding_50" style="background-color:#7AFFD1;overflow: hidden;">
+      <!-- Account Infos   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <div class="eight columns dark_B padding_25">
 
-  <h1> Geuten Tag, <%= username %> </h1>
-  <!-- Pack dein kram hier rein. -->
+
+        <div class="row">
+          <div class="four columns">
+            <img height="200px" src="<%= gravURL %>" style="border-radius:50%;" class="Grava" width="200px">
+          </div>
+          <div class="eight columns" style="min-height:220px;">
+            <h1 class="Headline backcolor">
+              <span>Userprofile</span>
+              <%= username %>
+            </h1>
+            <div class="candidatos italia">
+              <div class="parcial">
+                <div class="info">
+                  <% var percent = 20; 
+                    var level = 2;
+                    if ( username == "DasGanni" || username == "dasGanni" || username == "dasganni") {
+                      percent = 0.1;
+                      level = "-9999";
+                    } %>
+                  <div class="nome">Level <%= level %></div>
+                </div>
+                <div class="progressBar">
+                  <div class="percentagem" style="width:<%= percent %>%;"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="four columns">
+            <h4>Last Games:</h4>
+            <P>
+              <strong>Lose</strong> again Max 
+              <BR>
+              <strong>Lose</strong> again Bruttos
+              <BR>
+              <strong>Lose</strong> again xXxPatrickxXx
+              <BR>
+              <strong>Lose</strong> again MircoMitC
+              <BR>
+              <strong>Lose</strong> again Max</P>
+
+          </div>
+
+          <div class="two columns">
+
+            <h2 class="Headline">
+              <span>Rang</span>
+              230
+            </h2>
+
+            <h2 class="Headline">
+              <span>Score</span>
+              435
+            </h2>
+          </div>
+
+          <div class="six columns">
+            <div class="containergraph">
+              <section class="graph-one">
+                <div class="circle-graph-container">
+                  <div class="circle-graph" data-percent="80">
+                    <h1 class="Headline">
+                      <span>Win/Lose</span>43/34</h1>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Wanna play?   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <div class="four columns no_mobile last">
+        <h1 class="Headline">
+          <span>Wanna Play?</span>Create
+        </h1>
+
+        <h1 class="Headline">
+          <span>or</span>Search
+        </h1>
+      <!-- Space   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      
+      <div class="space padding_25 row"></div>
+   
+        <div class="row">
+
+          <div class="dark_B tweleve column padding_25 goGame">
+            <script>
+              document.getElementById("checkBox").disabled = true;
+            </script>
+            <form action="/createGame" method="post">
+              <button class="button button-primary button_float_right" type="submit">
+                <span class="fa Example of pencil-square-o fa-pencil-square-o"></span>Create</button>
+              <input checked name="notclick" type="radio" value="notclick"> One vs. One
+              <br>
+              <span class="disabledinput">
+                <input disabled="disabled" id="checkBox" name="notclick" type="radio" value="notclick"> All vs. All</span>
+              <br>
+              <span class="disabledinput">
+                <input disabled="disabled" id="checkBox" name="notclick" type="radio" value="notclick"> One vs. Pc</span>
+            </form>
+          </div>
+        </div>
+
+
+        
+
+        <div class="row">
+          <div class="dark_B tweleve column padding_25 goGame">
+
+
+            <form action="/joinGame" method="post">
+              <% if (joinLobbyErrors.length > 0) { %>
+                <ul>
+                  <% for(var i = 0; i < joinLobbyErrors.length; i++) { %>
+                    <li>
+                      <%- joinLobbyErrors[i]%>
+                    </li>
+                    <% } %>
+                </ul>
+                <% } %>
+                  <form action="/createGame" method="post">
+                    <button class="button button-primary button_float_right" type="submit">
+                      <span class="fa Example of pencil-square-o fa-search"></span>Search</button>
+
+                    <input checked name="notclick" type="radio" value="notclick"> One vs. One
+                    <br>
+                    <span class="disabledinput">
+                      <input disabled="disabled" id="checkBox" name="notclick" type="radio" value="notclick"> All vs. All</span>
+                    <br>
+                    <span class="disabledinput">
+                      <input disabled="disabled" id="checkBox" name="notclick" type="radio" value="notclick"> One vs. Pc</span>
+                    <input class="button_float_right test" type="text" name="roomcode" placeholder="Enter Room Code">
+
+                  </form>
+
+            </form>
+
+          </div>
+        </div>
+
+
+      </div>
+
+
+
+      <!-- NEWS   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+      <div class="row">
+        <div class="eight columns dark_B padding_25">
+
+          <div class="row">
+            <div class="twelve columns">
+              <h1 class="Headline">
+                <span>Whats new?</span>News</h1>
+            </div>
+          </div>
+
+
+          <div class="row message">
+            <div class="three columns">
+              <img height="120px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c" style="border-radius:50%;" class="Grava"
+                width="120px">
+            </div>
+            <div class="nine columns pointer">
+              <h2>Neues Update</h2>
+              <p class="new_p">n enim justo, rhoncus ut, imperhoncus ut, imperdiet a, venenatis vitaerhoncus ut, imperdiet a, venenatis vitaerhoncus ut, imperdiet a, venenatis vitaerdiet a, venenatis vitae, jusrhoncus ut, i...</p>
+              <p class="new_name">
+                - <%= username %>
+              </p>
+            </div>
+          </div>
+
+          <div class="row message pointer">
+            <div class="three columns">
+              <img height="120px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c" style="border-radius:50%;" class="Grava"
+                width="120px">
+            </div>
+            <div class="nine columns">
+              <h2>Neues Update</h2>
+              <p class="new_p">n enim justo, rhoncus ut, imrhoncus ut, imperdiet a, venenatis vitaerhoncus ut, imperdiet a, venenatis vitaerhoncus ut, imperdiet a, venenatis vitaeperdiet a, venenatis vitae, jusrhoncus ut, i...</p>
+              <p class="new_name">
+                - <%= username %>
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+
+        <div class="four columns dark_B padding_25">
+          <h1 class="Headline">
+            <span>Numbers and Facts</span>Statistics</h1>
+          <div>
+
+
+<h1 class="Headline">
+  <span>Score</span>
+  3942
+</h1>
+<h1 class="Headline">
+  <span>Win/lose</span>
+  23/34
+</h1>
+<h1 class="Headline">
+  <span>Currently Logged In</span>
+  <%=currentlyLoggedInUsers%>
+</h1>
+
+            <ul class="rangliste">
+              <li>
+                <span>Rang 1</span>
+                <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c" style="border-radius:50%;" class="Grava"
+                  width="13px"> Max <strong>234</strong>
+              </li>            <li>
+                <span>Rang 2</span>
+                <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c" style="border-radius:50%;" class="Grava"
+                  width="13px"> Peter <strong>221</strong>
+              </li>
+              <li>
+                <span>Rang 3</span>
+                <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c9dddee827110c" style="border-radius:50%;" class="Grava"
+                  width="13px"> Patrick <strong>190</strong> 
+              </li>
+              <li>
+                <span>Rang 4</span>
+                <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c99sadee827110c" style="border-radius:50%;" class="Grava"
+                  width="13px"> Mrco <strong>80</strong>
+              </li>
+              <li>
+                <span>Rang 5</span>
+                <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c99sadee827110c" style="border-radius:50%;" class="Grava"
+                  width="13px"> Mrco <strong>20</strong>
+              </li>
+            </ul>
+
+
+
+            <button class="button button-primary button_float_right" type="submit">
+              Feedback
+            </button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Statistics   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+
+
+    <!-- Footer  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+    <div class="row" id="footer">
+      <p>&#169; 2017 by
+        <strong>After Work</strong>
+      </p>
+      <a href="/impressum">impressum</a>
+    </div>
 
   </div>
-
-
-
-  
-  <!-- Footer
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="footer"  class="row" style="background-color: white;">
-    <p>&#169; 2017 by <strong>After Work</strong></p> <a href="/impressum">impressum</a>
-  </div>
-
-
 
 
 
@@ -85,8 +388,25 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="text/javascript" src="styles/rellax.js"></script>
   <script type="text/javascript" src="styles/menu_scroll_type_modal.js"></script>
+  <script> 
+    socket.emit('addToLoggedInUsers', {'username':username});
+    //if errors occur or user is not authenticated, log him out
+    socket.on('kickUser', function(){
+      window.location.href ='/logout';
+    });
+  </script>  
+  
 
+<div class="button_game_mobile_div bottom_30 only_mobile ">
+<button class="button_game_mobile shadow"><span class="fa Example of pencil-square-o fa-pencil-square-o"></span><span class="gametext" >Game</span>Search</button>
+</div>
+
+<div class="button_game_mobile_div bottom_20 only_mobile ">
+<button class="button_game_mobile shadow"><span class="fa Example of search fa-search"></span><span class="gametext" >Game</span>Search</button>
+</div>
 
 </body>
 
 </html>
+
+

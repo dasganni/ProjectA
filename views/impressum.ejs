@@ -2,7 +2,7 @@
 <html>
   <head>
 
-    <title>Dummy Page</title>
+    <title>Impressum</title>
  
     <!-- Mobile Specific Metas
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -21,7 +21,30 @@
     <!-- JS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script>    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/1.1.1/typed.min.js"></script> 
+    <script>
+        var username = '<%= username %>';
+        var authenticated = '<%= authenticated %>';
+        if(username==''){
+          username=false;
+        }
+        if(authenticated==='true'){
+          authenticated=true;
+        }else{
+          authenticated=false;
+        }
+
+          document.getElementById('titel').innerHTML = "Shell";
+
+        
+      </script>            
+
+    <% if (authenticated) { %>
+    <script src="/socket.io/socket.io.js"></script>
+    <script> var socket = io(); </script>  
+
+    <% } %>
+      
 
 
     <!-- SEO meta-tags
@@ -34,7 +57,6 @@
 
   </head>
 <body>
-
 
   <!-- Menu icon 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
@@ -53,38 +75,59 @@
       <ul>
           <li><a href="/">Start</a></li>          
           <li><a href="/impressum">Impressum</a></li>
-          <li><a href="#">Kontakt</a></li>
+          <% if (authenticated) { %> 
+            <li> 
+              <form action="/logout" method="/post">
+                <button type="submit" class="button button-primary">Logout</button>
+              </form>
+            </li> <% } %>
       </ul>
     </div>
   </nav>
   
 
+<!-- title icon 
+      –––––––––––––––––––––––––––––––––––––––––––––––––– -->
 
-  <!-- Headline
-  –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="box1"  class="row align-center" style="background-color:white;padding:50px 15px 20px 15px;">
-
-    <h1>Impressum</h1>
-
-  </div>
+<h2 id="titel" class="titel">Reload.io</h2>
 
 
   <!-- Second content box 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="box2"  class="row height_100 align-center" style="background-color:#7AFFD1;padding:20px 15px;">
 
-    <p>Anbieter:<br />Max Mustermann<br />Musterstraße 1<br />80999 München</p>
-    <p>Kontakt:<br />Telefon: 089/1234567-8<br />Telefax: 089/1234567-9<br />E-Mail: mail@mustermann.de<br />Website: www.mustermann.de</p>
+  <div id="box2" class="row height_100 dark_B light margin_25">
+    <div class="twellve columns text-center  padding_25">
+
+      <h1>Impressum</h1>
+          <div class="twellve columns text-center  padding_25">
+          </div>
+
+    <p>Anbieter:
+      <br />Max Mustermann
+      <br />Musterstraße 1
+      <br />80999 München</p>
+    <p>Kontakt:
+      <br />Telefon: 089/1234567-8
+      <br />Telefax: 089/1234567-9
+      <br />E-Mail: mail@mustermann.de
+      <br />Website: www.mustermann.de</p>
     <p> </p>
     <p>Bei redaktionellen Inhalten:</p>
-    <p>Verantwortlich nach § 55 Abs.2 RStV<br />Moritz Schreiberling<br />Musterstraße 2<br />80999 München</p>
+    <p>Verantwortlich nach § 55 Abs.2 RStV
+      <br />Moritz Schreiberling
+      <br />Musterstraße 2
+      <br />80999 München</p>
 
+
+    </div>
   </div>
 
 
+  
+
   <!-- Footer
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->      
-  <div id="footer"  class="row" style="background-color: white;">
+  <div id="footer"  class="row" >
     <p>&#169; 2017 by <strong>After Work</strong></p> <a href="/impressum">impressum</a>
   </div>
 
@@ -97,6 +140,19 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="text/javascript" src="styles/rellax.js"></script>
   <script type="text/javascript" src="styles/menu_scroll_type_modal.js"></script>
+  <%if (authenticated) { %>
+    <%if (username!==false) { %>
+      
+      <script> 
+        socket.emit('addToLoggedInUsers', {'username':username});
+        //if errors occur or user is not authenticated, log him out
+        socket.on('kickUser', function(){
+          window.location.href ='/logout';
+        });
+      </script>  
+    <%} %>
+  
+  <%} %>
 
 
 </body>
