@@ -1684,11 +1684,13 @@ there.
 box-shadow: -4px 7px 50px -1px rgba(0,0,0,0.66);
 
 }
-.endgame div{text-align:center;
-height:300px;
-  width:300px;display:block;
-  position:absolute;left:calc( 50vw - 150px);
-  top:calc( 50vh - 150px);
+.endgame div{     text-align: center;
+    height: 470px;
+    width: 300px;
+    display: block;
+    position: absolute;
+    left: calc( 50vw - 150px);
+    top: calc( 50vh - 235px);
 /*
  animation: float 3s ease-out infinite;
       animation: shrink 3s ease-out infinite,
@@ -1697,13 +1699,14 @@ height:300px;
  
 .endgame div p {margin:230px 0 20px 0; color:white;}
 
-.bullet {float:left;
-  margin:100px 50px auto;
-}
+.bullet {float: left;
+    margin: 100px 50px 0 50px;
   
-.skull {position:absolute;
- animation: float 5s ease-out infinite;
-  margin:80px 50px;left:0;width:200px;
+.skull {position: absolute;
+    animation: float 5s ease-out infinite;
+    margin: 70px 89px;
+    left: 0;
+    width: 120px;
 }
 
 .endgame div:before {
@@ -1711,7 +1714,7 @@ height:300px;
       width: 125px;
       height: 20px;
       position: absolute;
-      bottom: 90px;
+      bottom: 230px;
       left: 149px;
       transform: translateX(-50%);
       background-color: #444;opacity:0.3;

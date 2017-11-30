@@ -309,6 +309,7 @@ socket.on('startGame', function(data){
   socket.emit('gameStarted'); //after check of players acknowledge that the game started
   console.log(room.roomcode + ' started');
   preloader();
+
   
 });
 
@@ -417,6 +418,7 @@ socket.on('endGame', function(data){
   leaveButton.disabled=false;
 
   changeButtonStatus();
+  afterloader(data);
 });  
 
 //print a textmessage
@@ -425,30 +427,6 @@ socket.on('textMessage', function(data){
 }); 
 
 
-
-
-
-
-// preloader anmation
-
-function preloader () {
-
-
-      setTimeout(function () {
-        $('.bulletsvg').velocity({
-          opacity: 0.95,
-          translateX: "1200px"
-        }, {
-            duration: 1000,
-            complete: function () {
-              $('.wrapperLoader').velocity({
-                translateY: "-100%"
-              })
-            }
-          })
-      }, 2000)
-
-  }
 
 
 
@@ -475,7 +453,7 @@ function preloader() {
 
 
 
-function afterloader() {
+function afterloader(data) {
   if (data.finishedRoom.winner.name === username) {
     winner();
   } else {
@@ -499,17 +477,17 @@ function afterloader() {
 }
 
 
-function loser() {
-  document.getElementById("Liste")
-  var trophy = "<div class='endgame' ><div><img class='bullet' src='styles/img/shoot.svg'><img class='skull' src='styles/img/trophy.svg'><p>Du hast gewonnen!</p><button>Leave</button></div></div>";
-
-  document.getElementById('afterloader').innerHTML = trophy;
-}
+function winner() {
 
 
-function loser() {
-  var skull = "<div class='endgame' ><div><img class='bullet' src='styles/img/shoot.svg'><img class='skull' src='styles/img/skull.svg'><p>Du hast verloren!</p><button>Leave</button></div></div>";
-
-  document.getElementById('afterloader').innerHTML = skull;
+    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/trophy.svg'><p>Du hast gewonnen!</p><button>Leave</button></div></div>";
 
 }
+
+
+function loser() {
+
+  document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/skull.svg'><p>Du hast verloren!</p><button>Leave</button></div></div>";
+
+}
+
