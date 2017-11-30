@@ -176,6 +176,10 @@ padding:25px 25px 25px 25px;}
 }
 
 
+.relative {
+  position: relative; 
+}
+
 
 
 /* Base Styles
@@ -370,6 +374,18 @@ input[type="button"].button-primary {
   text-align: center;
   z-index: 2;
   position: relative; }
+.button.button-primary.button-dark,
+button.button-primary.button-dark,
+input[type="submit"].button-primary.button-dark,
+input[type="reset"].button-primary.button-dark,
+input[type="button"].button-primary.button-dark {
+  color: #330A2A;
+  background-color: transparent;
+  border-color: #330A2A;
+  min-width:130px;
+  text-align: center;
+  z-index: 2;
+  position: relative; }
 .button.button-primary:hover,
 button.button-primary:hover,
 input[type="submit"].button-primary:hover,
@@ -395,7 +411,7 @@ input[type="button"].button-primary:focus {
 
 
 .disable-button {
-  cursor:not-allowed;
+  cursor: default !important;
   opacity: 0.4;
 }
 
@@ -1168,7 +1184,7 @@ canvas {
 .Grava, .shadow {
 -webkit-box-shadow: 10px 9px 39px -3px rgba(0, 0, 0, 0.36);
 -moz-box-shadow: 10px 9px 39px -3px rgba(0, 0, 0, 0.36);
-box-shadow: 10px 9px 39px -3px rgba(0, 0, 0, 0.36);<h1 class="Headline">
+box-shadow: 10px 9px 39px -3px rgba(0, 0, 0, 0.36);
 
 }
 
@@ -1204,6 +1220,214 @@ box-shadow: 10px 9px 39px -3px rgba(0, 0, 0, 0.36);<h1 class="Headline">
   margin: 0 5px 0 0;
   font-size: 15px !important;
 }
+
+
+
+
+/* Game.ejs  */
+
+.gamesImg {
+  border-radius:50%;
+  width:150px;
+}
+
+#enemy {
+    position: absolute;
+    top: 90px;
+    width: auto;
+    left: calc( 50% - 75px );
+}
+
+#player {
+      position: absolute;
+    bottom: 40px;
+    left: calc(50% - 75px);
+}
+
+
+
+
+/* game.ejs navi */
+
+ .cir-box {
+    width: auto;
+    height: auto;
+    position: fixed;
+    bottom: 70px;
+    right: 40px;
+ }
+ 
+ .cir-mini-box {
+   position: relative;
+   width: 100%;
+   height: 100%;
+ }
+ 
+ .cir-mini-box img {
+   width: 43px;
+   margin-top: 23px;
+   transition: all 0.5s ease;
+ }
+ 
+.cir6,
+ .cir1,
+ .cir2,
+ .cir3,
+ .cir4,
+   .cir5 {
+   position: absolute;
+   width: 90px;
+   height: 90px;
+   border-radius: 50%;
+   color: white;
+   cursor: pointer;
+   text-align: center;
+   font-size: 50px;
+   transition: all 0.2s ease-in;
+   visibility: visible;
+ }
+ 
+ .togglePop {
+   width: 0!important;
+   height: 0!important;
+   visibility: hidden;
+   bottom: 50px!important;
+   right: 50px!important;
+   font-size: 0px!important;
+   transition: all 0.1 ease-in;
+ }
+ 
+ .togglePop img {
+   width: 10px;
+   transition: all 0.5s ease;
+ }
+ 
+ .cir1 {
+    bottom: 120px;
+    right: 105px;
+    transition-delay: 0.05s;
+ }
+ 
+ .cir2 {
+    bottom: 120px;
+    right: 0px;
+    transition-delay: 0.07s;
+ }
+ 
+ .cir3 {
+bottom: 120px;
+    right: 214px;
+    transition-delay: 0.09s;
+ }
+ 
+ .cir4 {
+bottom: 5px;
+    right: 110px;
+   transition-delay: 0.1.1s;
+ }
+
+  .cir5 {
+    bottom: 5px;
+    right: 215px;
+   transition-delay: 0.1.1s;
+ }
+
+  .cir6 {
+    bottom: 225px;
+    right: 215px;
+   transition-delay: 0.1.1s;
+ }
+
+
+
+.cir4:hover, .cir3:hover , .cir2:hover , .cir1:hover,   .cir5:hover, .cir6:hover {
+  opacity:0.3;
+
+}
+ 
+ .main-cir {
+   width: 80px;
+   height: 80px;
+   position: absolute;
+   bottom: 0;
+   right: 0;
+   background-color: #00FFB1;
+   border-radius: 50%;
+   cursor: pointer;
+   transition: all 0.3s ease-in;
+   text-align: center;
+ }
+ 
+ .main-cir:hover {
+
+   transform: scale(1.2);
+ }
+
+ 
+ .main-cir img {
+   width: 60px;
+     box-shadow: 0px 0px 8px 2px #d8d8d8;
+   margin-top: 25px;
+ }
+ 
+
+
+
+
+
+
+
+
+
+/*  ????  */
+
+
+
+ .name {
+   display: inline-block;
+   padding: 10px 30px 10px 40px;
+   background-color: rgb(255, 32, 73);
+   color: white;
+   font-family: 'Titillium Web', sans-serif;
+   font-weight: 600;
+   font-size: 18px;
+   border-radius: 0;
+   transition: all 0.3s ease;
+   position: relative;
+   cursor: pointer;
+ }
+ 
+ .name a {
+   position: relative;
+   right: 3px;
+   text-decoration: none;
+   color: white;
+ }
+ 
+ .name:before {
+   content: '';
+   width: 0;
+   height: 47;
+   border-radius: 0;
+   left: 0;
+   z-index: 0;
+   top: 0;
+   position: absolute;
+   background-color: #7d7d7d;
+   transition: all 0.5s ease;
+   border-right: 8px solid white;
+ }
+ 
+ .name:hover {
+   box-shadow: 0px 0px 8px 2px #d8d8d8;
+ }
+ 
+ .name:hover:before {
+   width: 95px;
+   height: 47px;
+   padding-right: 20px;
+ }
+
 
 /* Media Queries
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
@@ -1291,6 +1515,8 @@ there.
     height: 100vh;
     position: fixed;
     z-index: 999;
+    top:0;
+
 }
 
 

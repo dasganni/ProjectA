@@ -16,8 +16,8 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="stylesheet" href="styles/normalize.css">
     <link rel="stylesheet" href="styles/skeleton.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
- 
+   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+ -->
     <!-- JS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -33,26 +33,6 @@
         }else{
           authenticated=false;
         }
-
-
- $(document).ready(function () {
-    $('#js-button-ready').click(function () { 
-
-      setTimeout(function () {
-        $('.bulletsvg').velocity({
-          opacity: 0.95,
-          translateX: "1200px"
-        }, {
-            duration: 1000,
-            complete: function () {
-              $('.wrapperLoader').velocity({
-                translateY: "-100%"
-              })
-            }
-          })
-      }, 2000)
-       });
- })
       </script>   
     <script>
         // Onbeforeload
@@ -111,7 +91,10 @@
 </div>
 <div class="buttonPreLoader">
   <h2>Reload.io</h2>
-  <button id="js-button-ready" class="js-button-ready button button-primary">Ready</button>
+    <p id="RoomCode">
+      <%= roomcode %>
+    </p>
+  <button id="js-button-ready" class="js-button-ready button button-dark button-primary">Ready</button>
 </div>
 </div>
 
@@ -152,47 +135,64 @@
 
   <!-- First content box 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="box1"  class="row height_100 dark_B light text-center" style="">
+    <h2 id="titel" class="titel">Reload.io</h2>
+
+  <div id="box1"  class="row height_100 dark_B padding_25 margin_25 light text-center">
 
 
-  <h2 id="titel" class="titel">Reload.io</h2>
 
-  <div class="Spielgegner" style="border-bottom:1px solid black;">
+
+
+
+
+  <div class="enemy" id="enemy">
     <p>Gegnername</p>
-    <img src="<%= gravURL %>" style="border-radius:50%;">    
-    <p class="bullets">Bullets: 00</p>    
+    <img src="<%= gravURL %>" class="gamesImg">      
   </div>
 
-  <div class="Timer" style="">
-    <p>
-      Timer: 00:28
-    </p>
-        <p id="RoomCode">
-<%= roomcode %>
-        </p>
 
-         
+  <div class="player" id="player">
 
-    
-    <p>
-      Round 1
-    </p>
+      <img src="<%= gravURL %>" class="gamesImg">
+  </div>
+
+
+
+  
+          
+ 
+
+<div class="cir-box">
+  <div class="cir-mini-box">
+    <div class="cir1 togglePop js-button-shoot">
+      <img src="http://www.krischanschupp.de/uni/3.svg">
+    </div>
+    <div class="cir2 togglePop js-button-pistol" id="js-button-pistol">
+      <img src="http://www.krischanschupp.de/uni/3.svg">2
+    </div>
+    <div class="cir3 togglePop js-button-rifle">
+      <img src="http://www.krischanschupp.de/uni/3.svg">1
+    </div>
+    <div class="cir4 togglePop js-button-reload">
+      <img src="http://www.krischanschupp.de/uni/4.svg">
+    </div>
+
+    <div class="cir5 togglePop js-button-protect">
+      <img src="http://www.krischanschupp.de/uni/2.svg">
+    </div>
+
+    <div class="cir6 togglePop js-button-shotgun">
+      <img src="http://www.krischanschupp.de/uni/3.svg">3
+    </div>
 
   </div>
 
-  <div class="Spieler" id="spieler">
-      <p>Spielername</p>
-      <img src="http://www.gravatar.com/avatar/683f8ca4218057265bad6a32aab8da8a?s=200&r=pg&d=monsterid" style="border-radius:50%;">
-      <p class="bullets">Bullets: 00</p>
-            
-      <button class="js-button-shoot" >Shoot</button>  
-      <button class="js-button-reload">Reload</button>  
-      <button class="js-button-protect">Protect</button> 
-      <button>Give up</button>   <br>
-      <button class="js-button-pistol" id="js-button-pistol">Pistol</button>  
-      <button class="js-button-rifle">Rifle</button>  
-      <button class="js-button-shotgun">Shotgun</button>
+
+  <div class="main-cir" id="main-cir">
+    <img src="http://www.krischanschupp.de/uni/0.svg" />
   </div>
+</div>
+
 
 
   </div>
