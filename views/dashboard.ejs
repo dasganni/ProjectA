@@ -388,7 +388,13 @@
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="text/javascript" src="styles/rellax.js"></script>
   <script type="text/javascript" src="styles/menu_scroll_type_modal.js"></script>
-  <script>  socket.emit('addToLoggedInUsers', {'username':username});  </script>
+  <script> 
+    socket.emit('addToLoggedInUsers', {'username':username});
+    //if errors occur or user is not authenticated, log him out
+    socket.on('kickUser', function(){
+      window.location.href ='/logout';
+    });
+  </script>  
   
 
 <div class="button_game_mobile_div bottom_30 only_mobile ">

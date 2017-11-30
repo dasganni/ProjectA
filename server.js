@@ -187,7 +187,6 @@ app.post('/logInPost', (request, response) => {
             mail = result.email;
             //Anpasung für Avatar
             let gravURL = gravatar.url(mail, { s: '200', r: 'pg', d: 'monsterid' });
-
             if (passwordHash.verify(password, result.password)) {
                 if(loggedInUsers!==null && loggedInUsers !==undefined){
                     for(i=0; i<loggedInUsers.length; i++){
@@ -288,9 +287,6 @@ app.post('/createGame', (request, response) => {
 app.get('/logout', (request, response) => {
     delete request.session.authenticated;
     delete request.session.username;
-    
-    // Wenn Error nicht = Null gab es eine Fehlermeldung beim Logout
-    //error = null;
     response.redirect('/');
 }); 
 

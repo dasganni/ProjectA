@@ -144,7 +144,13 @@
   <%if (authenticated) { %>
     <%if (username!==false) { %>
       
-      <script> socket.emit('addToLoggedInUsers', {'username':username});</script>
+      <script> 
+        socket.emit('addToLoggedInUsers', {'username':username});
+        //if errors occur or user is not authenticated, log him out
+        socket.on('kickUser', function(){
+          window.location.href ='/logout';
+        });
+      </script>  
     <%} %>
   
   <%} %>
