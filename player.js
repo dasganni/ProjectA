@@ -54,6 +54,10 @@ function Player(name, gravURL) {
     };
     this.setDead = function() {
         this.alive=false;
+        this.ammo=0;
+        this.__defend=false;
+        this.lives=0;
+        this.attack=0;
     };
 }
 
