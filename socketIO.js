@@ -160,20 +160,26 @@ exports.initializeSocket = function(http){
                     
                         if (userAction.attacktype == 1){                    //shoot shotgun when shooting
                             createdRooms[socket.roomIndex].playerObjects[i].shootShotgun();
+                            createdRooms[socket.roomIndex].playerObjects[i].playerAction = 1;
                         }
                         else if (userAction.attacktype==2){                 //shoot rifle when shooting
                             createdRooms[socket.roomIndex].playerObjects[i].shootRifle();
+                            createdRooms[socket.roomIndex].playerObjects[i].playerAction = 2;
                         }
                         else if (userAction.attacktype==3){                 //shoot pistol when shooting
                             createdRooms[socket.roomIndex].playerObjects[i].shootPistol();
+                            createdRooms[socket.roomIndex].playerObjects[i].playerAction = 3;
                         } else {
                             createdRooms[socket.roomIndex].playerObjects[i].reload();
+                            createdRooms[socket.roomIndex].playerObjects[i].playerAction = 4;
                         }
                     } else if(userAction.action ==1){                       //action reload
                         createdRooms[socket.roomIndex].playerObjects[i].reload();
+                        createdRooms[socket.roomIndex].playerObjects[i].playerAction = 4;
                     }
                     else{                                                   //action defend
                         createdRooms[socket.roomIndex].playerObjects[i].defend();
+                        createdRooms[socket.roomIndex].playerObjects[i].playerAction = 5;
                     }
                     createdRooms[socket.roomIndex].playersReadyForNextRound=0;     
                     break;                 
