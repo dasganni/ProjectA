@@ -15,7 +15,7 @@ var leaveButton = document.querySelector(".js-button-leave");
 var chosenAction = false;
 var attackTypeChosen = false;
 var yourselfPlayer;
-var enemies= [];
+var enemies = [];
 var gameIsStarted = false;
 
 //initialize button status at the beginning
@@ -239,14 +239,14 @@ var changeButtonStatus = function () {
     $(readyButton).removeClass("disable-button");
     
   }
-
-  if (leaveButton.disabled) {
-    $(leaveButton).addClass("disable-button");
-    $(leaveButton).removeClass("enable-button");     
-  }else{
-    $(leaveButton).addClass("enable-button"); 
-    $(leaveButton).removeClass("disable-button");
-    
+  if ( leaveButton !== undefined) {
+    if (leaveButton.disabled) {
+      $(leaveButton).addClass("disable-button");
+      $(leaveButton).removeClass("enable-button");     
+    }else{
+      $(leaveButton).addClass("enable-button"); 
+      $(leaveButton).removeClass("disable-button");
+    }
   }
 };
 
@@ -317,6 +317,7 @@ socket.on('startGame', function(data){
 
 socket.on('nextRound', function(data){
 
+ 
   players= data.players;
 
   for(i=0; i < players.length; i++){ // check players for yourself and enemies
@@ -340,6 +341,9 @@ socket.on('nextRound', function(data){
     + ", Ammo: " + enemies[i].ammo
     + ", Name: " + enemies[i].name + "   ");
   }
+
+  updateInfo();
+  console.log("UpdateInfo");
 
   //player ends here every round to input new action
 
@@ -453,10 +457,13 @@ function preloader() {
 
 function afterloader(data) {
   if (data.finishedRoom.winner.name === username) {
-    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/trophy.svg'><p>Du hast gewonnen!</p><button>Leave</button></div></div>";
+    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/trophy.svg'><p>Du hast gewonnen!</p><button class='js-button-leave'>Leave</button></div></div>";
   } else {
-    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/skull.svg'><p>Du hast verloren!</p><button>Leave</button></div></div>";
+    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/skull.svg'><p>Du hast verloren!</p><button class='js-button-leave'>Leave</button></div></div>";
   }
+
+
+
   setTimeout(function () {
     $('.endgame').velocity({
       top: "-90%"
@@ -477,4 +484,53 @@ function afterloader(data) {
 
 
 // Fight animations
+
+function shoot1(hitOne, isHitting) {
+
+
+  if ($('#' + hitOne.id + '').hasClass('armor')) {
+    $("#" + hitOne.id + "").addClass("slash-anim rumble");
+    setTimeout(function () {
+      $("#" + hitOne.id + "").removeClass('slash-anim rumble');
+    },
+      500);
+  } else {
+
+    $("#" + hitOne.id + "").addClass("slash-anim");
+    setTimeout(function () {
+      $("#" + hitOne.id + "").removeClass('slash-anim');
+    },
+      500);
+    if (hitOne.shoot == false) {
+      showHit(hitOne, "dodge");
+    }
+  }
+
+
+  if ($('#' + isHitting.id + '').hasClass('armor')) {
+    $("#" + isHitting.id + "").addClass("slash-anim rumble");
+    setTimeout(function () {
+      $("#" + isHitting.id + "").removeClass('slash-anim rumble');
+    },
+      500);
+  } else {
+
+    $("#" + isHitting.id + "").addClass("slash-anim");
+    setTimeout(function () {
+      $("#" + isHitting.id + "").removeClass('slash-anim');
+    },
+      500);
+    if (isHitting.shoot == false) {
+      showHit(isHitting, "dodge");
+    }
+  }
+};
+
+
+function updateInfo () {
+  document.getElementById('enemyammo').innerHTML = enemies[0].ammo + " Ammo";
+  document.getElementById('liveenemy').innerHTML = enemies[0].lives + " Leben";
+  document.getElementById('enemyname').innerHTML = enemies[0].name;
+  document.getElementById('enemy').innerHTML = "<img src='" + enemies[0].gravURL + "' />";
+}
 

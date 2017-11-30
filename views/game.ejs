@@ -39,9 +39,6 @@
         window.onbeforeunload=function(){
           return "Are you sure to leave this page? If you are alone in this lobby, this lobby will be deleted!";
         }
-
-
-
     </script>
 
 
@@ -75,7 +72,6 @@
 </div>
 </div>
 </div>
-
 
 
 
@@ -120,23 +116,33 @@
 
 
 
-
   <div class="enemy" id="enemy">
-    <p>Gegnername</p>
-    <img src="<%= gravURL %>" class="gamesImg">      
+    <p id="enemyname">Gegnername</p>
+    
+    
+    <p id="liveenemy">
+    </p>
+    <p id="enemyammo">
+    </p>
+
   </div>
 
+  
 
   <div class="player" id="player">
 
       <img src="<%= gravURL %>" class="gamesImg">
+
+    <p id="liveplayer">
+    </p>
+    <p id="ammoplayer">
+    </p>
+
+
   </div>
 
 
 
-    <div class="cir2 togglePop js-button-leave" id="js-button-shoot">
-      <img src="http://www.krischanschupp.de/uni/3.svg">2
-    </div>
            
     <div class="cir2 togglePop js-button-shoot" id="js-button-shoot">
       <img src="http://www.krischanschupp.de/uni/3.svg">2
@@ -145,29 +151,29 @@
 <div class="cir-box">
   <div class="cir-mini-box">
     <div class="cir2 togglePop js-button-pistol" id="js-button-pistol">
-      <img src="http://www.krischanschupp.de/uni/3.svg">2
+      <img src="/styles/img/shoot.svg">2
     </div>
     <div class="cir3 togglePop js-button-rifle">
-      <img src="http://www.krischanschupp.de/uni/3.svg">1
+      <img src="/styles/img/shoot.svg">1
     </div>
     <div class="cir4 togglePop js-button-reload">
-      <img src="http://www.krischanschupp.de/uni/4.svg">
+      <img src="/styles/img/reload.svg">
     </div>
 
     <div class="cir5 togglePop js-button-protect">
-      <img src="http://www.krischanschupp.de/uni/2.svg">
+      <img src="/styles/img/protect.svg">
     </div>
 
 
     <div class="cir6 togglePop js-button-shotgun">
-      <img src="http://www.krischanschupp.de/uni/3.svg">3
+      <img src="/styles/img/shoot.svg">3
     </div>
 
   
   </div>
 
   <div class="main-cir" id="main-cir">
-    <img src="http://www.krischanschupp.de/uni/2.svg" />
+    <img src="/styles/img/protect.svg" />
   </div>
 </div>
 
@@ -191,15 +197,14 @@
 
 
 
-
   <!-- JS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="text/javascript" src="styles/rellax.js"></script>
   <script type="text/javascript" src="styles/menu_scroll_type_modal.js"></script>
   <script type="text/javascript" src="game.js"></script>    
+
   
   <script>
-
     window.onload = changeButtonStatus();
     console.log('Change Button');
   </script>

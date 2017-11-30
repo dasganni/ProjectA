@@ -796,10 +796,6 @@ a {
   color: black;
 }
 
-.scroll {
-   /* animation: float 3s ease-out infinite;*/
-
-}
 
 @keyframes float{
   50%{
@@ -1699,7 +1695,7 @@ box-shadow: -4px 7px 50px -1px rgba(0,0,0,0.66);
 .endgame div p {margin:230px 0 20px 0; color:white;}
 
 .bullet {float: left;
-    margin: 100px 50px 0 50px;
+    margin: 100px 50px 0 50px;}
   
 .skull {position: absolute;
     animation: float 5s ease-out infinite;
