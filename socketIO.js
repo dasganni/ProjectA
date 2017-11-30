@@ -26,11 +26,12 @@ exports.initializeSocket = function(http){
                 if(createdRooms.length>0){
                     if(createdRooms[i]==undefined){
                         socket.emit('backToLobby');
+                    }else{
+                        if (createdRooms[i].roomcode === requestedRoomcode) {
+                            index = i;
+                            return index;
+                        } 
                     }
-                    if (createdRooms[i].roomcode === requestedRoomcode) {
-                        index = i;
-                        return index;
-                    } 
                 } else{
                     return null;
                 }

@@ -39,6 +39,9 @@ jspm_packages/
 #Tingodb Database
 tingodb
 
+#Tingodb Database
+cert
+
 # Typescript v1 declaration files
 typings/
 
