@@ -430,11 +430,9 @@ socket.on('textMessage', function(data){
 
 
 
-// preloader anmation
+// PreLoader animation
 
 function preloader() {
-
-
   setTimeout(function () {
     $('.bulletsvg').velocity({
       opacity: 0.95,
@@ -448,19 +446,17 @@ function preloader() {
         }
       })
   }, 2000)
-
 }
 
 
+// AfterLoader animation + Leave
 
 function afterloader(data) {
   if (data.finishedRoom.winner.name === username) {
-    winner();
+    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/trophy.svg'><p>Du hast gewonnen!</p><button>Leave</button></div></div>";
   } else {
-    loser();
+    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/skull.svg'><p>Du hast verloren!</p><button>Leave</button></div></div>";
   }
-
-
   setTimeout(function () {
     $('.endgame').velocity({
       top: "-90%"
@@ -473,21 +469,12 @@ function afterloader(data) {
         }
       })
   }, 2000)
-
 }
 
 
-function winner() {
 
 
-    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/trophy.svg'><p>Du hast gewonnen!</p><button>Leave</button></div></div>";
-
-}
 
 
-function loser() {
-
-  document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/skull.svg'><p>Du hast verloren!</p><button>Leave</button></div></div>";
-
-}
+// Fight animations
 
