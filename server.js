@@ -342,7 +342,6 @@ app.get('/game', (request, response) => {
     }
 });
 
-// Nicht fertig 
 // Passwort änderungen
 app.post('/user/update', (request, response) => {
     
