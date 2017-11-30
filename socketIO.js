@@ -60,19 +60,37 @@ exports.initializeSocket = function(http){
             socket.roomcode = data.roomcode;
             socket.username = data.username;
             socket.gravURL = data.gravURL;
+            userAlreadyInArray = false;
+            
 
             socket.roomIndex = getRoomIndex(socket.roomcode);
 
             if(createdRooms[socket.roomIndex]==undefined || createdRooms[socket.roomIndex]==null){
                 socket.emit('backToLobby');
             }else{
-                        
-                let player = new Player(socket.username, socket.gravURL);
-                createdRooms[socket.roomIndex].playerObjects.push(player);
-                socket.join(createdRooms[socket.roomIndex].roomcode); 
-                console.log(socket.username + " connected to the Room " + createdRooms[socket.roomIndex].roomcode);
-                io.in(createdRooms[socket.roomIndex].roomcode).emit('connectedToRoom', {room: createdRooms[socket.roomIndex]});  
-                io.in(createdRooms[socket.roomIndex].roomcode).emit('updateUsers', {room: createdRooms[socket.roomIndex]});
+                //check if user reconnected, if so, don't create new player, let him use his old playerobject(but dead)
+                if(createdRooms[socket.roomIndex].length>0){
+                    for(i=0; i<createdRooms[socket.roomIndex].playerObjects.length; i++){
+                        if(createdRooms[socket.roomIndex].playerObjects[i].name==socket.username){
+                            socket.yourPlayerIndex=i;
+                            userAlreadyInArray=true;
+                        }
+                    }       
+                }
+                if(userAlreadyInArray){
+                    createdRooms[socket.roomIndex].playerObjects[socket.yourPlayerIndex].setDead();
+                    io.in(createdRooms[socket.roomIndex].roomcode).emit('nextRound', { //start first round
+                        'players': createdRooms[socket.roomIndex].playerObjects        
+                    });
+                }
+                else{
+                    let player = new Player(socket.username, socket.gravURL);
+                    createdRooms[socket.roomIndex].playerObjects.push(player);
+                    socket.join(createdRooms[socket.roomIndex].roomcode); 
+                    console.log(socket.username + " connected to the Room " + createdRooms[socket.roomIndex].roomcode);
+                    io.in(createdRooms[socket.roomIndex].roomcode).emit('connectedToRoom', {room: createdRooms[socket.roomIndex]});  
+                    io.in(createdRooms[socket.roomIndex].roomcode).emit('updateUsers', {room: createdRooms[socket.roomIndex]});    
+                }
                 
             }            
             
@@ -257,7 +275,7 @@ exports.initializeSocket = function(http){
                     'players': createdRooms[socket.roomIndex].playerObjects    
                 });
             }
-        });
+        });            
 
         //Der User hat sich disconnected
     
@@ -276,25 +294,40 @@ exports.initializeSocket = function(http){
             //Löschen der User aus dem Roomobjekt, wenn leer, Raum löschen
 
                 for (let i = 0; i < createdRooms.length; i++) {
-                    for (let j = 0; j < createdRooms[i].playerObjects.length; j++) {
-                        if (createdRooms[i].playerObjects[j].name === socket.username) {
-                            createdRooms[i].playerObjects.splice(j, 1);
+                    if(createdRooms[i].roomcode==socket.roomcode){
+                        for (let j = 0; j < createdRooms[i].playerObjects.length; j++) {
+                            if (createdRooms[i].playerObjects[j].name === socket.username) {
 
-                            for (let k = 0; k < createdRooms[i].usersReady.length; k++) {
-                                if (createdRooms[i].usersReady[k] === socket.username) {
+                                createdRooms[i].playerObjects[j].setDead();
+                                createdRooms[i].usersDead.push(createdRooms[i].playerObjects[j]);
+                                
+
+                                if(createdRooms[i].playerObjects.length - createdRooms[i].usersDead.length===1){  
+                                    for(k=0; i < createdRooms[i].playerObjects.length; k++){
+                                        if (createdRooms[i].playerObjects[k].alive){
+                                            createdRooms[i].winner=createdRooms[i].playerObjects[k]; 
+                                            console.log(createdRooms[i].winner.name + ' hat gewonnen!!!');
+                                        }else{
+                                            console.log(createdRooms[i].playerObjects[k].name + ' lost');
+                                            createdRooms[i].loosers.push(createdRooms[i].playerObjects[k]);
+                                        }
+                                    }
+                                    createdRooms[i].playerObjects.splice(0, createdRooms[i].playerObjects.length);
                                     
-                                    createdRooms[i].usersReady.splice(k,1);
+                                    io.in(createdRooms[i].roomcode).emit('endGame', { //send result to clients
+                                        'finishedRoom': createdRooms[i]        
+                                    });
                                 }
+                                
+                                if (createdRooms[i].playerObjects.length > 0) {
+                                    io.to(createdRooms[i].roomcode).emit('updateUsers', createdRooms[i]);
+                                }
+                                else {
+                                    console.log('Room ' + createdRooms[i].roomcode + ' is empty now and has been deleted!');
+                                    createdRooms.splice(i, 1);
+                                }
+                                break;          
                             }
-                            
-                            if (createdRooms[i].playerObjects.length > 0) {
-                                io.to(createdRooms[i].roomcode).emit('updateUsers', createdRooms[i]);
-                            }
-                            else {
-                                console.log('Room ' + createdRooms[i].roomcode + ' is empty now and has been deleted!');
-                                createdRooms.splice(i, 1);
-                            }
-                            break;          
                         }
                     }
                 }

@@ -7,6 +7,8 @@ var shotgunButton = document.querySelector(".js-button-shotgun");
 var reloadButton = document.querySelector(".js-button-reload");
 var protectButton = document.querySelector(".js-button-protect");
 var readyButton = document.querySelector(".js-button-ready");
+var leaveButton = document.querySelector(".js-button-leave");
+
 
 //declaration of global variables
 
@@ -25,6 +27,7 @@ shootButton.disabled=true;
 protectButton.disabled=true;
 reloadButton.disabled=true;
 readyButton.disabled=true;
+leaveButton.disabled=true;
 
 //add event listeners for readybutton with anonymous function
 readyButton.addEventListener("click", function () {
@@ -51,6 +54,9 @@ shotgunButton.addEventListener("click", function (){buttonClicked(3)});
 reloadButton.addEventListener("click", function (){buttonClicked(4)});
 
 protectButton.addEventListener("click", function (){buttonClicked(5)});
+
+leaveButton.addEventListener("click", function (){buttonClicked(6)});
+
 
 
 //functions
@@ -104,6 +110,9 @@ var buttonClicked = function(buttonNumber){
     chosenAction=2;
     chosenAttacktype=0;        
     actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);    
+  }
+  else if(buttonNumber==6){//leavebutton
+    window.location.href('/');
   }else{//should be never triggered
     console.log("Not existing Button clicked?!")
   }
@@ -118,6 +127,8 @@ var deactivateNotAllowedActionButtons = function(playerObject){
   reloadButton.disabled=false;
   shootButton.disabled=false;
   protectButton.disabled=false;
+  leaveButton.disabled=true;
+  
 
   changeButtonStatus();
 
@@ -228,6 +239,15 @@ var changeButtonStatus = function () {
     $(readyButton).removeClass("disable-button");
     
   }
+
+  if (leaveButton.disabled) {
+    $(leaveButton).addClass("disable-button");
+    $(leaveButton).removeClass("enable-button");     
+  }else{
+    $(leaveButton).addClass("enable-button"); 
+    $(leaveButton).removeClass("disable-button");
+    
+  }
 };
 
 //initialize socket listeners (one listener per socket.on for the eventnames) and logic
@@ -322,9 +342,19 @@ socket.on('nextRound', function(data){
 
   //player ends here every round to input new action
 
-   //reset action variables
-   chosenAction=null;
-   attackTypeChosen=null;
+  //reset action variables
+  chosenAction=null;
+  attackTypeChosen=null;
+
+  if(yourselfPlayer.alive==false){
+    pistolButton.disabled = true;
+    shotgunButton.disabled = true;
+    rifleButton.disabled = true;
+    shootButton.disabled=true;
+    protectButton.disabled=true;
+    reloadButton.disabled=true;
+    readyButton.disabled=true;
+  }
 
   deactivateNotAllowedActionButtons(yourselfPlayer);
   changeButtonStatus();
@@ -376,9 +406,17 @@ socket.on('endGame', function(data){
     console.log(data.finishedRoom.loosers[i].name + ', ');
   }
 
+  pistolButton.disabled = true;
+  shotgunButton.disabled = true;
+  rifleButton.disabled = true;
+  shootButton.disabled=true;
+  protectButton.disabled=true;
+  reloadButton.disabled=true;
+  readyButton.disabled=true;
 
-  //!!HIER BITTE NEUEN BUTTON + OVERLAY EINTRAGEN UM SPIELER NACH BESTÄTIGEN ERST ZUM DASHBOARD ZU SCHICKEN
-  window.location.href ='/';  
+  leaveButton.disabled=false;
+
+  changeButtonStatus();
 });  
 
 //print a textmessage
