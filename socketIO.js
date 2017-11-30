@@ -24,6 +24,9 @@ exports.initializeSocket = function(http){
     
             for (let i = 0; i <= createdRooms.length; i++) {
                 if(createdRooms.length>0){
+                    if(createdRooms[i]==undefined){
+                        socket.emit('backToLobby');
+                    }
                     if (createdRooms[i].roomcode === requestedRoomcode) {
                         index = i;
                         return index;
