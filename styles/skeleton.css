@@ -796,6 +796,22 @@ a {
   color: black;
 }
 
+.scroll {
+   /* animation: float 3s ease-out infinite;*/
+
+}
+
+@keyframes float{
+  50%{
+    transform: translate(0, 20px);
+  }
+}
+@keyframes floatUp{
+  50%{
+    transform: translate(-50%, -20px);
+  }
+}
+
 .fa {
   width: 100%;
   text-align: center;
@@ -1488,6 +1504,7 @@ there.
     position: fixed;
     top: 35px;
     left: 74px;
+        z-index: 4;
 }
 
 .titel:after {
