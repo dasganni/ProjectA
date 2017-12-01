@@ -534,22 +534,21 @@ function afterloader(data) {
 
 
 
+function updateInfo() {
 
-function updateInfo () {
- 
   console.log(enemies[0].gravURL);
 
-  var  imgAmmo = "";
+  var imgAmmo = "";
   var ammoSvg = " <img src='styles/img/onebullet.svg' /> ";
 
-  for(i = 0; enemies[0].ammo > i ; i++) {
+  for (i = 0; enemies[0].ammo > i; i++) {
     imgAmmo += ammoSvg;
   }
 
 
-  $("#enemy").addClass("" + enemies[0].name +"");
+  $("#enemy").addClass("" + enemies[0].name + "");
 
-  document.getElementById('enemyammo').innerHTML = imgAmmo ;
+  document.getElementById('enemyammo').innerHTML = imgAmmo;
   document.getElementById('liveenemy').innerHTML = enemies[0].lives;
   document.getElementById('enemyname').innerHTML = enemies[0].name;
 
@@ -565,11 +564,11 @@ function updateInfo () {
   document.getElementById('ammoplayer').innerHTML = imgAmmo;
   document.getElementById('liveplayer').innerHTML = yourselfPlayer.lives;
 
- // document.getElementById('enemy').innerHTML = "<img src='" + enemies[0].gravURL + "' />";
+  // document.getElementById('enemy').innerHTML = "<img src='" + enemies[0].gravURL + "' />";
   document.getElementById('enemy').style.backgroundImage = "url('" + enemies[0].gravURL + "')";
-  
 
-  roundcounter +=1;
+
+  roundcounter += 1;
   if (roundcounter >= 1) {
     document.getElementById('roundcounter').innerHTML = "Rd " + roundcounter;
   }
@@ -582,27 +581,27 @@ function updateInfo () {
 
 function animations(player, enemies) {
 
-  console.log("animation: " + enemies.name + " wählt: " + enemies.playerAction );
-  console.log("animation: " + player.name + " wählt: " + player.playerAction  );
+  console.log("animation: " + enemies.name + " wählt: " + enemies.playerAction);
+  console.log("animation: " + player.name + " wählt: " + player.playerAction);
 
 
   // add shield
-  if (player.playerAction == 5){
+  if (player.playerAction == 5) {
     giveProtect(player);
-  }  
-  
+  }
+
   // add shield
   if (enemies.playerAction == 5) {
     giveProtect(enemies);
-  } 
+  }
 
 
 
 
   // Wenn beide Spieler die selber Waffe wählen
-  if (  (player.playerAction == 3 && enemies.playerAction == 3) ||
-        (player.playerAction == 2 && enemies.playerAction == 2) ||
-        (player.playerAction == 1 && enemies.playerAction == 1) ) { 
+  if ((player.playerAction == 3 && enemies.playerAction == 3) ||
+    (player.playerAction == 2 && enemies.playerAction == 2) ||
+    (player.playerAction == 1 && enemies.playerAction == 1)) {
 
     setTimeout(function () {
       rumble(enemies);
@@ -610,18 +609,18 @@ function animations(player, enemies) {
     }, 700);
 
     jump(enemies, 60);
-    jump(player, -60);  
+    jump(player, -60);
 
     setTimeout(function () {
-    blocked(enemies);
-    blocked(player);
+      blocked(enemies);
+      blocked(player);
     }, 1500);
-  
-  // Wenn der Schild beim Spieler an ist
+
+    // Wenn der Schild beim Spieler an ist
   } else if (player.playerAction == 5 && (
     enemies.playerAction == 3 ||
     enemies.playerAction == 2 ||
-    enemies.playerAction == 1 )) {
+    enemies.playerAction == 1)) {
 
     setTimeout(function () {
       rumble(player);
@@ -629,8 +628,8 @@ function animations(player, enemies) {
     }, 700);
 
     jump(enemies, 60);
-    
-  // Wenn der Schild beim Gegner an ist
+
+    // Wenn der Schild beim Gegner an ist
   } else if (enemies.playerAction == 5 && (
     player.playerAction == 3 ||
     player.playerAction == 2 ||
@@ -643,39 +642,39 @@ function animations(player, enemies) {
 
     jump(player, 60);
 
-  // Schuss des Spielers und reaktion des Gegners
-  } else if (player.playerAction >= 1 && player.playerAction <= 3 && 
+    // Schuss des Spielers und reaktion des Gegners
+  } else if (player.playerAction >= 1 && player.playerAction <= 3 &&
     (enemies.playerAction == 4 || enemies.playerAction != player.playerAction)) {
 
-      if ( player.playerAction == 1 ) {
-        jump(player, -60); 
-        setTimeout(function () {
-          slash(enemies, "triple-slash");
-        }, 700); 
+    if (player.playerAction == 1) {
+      jump(player, -60);
+      setTimeout(function () {
+        slash(enemies, "triple-slash");
+      }, 700);
 
-        dmg(enemies);
+      dmg(enemies);
 
-      } else if (player.playerAction == 2) {
+    } else if (player.playerAction == 2) {
 
-        jump(player, -60);
-        setTimeout(function () {
-          slash(enemies, "double-slash");
-        }, 700);
+      jump(player, -60);
+      setTimeout(function () {
+        slash(enemies, "double-slash");
+      }, 700);
 
-        dmg(enemies);
+      dmg(enemies);
 
-      } else if (player.playerAction == 3) {
+    } else if (player.playerAction == 3) {
 
-        jump(player, -60);
-        setTimeout(function () {
-          slash(enemies, "slash-anim");
-        }, 700); 
+      jump(player, -60);
+      setTimeout(function () {
+        slash(enemies, "slash-anim");
+      }, 700);
 
-        dmg(enemies);
+      dmg(enemies);
 
-      }
+    }
     // Schuss des Gegners und reaktion des gegners
-    }    else if (enemies.playerAction >= 1 && enemies.playerAction <= 3 &&
+  } else if (enemies.playerAction >= 1 && enemies.playerAction <= 3 &&
     (player.playerAction == 4 || player.playerAction != enemies.playerAction)) {
 
     if (enemies.playerAction == 1) {
@@ -692,7 +691,7 @@ function animations(player, enemies) {
 
       jump(enemies, -60);
       setTimeout(function () {
-        slash(player,"double-slash");
+        slash(player, "double-slash");
       }, 700);
 
       dmg(player);
@@ -709,18 +708,8 @@ function animations(player, enemies) {
     }
 
   }
-}
 
-function updateInfo () {
-  $('#enemyammo').empty();
-  $('#liveenemy').empty();
-  $('#enemyname').empty();
-  $('#enemy').empty();
 
-  document.getElementById('enemyammo').innerHTML = enemies[0].ammo + " Ammo";
-  document.getElementById('liveenemy').innerHTML = enemies[0].lives + " Leben";
-  document.getElementById('enemyname').innerHTML = enemies[0].name;
-  document.getElementById('enemy').innerHTML = "<img src='" + enemies[0].gravURL + "' />";
   takeProtect(player);
   takeProtect(enemies);
 
@@ -730,9 +719,9 @@ function updateInfo () {
 
 function jump(player, yAchse) {
 
- $("." + player.name + "").velocity({
-   translateY: "" + yAchse + "px",
-}, { duration: 500, easing: "easeOutCirc" }).velocity("reverse");
+  $("." + player.name + "").velocity({
+    translateY: "" + yAchse + "px",
+  }, { duration: 500, easing: "easeOutCirc" }).velocity("reverse");
 
 }
 
@@ -743,14 +732,15 @@ function rumble(player) {
   setTimeout(function () {
     $("." + player.name + "").removeClass('rumble');
   },
-    1000); }
+    1000);
+}
 
 
 
 
 function slash(target, attacks) {
 
- 
+
 
 
   $("." + target.name + "").addClass(attacks);
@@ -766,7 +756,7 @@ function giveProtect(player) {
 
   $("." + player.name + "").addClass('armor');
   setTimeout(function () {
-    
+
   },
     3000);
 
@@ -775,7 +765,7 @@ function giveProtect(player) {
 
 function takeProtect(player) {
 
- 
+
   setTimeout(function () {
     $("." + player.name + "").removeClass('armor');
   },
@@ -787,19 +777,19 @@ function reload(target) {
 
 
   setTimeout(function () {
-  $("." + target.name + "").addClass('reloading');
+    $("." + target.name + "").addClass('reloading');
 
-  setTimeout(function () {
-    $("." + target.name + "").removeClass('reloading');
-  },
-    500);
+    setTimeout(function () {
+      $("." + target.name + "").removeClass('reloading');
+    },
+      500);
 
 
   },
     1000);
 
 
-  
+
 }
 
 
@@ -807,9 +797,9 @@ function reload(target) {
 
 function blocked(target) {
   $("." + target.name + "").append("<span class='dodge'>Blocked!</span>");
-    setTimeout(function () {
-      $("." + target.name + " .dodge"  ).first().remove();
-    }, 1800);
+  setTimeout(function () {
+    $("." + target.name + " .dodge").first().remove();
+  }, 1800);
 }
 
 function dmg(target) {
@@ -818,4 +808,3 @@ function dmg(target) {
     $("." + target.name + " .crit").first().remove();
   }, 1800);
 }
-
