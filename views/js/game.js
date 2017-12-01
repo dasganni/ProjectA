@@ -709,7 +709,7 @@ function animations(player, enemies) {
     }
 
   }
-
+}
 
 function updateInfo () {
   $('#enemyammo').empty();
@@ -818,3 +818,4 @@ function dmg(target) {
     $("." + target.name + " .crit").first().remove();
   }, 1800);
 }
+
