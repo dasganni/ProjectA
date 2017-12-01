@@ -441,6 +441,13 @@ socket.on('textMessage', function(data){
 
 
 
+
+
+
+
+
+
+
 // PreLoader animation
 
 function preloader() {
@@ -460,13 +467,15 @@ function preloader() {
 }
 
 
+
+
 // AfterLoader animation + Leave
 
 function afterloader(data) {
   if (data.finishedRoom.winner.name === username) {
-    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/trophy.svg'><p>Du hast gewonnen!</p><button href='/' class='button button-primary js-button-leave'>Leave</button></div></div>";
+    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/trophy.svg'><p>Du hast gewonnen!</p><a hre='/' ><button  class='button button-primary js-button-leave'>Leave</button></a></div></div>";
   } else {
-    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/skull.svg'><p>Du hast verloren!</p><button  href='/' class='button button-primary js-button-leave'>Leave</button></div></div>";
+    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/skull.svg'><p>Du hast verloren!</p> <a hre='/' > <button  class='button button-primary js-button-leave'>Leave</button></a></div></div>";
   }
 
 
