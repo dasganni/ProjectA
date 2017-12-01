@@ -78,12 +78,15 @@
 
   <!-- First content box 
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="box1"  class="row height_100 padding_50" style="background-color:#7AFFD1;overflow: hidden;">
-    <form action="/user/update" method="post">
+  <div id="box1"  class="row  height_100 dark_B padding_25 margin_25 light_F" style="overflow: hidden;">
+<div class="five columns"></div>
+<div class="two columns">
+          <div class="title">
+            <h2>ÄNDERN SIE IHR PASSWORT:</h2>
+          </div>
+    <form class="formular_DB" action="/user/update" method="post">
       <div class="inputs">
-        <div class="title">
-          <h2>ÄNDERN SIE IHR PASSWORT:</h2>
-        </div>
+
         <div class="oldPass">
           <input type="password" name="oldPass" placeholder="Altes Passwort">
         </div>
@@ -91,7 +94,7 @@
           <input type="password" name="newPass" placeholder="Neues Passwort">
         </div>
         <div class="newPassRepeat">
-          <input type="password" name="newPassRepeat" placeholder="Passwort wiederholen">
+          <input type="password" name="newPassRepeat" placeholder="Wiederholen">
         </div>
         <ul>
             <% for(var i = 0; i < updateErrors.length; i++) { %>
@@ -107,13 +110,13 @@
     </form>
 
   </div>
-
+</div>
 
 
   
   <!-- Footer
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-  <div id="footer"  class="row" style="background-color: white;">
+  <div id="footer"  class="row" style="">
     <p>&#169; 2017 by <strong>After Work</strong></p> <a href="/impressum">impressum</a>
   </div>
 
