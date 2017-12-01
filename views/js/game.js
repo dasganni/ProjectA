@@ -93,27 +93,61 @@ var buttonClicked = function(buttonNumber){
   else if(buttonNumber==1){//pistolbutton
     chosenAction=0;
     chosenAttacktype=3;
-    actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);       
+    actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);
+    pistolButton.disabled = true;
+    shotgunButton.disabled = true;
+    rifleButton.disabled = true;
+    shootButton.disabled=true;
+    protectButton.disabled=true;
+    reloadButton.disabled=true;
   }
   else if(buttonNumber==2){//riflebutton
     chosenAction=0;
     chosenAttacktype=2;
-    actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);    
+    actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);
+    pistolButton.disabled = true;
+    shotgunButton.disabled = true;
+    rifleButton.disabled = true;
+    shootButton.disabled=true;
+    protectButton.disabled=true;
+    reloadButton.disabled=true;
+    readyButton.disabled=true
   }
   else if(buttonNumber==3){//shotgunbutton
     chosenAction=0;
     chosenAttacktype=1;
-    actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);      
+    actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype); 
+    pistolButton.disabled = true;
+    shotgunButton.disabled = true;
+    rifleButton.disabled = true;
+    shootButton.disabled=true;
+    protectButton.disabled=true;
+    reloadButton.disabled=true;
+    readyButton.disabled=true     
   }
   else if(buttonNumber==4){//reloadbutton
     chosenAction=1;
     chosenAttacktype=0;        
-    actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);         
+    actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype); 
+    pistolButton.disabled = true;
+    shotgunButton.disabled = true;
+    rifleButton.disabled = true;
+    shootButton.disabled=true;
+    protectButton.disabled=true;
+    reloadButton.disabled=true;
+    readyButton.disabled=true        
   }
   else if(buttonNumber==5){//protectbutton
     chosenAction=2;
     chosenAttacktype=0;        
-    actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);    
+    actionChosen(yourselfPlayer.name, chosenAction, chosenAttacktype);   
+    pistolButton.disabled = true;
+    shotgunButton.disabled = true;
+    rifleButton.disabled = true;
+    shootButton.disabled=true;
+    protectButton.disabled=true;
+    reloadButton.disabled=true;
+    readyButton.disabled=true 
   }
   else if(buttonNumber==6){//leavebutton
     window.location.href='/';
