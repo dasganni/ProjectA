@@ -18,6 +18,10 @@ var yourselfPlayer;
 var enemies = [];
 var gameIsStarted = false;
 
+// das geht bestimmt anders aber für die Präse egal
+var roundcounter = -1;
+
+
 //initialize button status at the beginning
 
 pistolButton.disabled = true;
@@ -57,9 +61,8 @@ shotgunButton.addEventListener("click", function (){buttonClicked(3)});
 reloadButton.addEventListener("click", function (){buttonClicked(4)});
 
 protectButton.addEventListener("click", function (){buttonClicked(5)});
-
 if (leaveButton != undefined) {
-leaveButton.addEventListener("click", function (){buttonClicked(6)});
+  leaveButton.addEventListener("click", function (){buttonClicked(6)});
 }
 
 
@@ -381,6 +384,7 @@ socket.on('nextRound', function(data){
     + ", Name: " + enemies[i].name + "   ");
   }
 
+  animations(yourselfPlayer, enemies[0]);
   updateInfo();
   console.log("UpdateInfo");
 
@@ -460,7 +464,6 @@ socket.on('endGame', function(data){
   if (leaveButton != undefined) {
   leaveButton.disabled=false;
   }
-
   changeButtonStatus();
   afterloader(data);
 });  
@@ -469,6 +472,13 @@ socket.on('endGame', function(data){
 socket.on('textMessage', function(data){
   console.log(data);
 }); 
+
+
+
+
+
+
+
 
 
 
@@ -493,13 +503,15 @@ function preloader() {
 }
 
 
+
+
 // AfterLoader animation + Leave
 
 function afterloader(data) {
   if (data.finishedRoom.winner.name === username) {
-    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/trophy.svg'><p>Du hast gewonnen!</p><button class='js-button-leave'>Leave</button></div></div>";
+    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/trophy.svg'><p>Du hast gewonnen!</p><a hre='/' ><button  class='button button-primary js-button-leave'>Leave</button></a></div></div>";
   } else {
-    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/skull.svg'><p>Du hast verloren!</p><button class='js-button-leave'>Leave</button></div></div>";
+    document.getElementById('afterloader').innerHTML = "<div class='endgame' ><div><img class='bullet' src='styles/img/bullet.svg'><img class='skull' src='styles/img/skull.svg'><p>Du hast verloren!</p> <a hre='/' > <button  class='button button-primary js-button-leave'>Leave</button></a></div></div>";
   }
 
 
@@ -523,48 +535,180 @@ function afterloader(data) {
 
 
 
-// Fight animations
+function updateInfo () {
+ 
+  console.log(enemies[0].gravURL);
 
-function shoot1(hitOne, isHitting) {
+  var  imgAmmo = "";
+  var ammoSvg = " <img src='styles/img/onebullet.svg' /> ";
 
-
-  if ($('#' + hitOne.id + '').hasClass('armor')) {
-    $("#" + hitOne.id + "").addClass("slash-anim rumble");
-    setTimeout(function () {
-      $("#" + hitOne.id + "").removeClass('slash-anim rumble');
-    },
-      500);
-  } else {
-
-    $("#" + hitOne.id + "").addClass("slash-anim");
-    setTimeout(function () {
-      $("#" + hitOne.id + "").removeClass('slash-anim');
-    },
-      500);
-    if (hitOne.shoot == false) {
-      showHit(hitOne, "dodge");
-    }
+  for(i = 0; enemies[0].ammo > i ; i++) {
+    imgAmmo += ammoSvg;
   }
 
 
-  if ($('#' + isHitting.id + '').hasClass('armor')) {
-    $("#" + isHitting.id + "").addClass("slash-anim rumble");
-    setTimeout(function () {
-      $("#" + isHitting.id + "").removeClass('slash-anim rumble');
-    },
-      500);
-  } else {
+  $("#enemy").addClass("" + enemies[0].name +"");
 
-    $("#" + isHitting.id + "").addClass("slash-anim");
-    setTimeout(function () {
-      $("#" + isHitting.id + "").removeClass('slash-anim');
-    },
-      500);
-    if (isHitting.shoot == false) {
-      showHit(isHitting, "dodge");
-    }
+  document.getElementById('enemyammo').innerHTML = imgAmmo ;
+  document.getElementById('liveenemy').innerHTML = enemies[0].lives;
+  document.getElementById('enemyname').innerHTML = enemies[0].name;
+
+
+
+  imgAmmo = "";
+  ammoSvg = " <img src='styles/img/onebullet.svg' /> ";
+
+  for (i = 0; yourselfPlayer.ammo > i; i++) {
+    imgAmmo += ammoSvg;
   }
-};
+
+  document.getElementById('ammoplayer').innerHTML = imgAmmo;
+  document.getElementById('liveplayer').innerHTML = yourselfPlayer.lives;
+
+ // document.getElementById('enemy').innerHTML = "<img src='" + enemies[0].gravURL + "' />";
+  document.getElementById('enemy').style.backgroundImage = "url('" + enemies[0].gravURL + "')";
+  
+
+  roundcounter +=1;
+  if (roundcounter >= 1) {
+    document.getElementById('roundcounter').innerHTML = "Rd " + roundcounter;
+  }
+
+}
+
+
+
+
+
+function animations(player, enemies) {
+
+  console.log("animation: " + enemies.name + " wählt: " + enemies.playerAction );
+  console.log("animation: " + player.name + " wählt: " + player.playerAction  );
+
+
+  // add shield
+  if (player.playerAction == 5){
+    giveProtect(player);
+  }  
+  
+  // add shield
+  if (enemies.playerAction == 5) {
+    giveProtect(enemies);
+  } 
+
+
+
+
+  // Wenn beide Spieler die selber Waffe wählen
+  if (  (player.playerAction == 3 && enemies.playerAction == 3) ||
+        (player.playerAction == 2 && enemies.playerAction == 2) ||
+        (player.playerAction == 1 && enemies.playerAction == 1) ) { 
+
+    setTimeout(function () {
+      rumble(enemies);
+      rumble(player);
+    }, 700);
+
+    jump(enemies, 60);
+    jump(player, -60);  
+
+    setTimeout(function () {
+    blocked(enemies);
+    blocked(player);
+    }, 1500);
+  
+  // Wenn der Schild beim Spieler an ist
+  } else if (player.playerAction == 5 && (
+    enemies.playerAction == 3 ||
+    enemies.playerAction == 2 ||
+    enemies.playerAction == 1 )) {
+
+    setTimeout(function () {
+      rumble(player);
+      blocked(player);
+    }, 700);
+
+    jump(enemies, 60);
+    
+  // Wenn der Schild beim Gegner an ist
+  } else if (enemies.playerAction == 5 && (
+    player.playerAction == 3 ||
+    player.playerAction == 2 ||
+    player.playerAction == 1)) {
+
+    setTimeout(function () {
+      rumble(enemies);
+      blocked(enemies);
+    }, 700);
+
+    jump(player, 60);
+
+  // Schuss des Spielers und reaktion des Gegners
+  } else if (player.playerAction >= 1 && player.playerAction <= 3 && 
+    (enemies.playerAction == 4 || enemies.playerAction != player.playerAction)) {
+
+      if ( player.playerAction == 1 ) {
+        jump(player, -60); 
+        setTimeout(function () {
+          slash(enemies, "triple-slash");
+        }, 700); 
+
+        dmg(enemies);
+
+      } else if (player.playerAction == 2) {
+
+        jump(player, -60);
+        setTimeout(function () {
+          slash(enemies, "double-slash");
+        }, 700);
+
+        dmg(enemies);
+
+      } else if (player.playerAction == 3) {
+
+        jump(player, -60);
+        setTimeout(function () {
+          slash(enemies, "slash-anim");
+        }, 700); 
+
+        dmg(enemies);
+
+      }
+    // Schuss des Gegners und reaktion des gegners
+    }    else if (enemies.playerAction >= 1 && enemies.playerAction <= 3 &&
+    (player.playerAction == 4 || player.playerAction != enemies.playerAction)) {
+
+    if (enemies.playerAction == 1) {
+
+
+      jump(enemies, -60);
+      setTimeout(function () {
+        slash(player, "triple-slash");
+      }, 700);
+
+      dmg(player);
+
+    } else if (enemies.playerAction == 2) {
+
+      jump(enemies, -60);
+      setTimeout(function () {
+        slash(player,"double-slash");
+      }, 700);
+
+      dmg(player);
+
+    } else if (enemies.playerAction == 3) {
+
+      jump(enemies, -60);
+      setTimeout(function () {
+        slash(player, "slash-anim");
+      }, 700);
+
+      dmg(player);
+
+    }
+
+  }
 
 
 function updateInfo () {
@@ -577,5 +721,100 @@ function updateInfo () {
   document.getElementById('liveenemy').innerHTML = enemies[0].lives + " Leben";
   document.getElementById('enemyname').innerHTML = enemies[0].name;
   document.getElementById('enemy').innerHTML = "<img src='" + enemies[0].gravURL + "' />";
+  takeProtect(player);
+  takeProtect(enemies);
+
 }
 
+
+
+function jump(player, yAchse) {
+
+ $("." + player.name + "").velocity({
+   translateY: "" + yAchse + "px",
+}, { duration: 500, easing: "easeOutCirc" }).velocity("reverse");
+
+}
+
+function rumble(player) {
+
+
+  $("." + player.name + "").addClass("rumble");
+  setTimeout(function () {
+    $("." + player.name + "").removeClass('rumble');
+  },
+    1000); }
+
+
+
+
+function slash(target, attacks) {
+
+ 
+
+
+  $("." + target.name + "").addClass(attacks);
+
+  setTimeout(function () {
+    $("." + target.name + "").removeClass(attacks);
+  }, 450);
+
+}
+
+
+function giveProtect(player) {
+
+  $("." + player.name + "").addClass('armor');
+  setTimeout(function () {
+    
+  },
+    3000);
+
+}
+
+
+function takeProtect(player) {
+
+ 
+  setTimeout(function () {
+    $("." + player.name + "").removeClass('armor');
+  },
+    3000);
+
+}
+
+function reload(target) {
+
+
+  setTimeout(function () {
+  $("." + target.name + "").addClass('reloading');
+
+  setTimeout(function () {
+    $("." + target.name + "").removeClass('reloading');
+  },
+    500);
+
+
+  },
+    1000);
+
+
+  
+}
+
+
+// Style = [dodge,stun, crit, damage ]
+
+function blocked(target) {
+  $("." + target.name + "").append("<span class='dodge'>Blocked!</span>");
+    setTimeout(function () {
+      $("." + target.name + " .dodge"  ).first().remove();
+    }, 1800);
+}
+
+function dmg(target) {
+  $("." + target.name + "").append("<span class='crit'>Hit!</span>");
+  setTimeout(function () {
+    $("." + target.name + " .crit").first().remove();
+  }, 1800);
+}

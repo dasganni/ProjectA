@@ -825,6 +825,7 @@ a {
 #footer a {
   display: block;
   width: 100%;
+      color: #00FFB1;
   padding: 10px 0;
   text-align: center;
  position: absolute;
@@ -859,8 +860,8 @@ a {
   width: 60px;
   height: 60px;
   position: absolute;
-  top: -10px;
-  right: 0;
+  top: 0px;
+  right: 7px;
   border-radius: 50%;
   border: 3px solid transparent;
   z-index: 5;
@@ -1151,7 +1152,7 @@ Circle Graph using (https://github.com/rendro/easy-pie-chart)
 	text-align: center;
   padding: 0px;
   position:absolute;
-  z-index: 100;
+  z-index: 3;
   font-size: 35px;
   font-weight: 900;
   display:block;
@@ -1243,15 +1244,72 @@ box-shadow: 10px 9px 39px -3px rgba(0, 0, 0, 0.36);
 }
 
 #enemy {
-    position: absolute;
-    top: 90px;
-    width: auto;
+  position: absolute;
+    top: 170px;
+    width: 150px;
     left: calc( 50% - 75px );
+    background-image: url(http://www.gravatar.com/avatar/2d423145edf57d7wew71cd0c2149e45a6?s=200&r=mm&d=mm);
+    background-size: 100% auto;
+    border-radius: 50%;
+    height: 150px;
+}
+
+p#enemyname {
+    width: 150px;
+    height: 40px;
+    top: -15px;
+    position: absolute;
+    font-weight: 900;
+    margin: -50px 0 0 0;
+    font-size: 30px;
+}
+
+p#enemyammo img, #ammoplayer img {
+    height: 42px;
+}
+
+p#liveenemy, p#liveplayer {
+text-align: right;
+    position: absolute;
+    right: -36px;
+    font-weight: 100;
+    font-size: 26px;
+    top: 87px;
+}
+
+p#enemyammo, p#ammoplayer {
+    text-align: left;
+    font-size: 32px;
+    position: absolute;
+    top: 26px;
+    left: 173px;
+    display: block;
+    height: 30px;
+    width: 190px;
+    color: #00FFB1;
+}
+
+#roundcounter {
+    position: absolute;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    left: 0;
+    z-index: -1;
+    font-size: 26px;
+    font-weight: 100;
+    top: calc( 52% - 20px );
 }
 
 #player {
       position: absolute;
-    bottom: 40px;
+    bottom: 60px;
+    width: 150px;    
+    background-image: url(http://www.gravatar.com/avatar/2d423145edf57d7wew71cd0c2149e45a6?s=200&r=mm&d=mm);
+        background-size: 100% auto;
+       border-radius: 50%;
+    height: 150px;
     left: calc(50% - 75px);
 }
 
@@ -1314,39 +1372,39 @@ box-shadow: 10px 9px 39px -3px rgba(0, 0, 0, 0.36);
  }
  
  .cir1 {
-    bottom: 120px;
-    right: 105px;
+    bottom: 100px;
+    right: 0px;
     transition-delay: 0.05s;
  }
  
  .cir2 {
-    bottom: 120px;
-    right: 0px;
+        bottom: 83px;
+    right: -5px;
     transition-delay: 0.07s;
  }
  
  .cir3 {
-bottom: 120px;
-    right: 214px;
+      bottom: 177px;
+    right: -4px;
     transition-delay: 0.09s;
  }
  
  .cir4 {
-bottom: 5px;
-    right: 110px;
+       bottom: 269px;
+    right: -5px;
    transition-delay: 0.1.1s;
  }
 
   .cir5 {
-    bottom: 5px;
-    right: 215px;
-   transition-delay: 0.1.1s;
+        bottom: 361px;
+    right: -5px;
+   transition-delay: 0.1.3s;
  }
 
   .cir6 {
-    bottom: 225px;
-    right: 215px;
-   transition-delay: 0.1.1s;
+       bottom: 453px;
+    right: -5px;
+   transition-delay: 0.1.5s;
  }
 
 
@@ -1376,9 +1434,8 @@ bottom: 5px;
 
  
  .main-cir img {
-   width: 60px;
-     box-shadow: 0px 0px 8px 2px #d8d8d8;
-   margin-top: 25px;
+   width: 35px;
+   margin-top: 30px;
  }
  
 
@@ -1440,6 +1497,252 @@ bottom: 5px;
  }
 
 
+
+
+
+/* fight animations */
+
+
+
+
+
+.rumble {
+  -webkit-animation: rumble .2s infinite linear;
+}
+
+@-webkit-keyframes rumble {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  25% {
+    -webkit-transform: translate(2px, 0px) rotate(-3deg);
+  }
+  50% {
+    -webkit-transform: translate(0px, -2px) rotate(0deg);
+  }
+  75% {
+    -webkit-transform: translate(-2px, 0px) rotate(3deg);
+  }
+  100% {
+    -webkit-transform: translate(0px, 2px) rotate(0deg);
+  }
+}
+
+
+
+
+.double-slash:before,
+.triple-slash:before,
+.slash-anim:before {
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  z-index: 13;
+  width: 0px;
+  height: 0px;
+  border-left: 2px solid transparent;
+  border-right: 2px solid transparent;
+  border-bottom: 120px solid #00FFB1;
+  transform: rotateZ(45deg);
+  animation: attackSlash 0.5s cubic-bezier(0.08, 0.91, 0.08, 0.93) 1;
+}
+
+.double-slash:before {
+  box-shadow: -10px -10px 0 #00FFB1;
+}
+
+.triple-slash:before {
+  box-shadow: 10px -10px 0 #00FFB1, -10px -10px 0 #00FFB1;
+}
+@keyframes attackSlash {
+  0% {
+    transform: translate3d(50px, -50px, 0) rotateZ(45deg);
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate3d(-20px, 20px, 0) rotateZ(45deg);
+    opacity: 0;
+  }
+}
+
+
+
+
+.armor:after {
+content: " ";
+position: absolute;
+left: calc( 50% - 75px);
+    width: 149px;
+    height: 149px;
+border-radius: 50%;
+animation: armoranimation 1s linear infinite,
+rotate 0.75s linear infinite;
+}
+
+@keyframes armoranimation {
+  0% {
+    box-shadow: -10px 0px 0px 3px rgba(122, 255, 210, 0.8), 0px 0px 0px 3px rgba(122, 255, 210, 0.8), 10px 0px 0px 3px rgba(122, 255, 210, 0.8);
+  }
+  100% {
+    box-shadow: 10px 0px 0px 3px rgba(122, 255, 210, 0.8), 0px 0px 0px 9px rgba(122, 255, 210, 0.8), -10px 0px 0px 3px rgba(122, 255, 210, 0.8);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotateZ(0deg);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
+@-webkit-keyframes rumble {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  25% {
+    -webkit-transform: translate(2px, 0px) rotate(-3deg);
+  }
+  50% {
+    -webkit-transform: translate(0px, -2px) rotate(0deg);
+  }
+  75% {
+    -webkit-transform: translate(-2px, 0px) rotate(3deg);
+  }
+  100% {
+    -webkit-transform: translate(0px, 2px) rotate(0deg);
+  }
+}
+
+
+.reloading:after {
+    content: " ";
+    display: block;
+    opacity: 0.4;
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    background-image: url(img/reloadanimation.svg);
+    background-size: auto;
+    background-position: -3px -5px;
+   -webkit-animation: flickerAnimation 1s;
+   -moz-animation: flickerAnimation 1s;
+   -o-animation: flickerAnimation 1s;
+    animation: flickerAnimation 1s;
+     -webkit-animation-iteration-count: 1; /* Safari 4.0 - 8.0 */
+    animation-iteration-count: 1;
+  opacity:0;
+}
+
+
+@keyframes flickerAnimation {
+  0%   { opacity:0; }
+  10%  { opacity:0.2; }
+  20% { opacity:0.4; }
+  30%   { opacity:0.6; }
+  40%  { opacity:0.8; }
+  50% { opacity:1; }
+  60% { opacity:0.8; }
+  70%   { opacity:0.6; }
+  80%  { opacity:0.4; }
+  90% { opacity:0.2; }
+  100%   { opacity:0; }
+}
+
+
+
+
+
+
+.playerimage span.crit {
+  color: red;
+  font-family: 'open sans';
+}
+.playerimage span.dodge,
+.playerimage span.dodge {
+  color: #00FFB1;
+  font-family:"open sans", sans-serif;
+}
+.enemy span.stun,
+.playerimage span.stun {
+  color: red;
+  font-family: 'open sans';
+}
+
+
+.enemy span,
+.playerimage span {
+  position: absolute;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  top: 20px;
+  text-align: center;
+  font-weight: 900;
+  /*    &.crit ~ .attack-anim::before{
+        border-bottom: 120px solid red;
+      }*/
+}
+.enemy span.damage,
+.playerimage span.damage {
+  color: #fff;
+  font-size: 36px;
+  animation: damageFly 2s cubic-bezier(0.08, 0.91, 0.08, 0.93) 0.15s 1;
+}
+
+.playerimage span.crit,
+.playerimage span.dodge,
+.playerimage span.stun {
+  top: -5px;
+  font-size: 24px;
+  text-transform: uppercase;
+  animation: damageFly 2s cubic-bezier(0.08, 0.91, 0.08, 0.93) 0.15s 1;
+}
+
+body.shake {
+  animation: shake 0.15s linear 9;
+}
+
+
+@keyframes damageFly {
+  0% {
+    transform: translateX(0px) translateY(0px) translateZ(0px);
+  }
+  75% {
+    opacity: 1; 
+    transform: translateX(-20px);
+  }
+  100% {
+    transform: translateX(-60px) translateY(-120px) translateZ(0px);
+    opacity: 0;
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateX(0px);
+  }
+  33% {
+    transform: translateX(-7px);
+  }
+  66% {
+    transform: translateX(7px);
+  }
+  100% {
+    transform: translateX(0px);
+  }
+}
+
+
+
+
+
 /* Media Queries
 –––––––––––––––––––––––––––––––––––––––––––––––––– */
 /*
@@ -1481,7 +1784,6 @@ there.
     top: 6px;
     display: block;
    background: url(img/logo.svg); 
-/*    background: url(https://upload.wikimedia.org/wikipedia/en/thumb/e/e8/Shell_logo.svg/204px-Shell_logo.svg.png); */
     position: absolute;
     background-size: 100%;
     background-repeat: no-repeat;
@@ -1742,31 +2044,33 @@ box-shadow: -4px 7px 50px -1px rgba(0,0,0,0.66);
   
 }
 
+/* profilbearbeiten */
 
+.formular_DB input {max-width:250px;}
+.formular_DB  {padding:25px 0 0 0;}
 
 /* Larger than phablet (also point when grid becomes active) */
-@media (min-width: 550px) {
-
-
-
-}
+@media only screen and (max-device-width: 480px) {
+    .playground #footer {display: none;}
+    .playground #box1 {border:0px;}
+    .playground .titel {display: none;}
+    .titel.start {top: 35px !important;left: 64px !important;font-size: 20px;}
+    .titel.start:after { top: 0px;}
+    #home #menu-icon-shape {top: 26px; right: 31px;}
+    .hero img { margin: -60px 0 0 0;}
+    .secondbox, .thirdbox, #bo4 {padding: 0 20px;}
+    h1 {font-size: 3rem;}
+    #enemy { top:110px;}
+    .modal-box {width: 95%;}
+    p#enemyname {width: 100%;height: 40px;top: 5px;position: absolute;font-size: 20px;font-weight: 100;}
+    p#enemyammo, p#ammoplayer {top: 0px;left: -60px;height: 30px;width: 30px;}
+    p#liveenemy, p#liveplayer {right: 152px;top: -9px;}
+    .cir6, .cir1, .cir2, .cir3, .cir4, .cir5 {background-color: rgba(111,111,111,0.1);}}
 
 /* Larger than tablet */
 @media (min-width: 850px) {
-
-
-
-.hero img {
-    height: 96vh;
-    z-index: 0;
-    width: 50vw;
-    margin: -50px 0 0 0;
-}
-
-  .padding_25 {
-    padding: 25px 25px 25px 25px;
-  }
-
+.hero img {height: 96vh;z-index: 0;width: 50vw;margin: -50px 0 0 0;}
+.padding_25 {padding: 25px 25px 25px 25px;}
 }
 
 /* Larger than desktop */
@@ -1795,7 +2099,7 @@ box-shadow: -4px 7px 50px -1px rgba(0,0,0,0.66);
 
 
 
-
+/*  wäre für mobil relevant  */
 
 .button_game_mobile_div {
   height: 70px;
@@ -1803,9 +2107,9 @@ box-shadow: -4px 7px 50px -1px rgba(0,0,0,0.66);
   width: 110px;
   overflow: hidden;
   right: 0;
-      -webkit-transition: all .5s ease-out;
-      -moz-transition: all .5s ease-out;
-      transition: all .5s ease-out;
+  -webkit-transition: all .5s ease-out;
+  -moz-transition: all .5s ease-out;
+  transition: all .5s ease-out;
 }
 
 .bottom_20 {

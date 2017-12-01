@@ -16,8 +16,7 @@
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <link rel="stylesheet" href="styles/normalize.css">
     <link rel="stylesheet" href="styles/skeleton.css">
-   <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
- -->
+
     <!-- JS
     –––––––––––––––––––––––––––––––––––––––––––––––––– -->
     <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -51,10 +50,17 @@
 
 
   </head>
-<body class="align-left">
+<body class="align-left playground">
+
+
+    <div class="js-button-shoot display-none" id="js-button-shoot">
+      <img src="http://www.krischanschupp.de/uni/3.svg">2
+    </div>
 
 
 <div id="afterloader"></div>
+
+
 
 <div class="wrapperLoader">
   <div class="yellow">
@@ -115,11 +121,9 @@
 
 
 
-
-  <div class="enemy" id="enemy">
-    <p id="enemyname">Gegnername</p>
-    
-    
+  <div class="enemy playerimage" id="enemy">
+    <p id="enemyname">
+      Gegnername</p>
     <p id="liveenemy">
     </p>
     <p id="enemyammo">
@@ -127,53 +131,52 @@
 
   </div>
 
-  
 
-  <div class="player" id="player">
+      <p id="roundcounter"></p>
 
-      <img src="<%= gravURL %>" class="gamesImg">
 
-    <p id="liveplayer">
-    </p>
-    <p id="ammoplayer">
-    </p>
+
+  <div class="player playerimage  <%= username %>" id="player" style="background-image: url('<%= gravURL %>') !important;" >
+
+<p id="liveplayer">
+</p>
+<p id="ammoplayer">
+</p>
 
 
   </div>
 
-
-
            
-    <div class="cir2 togglePop js-button-shoot" id="js-button-shoot">
-      <img src="http://www.krischanschupp.de/uni/3.svg">2
-    </div>
+
 
 <div class="cir-box">
   <div class="cir-mini-box">
-    <div class="cir2 togglePop js-button-pistol" id="js-button-pistol">
-      <img src="/styles/img/shoot.svg">2
-    </div>
-    <div class="cir3 togglePop js-button-rifle">
-      <img src="/styles/img/shoot.svg">1
-    </div>
-    <div class="cir4 togglePop js-button-reload">
-      <img src="/styles/img/reload.svg">
-    </div>
-
-    <div class="cir5 togglePop js-button-protect">
-      <img src="/styles/img/protect.svg">
-    </div>
 
 
-    <div class="cir6 togglePop js-button-shotgun">
-      <img src="/styles/img/shoot.svg">3
+
+ <div class="cir6 togglePop js-button-shotgun">
+      <img src="/styles/img/bullet_shoot3.svg">
     </div>
+        <div class="cir5 togglePop js-button-rifle">
+          <img src="/styles/img/bullet_shoot2.svg">
+        </div>
+
+    <div class="cir4 togglePop js-button-pistol" id="js-button-pistol">
+      <img src="/styles/img/bullet.svg">
+    </div>
+      <div class="cir3 togglePop js-button-protect">
+        <img src="/styles/img/shield.svg">
+      </div>
+    <div class="cir2 togglePop js-button-reload">
+      <img src="/styles/img/3bullets.svg">
+    </div>
+  
 
   
   </div>
 
   <div class="main-cir" id="main-cir">
-    <img src="/styles/img/protect.svg" />
+    <img src="/styles/img/menu.svg" />
   </div>
 </div>
 
@@ -196,7 +199,6 @@
 
 
 
-
   <!-- JS
   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
   <script type="text/javascript" src="styles/rellax.js"></script>
@@ -206,7 +208,6 @@
   
   <script>
     window.onload = changeButtonStatus();
-    console.log('Change Button');
   </script>
 
   
