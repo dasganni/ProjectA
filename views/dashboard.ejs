@@ -29,16 +29,16 @@
   <script src="/socket.io/socket.io.js"></script>
   <script> var socket = io(); </script>
   <script>
-      var username = '<%= username %>';
-      var currentlyLoggedInUsers = '<%= currentlyLoggedInUsers %>';
-      var authenticated = '<%= authenticated %>';
-      if(authenticated==='true'){
-        authenticated=true;
-      }else{
-        authenticated=false;
-      }
-      
-    </script>  
+    var username = '<%= username %>';
+    var currentlyLoggedInUsers = '<%= currentlyLoggedInUsers %>';
+    var authenticated = '<%= authenticated %>';
+    if (authenticated === 'true') {
+      authenticated = true;
+    } else {
+      authenticated = false;
+    }
+
+  </script>
   <script>
     // Pie-Chart
     $(function () {
@@ -52,7 +52,6 @@
         animate: 2500
       });
     });
-
   </script>
 
 
@@ -75,22 +74,22 @@
 
 
         <%if (authenticated) { %>
-                  <li>
-                    <a href="/createlobby">Spielen</a>
-                  </li>
+          <li>
+            <a href="/createlobby">Spielen</a>
+          </li>
           <li>
             <form action="/logout" method="/post">
               <button class="button button-primary" type="submit">Logout</button>
             </form>
           </li>
-        <li>
-          <a href="/profil">Profil</a>
-        </li>
+          <li>
+            <a href="/profil">Profil</a>
+          </li>
           <%} %>
-        <li>
-          <a href="/impressum">Impressum</a>
-        </li>
-      
+            <li>
+              <a href="/impressum">Impressum</a>
+            </li>
+
       </ul>
     </div>
   </nav>
@@ -114,7 +113,7 @@
 
 
       <!-- Account Infos   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-        
+      <div class="eight columns dark_B padding_25">
 
 
         <div class="row">
@@ -135,7 +134,9 @@
                       percent = 0.1;
                       level = "-9999";
                     } %>
-                  <div class="nome">Level <%= level %></div>
+                    <div class="nome">Level
+                      <%= level %>
+                    </div>
                 </div>
                 <div class="progressBar">
                   <div class="percentagem" style="width:<%= percent %>%;"></div>
@@ -149,7 +150,7 @@
           <div class="four columns">
             <h4>Last Games:</h4>
             <P>
-              <strong>Lose</strong> again Max 
+              <strong>Lose</strong> again Max
               <BR>
               <strong>Lose</strong> again Bruttos
               <BR>
@@ -201,10 +202,10 @@
         <h1 class="Headline">
           <span>or</span>Search
         </h1>
-      <!-- Space   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
-      
-      <div class="space padding_25 row"></div>
-   
+        <!-- Space   –––––––––––––––––––––––––––––––––––––––––––––––––– -->
+
+        <div class="space padding_25 row"></div>
+
         <div class="row">
 
           <div class="dark_B tweleve column padding_25 goGame">
@@ -226,7 +227,7 @@
         </div>
 
 
-        
+
 
         <div class="row">
           <div class="dark_B tweleve column padding_25 goGame">
@@ -286,9 +287,11 @@
             </div>
             <div class="nine columns pointer">
               <h2>Neues Update</h2>
-              <p class="new_p">n enim justo, rhoncus ut, imperhoncus ut, imperdiet a, venenatis vitaerhoncus ut, imperdiet a, venenatis vitaerhoncus ut, imperdiet a, venenatis vitaerdiet a, venenatis vitae, jusrhoncus ut, i...</p>
+              <p class="new_p">n enim justo, rhoncus ut, imperhoncus ut, imperdiet a, venenatis vitaerhoncus ut, imperdiet a, venenatis vitaerhoncus
+                ut, imperdiet a, venenatis vitaerdiet a, venenatis vitae, jusrhoncus ut, i...</p>
               <p class="new_name">
-                - <%= username %>
+                -
+                <%= username %>
               </p>
             </div>
           </div>
@@ -300,9 +303,11 @@
             </div>
             <div class="nine columns">
               <h2>Neues Update</h2>
-              <p class="new_p">n enim justo, rhoncus ut, imrhoncus ut, imperdiet a, venenatis vitaerhoncus ut, imperdiet a, venenatis vitaerhoncus ut, imperdiet a, venenatis vitaeperdiet a, venenatis vitae, jusrhoncus ut, i...</p>
+              <p class="new_p">n enim justo, rhoncus ut, imrhoncus ut, imperdiet a, venenatis vitaerhoncus ut, imperdiet a, venenatis vitaerhoncus
+                ut, imperdiet a, venenatis vitaeperdiet a, venenatis vitae, jusrhoncus ut, i...</p>
               <p class="new_name">
-                - <%= username %>
+                -
+                <%= username %>
               </p>
             </div>
           </div>
@@ -316,43 +321,49 @@
           <div>
 
 
-<h1 class="Headline">
-  <span>Score</span>
-  3942
-</h1>
-<h1 class="Headline">
-  <span>Win/lose</span>
-  23/34
-</h1>
-<h1 class="Headline">
-  <span>Currently Logged In</span>
-  <%=currentlyLoggedInUsers%>
-</h1>
+            <h1 class="Headline">
+              <span>Score</span>
+              3942
+            </h1>
+            <h1 class="Headline">
+              <span>Win/lose</span>
+              23/34
+            </h1>
+            <h1 class="Headline">
+              <span>Currently Logged In</span>
+              <%=currentlyLoggedInUsers%>
+            </h1>
 
             <ul class="rangliste">
               <li>
                 <span>Rang 1</span>
                 <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c" style="border-radius:50%;" class="Grava"
-                  width="13px"> Max <strong>234</strong>
-              </li>            <li>
+                  width="13px"> Max
+                <strong>234</strong>
+              </li>
+              <li>
                 <span>Rang 2</span>
                 <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c998dee827110c" style="border-radius:50%;" class="Grava"
-                  width="13px"> Peter <strong>221</strong>
+                  width="13px"> Peter
+                <strong>221</strong>
               </li>
               <li>
                 <span>Rang 3</span>
                 <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c9dddee827110c" style="border-radius:50%;" class="Grava"
-                  width="13px"> Patrick <strong>190</strong> 
+                  width="13px"> Patrick
+                <strong>190</strong>
               </li>
               <li>
                 <span>Rang 4</span>
                 <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c99sadee827110c" style="border-radius:50%;" class="Grava"
-                  width="13px"> Mrco <strong>80</strong>
+                  width="13px"> Mrco
+                <strong>80</strong>
               </li>
               <li>
                 <span>Rang 5</span>
                 <img height="13px" src="https://www.gravatar.com/avatar/a8f5f167f44f4964e6c99sadee827110c" style="border-radius:50%;" class="Grava"
-                  width="13px"> Mrco <strong>20</strong>
+                  width="13px"> Mrco
+                <strong>20</strong>
               </li>
             </ul>
 
@@ -389,24 +400,26 @@
   <script type="text/javascript" src="styles/rellax.js"></script>
   <script type="text/javascript" src="styles/menu_scroll_type_modal.js"></script>
   <script> 
-    socket.emit('addToLoggedInUsers', {'username':username});
+    socket.emit('addToLoggedInUsers', { 'username': username });
     //if errors occur or user is not authenticated, log him out
-    socket.on('kickUser', function(){
-      window.location.href ='/logout';
+    socket.on('kickUser', function () {
+      window.location.href = '/logout';
     });
-  </script>  
-  
+  </script>
 
-<div class="button_game_mobile_div bottom_30 only_mobile display-none ">
-<button class="button_game_mobile shadow"><span class="fa Example of pencil-square-o fa-pencil-square-o"></span><span class="gametext" >Game</span>Search</button>
-</div>
 
-<div class="button_game_mobile_div bottom_20 only_mobile  display-none">
-<button class="button_game_mobile shadow"><span class="fa Example of search fa-search"></span><span class="gametext" >Game</span>Search</button>
-</div>
+  <div class="button_game_mobile_div display-none bottom_30 only_mobile ">
+    <button class="button_game_mobile shadow">
+      <span class="fa Example of pencil-square-o fa-pencil-square-o"></span>
+      <span class="gametext">Game</span>Search</button>
+  </div>
+
+  <div class="button_game_mobile_div display-none bottom_20 only_mobile ">
+    <button class="button_game_mobile shadow">
+      <span class="fa Example of search fa-search"></span>
+      <span class="gametext">Game</span>Search</button>
+  </div>
 
 </body>
 
 </html>
-
-
