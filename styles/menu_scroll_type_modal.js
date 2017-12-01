@@ -296,11 +296,11 @@ Thanks to Philip Thrasher for the jquery plugin boilerplate for coffee script
 
   $(".main-cir, .togglePop").click(function ballPop() {
 
-      if ($('.cir-mini-box div').hasClass('togglePop')) {
-    $('.cir-mini-box div').removeClass('togglePop');
+      if ($('.cir-mini-box button').hasClass('togglePop')) {
+        $('.cir-mini-box button').removeClass('togglePop');
   $('.main-cir').addClass('active')
       } else {
-    $('.cir-mini-box div').addClass('togglePop');
+        $('.cir-mini-box button').addClass('togglePop');
   $('.main-cir').removeClass('active');
       }
 

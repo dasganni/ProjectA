@@ -1334,7 +1334,7 @@ p#enemyammo, p#ammoplayer {
  
  .cir-mini-box img {
    width: 43px;
-   margin-top: 23px;
+   margin-top: 0px;
    transition: all 0.5s ease;
  }
  
@@ -1344,16 +1344,20 @@ p#enemyammo, p#ammoplayer {
  .cir3,
  .cir4,
    .cir5 {
-   position: absolute;
-   width: 90px;
-   height: 90px;
-   border-radius: 50%;
-   color: white;
-   cursor: pointer;
-   text-align: center;
-   font-size: 50px;
-   transition: all 0.2s ease-in;
-   visibility: visible;
+position: absolute;
+width: 90px;
+padding: 0;
+height: 90px;
+line-height: 0;
+border-radius: 50%;
+color: white;
+cursor: pointer;
+border: none;
+text-align: center;
+font-size: 50px;
+transition: all 0.2s ease-in;
+visibility: visible;
+margin: 0;
  }
  
  .togglePop {
